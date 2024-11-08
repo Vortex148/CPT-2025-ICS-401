@@ -1,6 +1,7 @@
 import pygame.sprite
 import math
 
+from pygame.examples.sprite_texture import sprite
 
 class projectile(pygame.sprite.Sprite):
     rect = None
@@ -14,12 +15,15 @@ class projectile(pygame.sprite.Sprite):
         self.sprite = sprite
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
-        self.rect.x = 640 - self.rect.width/2
-        self.rect.y = 360 - self.rect.height/2
+        self.rect.x = 640 - self.rect.width / 2
+        self.rect.y = 360 - self.rect.height / 2
+
 
     def set_position(self, x, y, theta):
         mouse_pos = pygame.mouse.get_pos()
-        if not math.isclose(self.last_position[0], mouse_pos[0], abs_tol=5) and not math.isclose(self.last_position[1], mouse_pos[1], abs_tol=5):
+        if not math.isclose(self.last_position[0], mouse_pos[0], abs_tol=5) and not math.isclose(self.last_position[1],
+                                                                                                 mouse_pos[1],
+                                                                                                 abs_tol=5):
             self.image = self.sprite
             self.image = pygame.transform.scale(self.image, (100, 100))
             self.image = pygame.transform.rotate(self.image, theta)
@@ -45,14 +49,15 @@ class player(pygame.sprite.Sprite):
     last_relative_mouse_pos = (0, 0)
 
     def __init__(self, ):
-        super().__init__()
-        self.projectile_sprite = pygame.image.load("images/player/projectiles/projectile.png").convert_alpha()
 
+        self.projectile_sprite = pygame.image.load("images/player/projectiles/projectile.png").convert_alpha()
         self.image = pygame.image.load("images/player/Ship Rev 1.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 640 - self.rect.width / 2
         self.rect.y = 360 - self.rect.height / 2
+
+
 
     def update_mouse_heading(self):
         mouse_x = pygame.mouse.get_pos()[0]
@@ -103,9 +108,10 @@ class player(pygame.sprite.Sprite):
 
             i.set_position(i.rect.center[0] + translation[0], i.rect.center[1] + translation[1],
                            -math.degrees(theta + math.pi / 2))
+        hello()
+
 
 class enemy(pygame.sprite.Sprite):
-
     rect = None
     image = None
 

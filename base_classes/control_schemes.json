@@ -1,0 +1,17 @@
+{
+  "Player_1":
+    {
+      "w": "forward",
+      "s": "backward",
+      "a": "left",
+      "d": "right"
+    },
+  "Player_2":
+    {
+      "arrow_forward": "forward",
+      "arrow_backward": "backward",
+      "arrow_left": "left",
+      "arrow_right": "right"
+
+    }
+}
