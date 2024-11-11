@@ -62,7 +62,6 @@ class player(pygame.sprite.Sprite):
     def update_mouse_heading(self):
         mouse_x = pygame.mouse.get_pos()[0]
         mouse_y = pygame.mouse.get_pos()[1]
-
         mouse_x = mouse_x - self.rect.center[0]
         mouse_y = mouse_y - self.rect.center[1]
 

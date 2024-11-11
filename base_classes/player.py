@@ -1,6 +1,6 @@
 import pygame
 import json
-import pprint
+# import pprint
 
 controls_file = open("base_classes/control_schemes.json")
 all_controls = json.load(controls_file)
