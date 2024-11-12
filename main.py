@@ -2,7 +2,7 @@ import pygame
 from moviepy.editor import VideoFileClip
 
 from base_classes.player import player
-from base_classes.enemy import Enemy
+# from base_classes.enemy import Enemy
 
 pygame.init()
 
@@ -19,15 +19,14 @@ pygame.display.set_caption("Space Defenders")
 player1 = player()
 player2 = player()
 
-
 def play_intro_animation(video_path):
     intro_animation = VideoFileClip(video_path)
     intro_animation = intro_animation.resize(size)
 
     for frame in intro_animation.iter_frames(fps=24, dtype="uint8"):
         # Check for quit event
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for intro_event in pygame.intro_event.get():
+            if intro_event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
@@ -39,28 +38,21 @@ def play_intro_animation(video_path):
     # Close the clip after playing
     intro_animation.close()
 
+# Play the startup video
+play_intro_animation("intro_animation.mp4")
 
-# Main function
-def main():
-    # Play the startup video
-    play_intro_animation("Intro Animation.mp4")
-
-    # Main game loop
-    done = False
-    while not done:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
+# Main game loop
+done = False
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
 
         # Clear the screen with a color (e.g., black)
-        screen.fill((0, 0, 0))
+    screen.fill((0, 0, 0))
 
-        # Update the caption with FPS
-        pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps():.2f}")
-        pygame.display.flip()
+    pygame.display.flip()
 
-        clock.tick(120)
+    clock.tick(120)
 
-    # Run the main function
-    main()
 pygame.quit()
