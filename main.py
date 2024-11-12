@@ -1,61 +1,66 @@
 import pygame
 from moviepy.editor import VideoFileClip
-from winsound import PlaySound
 
 from base_classes.player import player
 from base_classes.enemy import Enemy
 
 pygame.init()
-movie = pygame.movie.Movie('')
+
+# Initializing the game clock
+clock = pygame.time.Clock()
 
 # Set the width and height of the screen [width, height]
-size = (1280, 720)
+screen_width = 1280
+screen_height = 720
+size = (screen_width, screen_height)
 screen = pygame.display.set_mode(size)
-
 pygame.display.set_caption("Space Defenders")
+
 player1 = player()
 player2 = player()
 
-# Loop until the user clicks the close button.
-done = False
+
+def play_intro_animation(video_path):
+    intro_animation = VideoFileClip(video_path)
+    intro_animation = intro_animation.resize(size)
+
+    for frame in intro_animation.iter_frames(fps=24, dtype="uint8"):
+        # Check for quit event
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        # Convert the frame to a surface and blit it on the screen
+        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+        screen.blit(frame_surface, (0, 0))
+        pygame.display.update()
+
+    # Close the clip after playing
+    intro_animation.close()
 
 
+# Main function
+def main():
+    # Play the startup video
+    play_intro_animation("Intro Animation.mp4")
 
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+    # Main game loop
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
 
+        # Clear the screen with a color (e.g., black)
+        screen.fill((0, 0, 0))
 
-# -------- Main Program Loop -----------
-while not done:
+        # Update the caption with FPS
+        pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps():.2f}")
+        pygame.display.flip()
 
-    # --- Main event loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
+        clock.tick(120)
 
-
-
-    # --- Game logic should go here
-
-    # --- Screen-clearing code goes here
-
-    # Here, we clear the screen to white. Don't put other drawing commands
-    # above this, or they will be erased with this command.
-
-    # If you want a background image, replace this clear with blit'ing the
-    # background image.
-    screen.fill((0,0,0))
-
-
-
-
-    pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
-
-    # --- Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
-
-    # --- Limit to 60 frames per second
-    clock.tick(120)
-
-# Close the window and quit.
+    # Run the main function
+    main()
 pygame.quit()
