@@ -1,14 +1,16 @@
 import pygame
+from moviepy.editor import VideoFileClip
 from winsound import PlaySound
 
 from base_classes.player import player
+from base_classes.enemy import Enemy
 
 pygame.init()
+movie = pygame.movie.Movie('')
 
 # Set the width and height of the screen [width, height]
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
-
 
 pygame.display.set_caption("Space Defenders")
 player1 = player()

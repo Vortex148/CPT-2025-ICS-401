@@ -1,4 +1,4 @@
-import pygame
+import pygame.sprite
 import json
 
 pygame.init()
@@ -8,11 +8,15 @@ queue = json.load(queue_file)
 
 enemy_count = 0
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, position, image, size=(30,30)):
+    position = (0,0)
+    def __init__(self, position, image, health = 10, size=(30,30), score_value = 100):
         super().__init__()
-        self.image = pygame.image.load(image).convert_alpha()
-        self.image = pygame.transform.scale(self.image, size)
-        self.rect = self.image.get_rect(center=position)
+        self.image = pygame.image.load(image).convert_alpha() # Loading the image for the sprite and
+        # making it memory friendly.
+        self.image = pygame.transform.scale(self.image, size) # Sizing the image
+        self.health = health
+        self.score_value = score_value
+        self.rect = self.image.get_rect(center=position) # Positioning it on the screen
         self.active = False # Ensuring the enemies aren't drawn until it is necessary to load them
         # This is further managed using a queue in the attached json file.
 
@@ -21,7 +25,12 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         if self.active:
-            pass # code for enemy animation goes here
+            pass # code for enemy animation is linked here
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.kill()
 
 class classicAlien(Enemy):
     def __init__(self, position):
