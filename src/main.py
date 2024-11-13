@@ -10,7 +10,7 @@ pygame.init()
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
-
+#
 # intro_video = VideoFileClip("Videos/intro_animation.mp4")
 # intro_video.preview()
 # intro_video.close()
@@ -18,8 +18,10 @@ pygame.display.set_caption("Space Defenders")
 player_sprite_group = pygame.sprite.Group()
 
 player1 = player()
+player2 = player()
 
-player_sprite_group.add(player1)
+player_sprite_group.add(player1, player2)
+
 
 done = False
 
@@ -39,9 +41,10 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
             player1.update_position(event)
-            player_sprite_group.update()
+            player2.update_position(event)
+
 
 
 

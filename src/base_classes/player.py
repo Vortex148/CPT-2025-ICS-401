@@ -1,3 +1,5 @@
+from pickle import SETITEM
+
 import numpy
 import pygame
 import json
@@ -13,8 +15,8 @@ player_count = 0
 class player(pygame.sprite.Sprite):
     MOVEMENT_SPEED = all_controls["Movement_Speed"]
 
-    position = (0,0)
-    velocity = (0,0)
+    position = [0,0]
+    velocity = [0,0]
     controls = None
     player_number = None
     image = None
@@ -33,8 +35,9 @@ class player(pygame.sprite.Sprite):
 
     def update_position(self, event):
         check_dynamic_user_input(self, event)
-        self.rect.center = self.position
+        # self.rect.center = self.position
 
     def update(self, *args, **kwargs):
-
-        self.position = numpy.add(self.position, self.velocity)
+        self.position = numpy.array(self.position) + numpy.array(self.velocity)
+        self.rect.center = self.position
+        # print(self.position)

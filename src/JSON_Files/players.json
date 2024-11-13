@@ -1,5 +1,5 @@
 {
-  "Movement_Speed": 100,
+  "Movement_Speed": 10,
   "Player_1":{
     "Sprite": "Images/player/Placeholder_player1.png",
     "Controls":[
