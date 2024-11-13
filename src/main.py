@@ -11,12 +11,15 @@ size = (1280, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
 
-intro_video = VideoFileClip("/intro_animation.mp4")
-intro_video.preview()
-intro_video.close()
+# intro_video = VideoFileClip("Videos/intro_animation.mp4")
+# intro_video.preview()
+# intro_video.close()
+
+player_sprite_group = pygame.sprite.Group()
 
 player1 = player()
 
+player_sprite_group.add(player1)
 
 done = False
 
@@ -36,6 +39,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        if event.type == pygame.KEYDOWN:
+            player1.update_position(event)
+            player_sprite_group.update()
 
 
 
@@ -55,6 +61,9 @@ while not done:
 
     pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
 
+
+    player_sprite_group.draw(screen)
+    player_sprite_group.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 

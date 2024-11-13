@@ -1,18 +1,21 @@
 {
-  "Movement_Speed": 1,
-  "Player_1":
-    {
-      "w": "forward",
-      "s": "backward",
-      "a": "left",
-      "d": "right"
-    },
-  "Player_2":
-    {
-      "arrow_forward": "forward",
-      "arrow_backward": "backward",
-      "arrow_left": "left",
-      "arrow_right": "right"
-
-    }
+  "Movement_Speed": 100,
+  "Player_1":{
+    "Sprite": "Images/player/Placeholder_player1.png",
+    "Controls":[
+      "w",
+      "s",
+      "a",
+      "d"
+    ]
+  },
+  "Player_2": {
+    "Sprite": "Images/player/Placeholder_player2.png",
+    "Controls":[
+        "arrow_forward",
+        "arrow_backward",
+        "arrow_left",
+        "arrow_right"
+    ]
+  }
 }
