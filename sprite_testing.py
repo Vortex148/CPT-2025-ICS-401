@@ -50,8 +50,8 @@ class player(pygame.sprite.Sprite):
 
     def __init__(self, ):
 
-        self.projectile_sprite = pygame.image.load("images/player/projectiles/projectile.png").convert_alpha()
-        self.image = pygame.image.load("images/player/Ship Rev 1.png").convert_alpha()
+        self.projectile_sprite = pygame.image.load("Images/player/projectiles/projectile.png").convert_alpha()
+        self.image = pygame.image.load("Images/player/Ship Rev 1.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 640 - self.rect.width / 2
@@ -80,7 +80,7 @@ class player(pygame.sprite.Sprite):
         self.last_bearing = self.bearing
         self.bearing = heading
         if self.last_bearing != self.bearing:
-            self.image = pygame.image.load("images/player/Ship Rev 1.png").convert_alpha()
+            self.image = pygame.image.load("Images/player/Ship Rev 1.png").convert_alpha()
             self.image = pygame.transform.scale(self.image, (100, 100))
             self.image = pygame.transform.rotate(self.image, heading)
             self.rect = self.image.get_rect(center=self.rect.center)
@@ -107,7 +107,7 @@ class player(pygame.sprite.Sprite):
 
             i.set_position(i.rect.center[0] + translation[0], i.rect.center[1] + translation[1],
                            -math.degrees(theta + math.pi / 2))
-        hello()
+
 
 
 class enemy(pygame.sprite.Sprite):
@@ -116,7 +116,7 @@ class enemy(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("images/player/Bad Dude Ship Rev 1.png").convert_alpha()
+        self.image = pygame.image.load("Images/player/Bad Dude Ship Rev 1.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 100 - self.rect.width / 2
