@@ -13,9 +13,9 @@ size = (1280, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
 #
-# intro_video = VideoFileClip("Videos/intro_animation.mp4")
-# intro_video.preview()
-# intro_video.close()
+intro_video = VideoFileClip("Videos/intro_animation.mp4")
+intro_video.preview()
+intro_video.close()
 
 
 player1 = player()

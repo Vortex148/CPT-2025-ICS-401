@@ -19,6 +19,8 @@ def check_dynamic_user_input(selected_player, event):
                 selected_player.velocity[0] = -selected_player.MOVEMENT_SPEED
             elif event.key == pygame.K_d:
                 selected_player.velocity[0] = selected_player.MOVEMENT_SPEED
+            elif event.key == pygame.K_x:
+                selected_player.fire_selected_weapon()
 
         elif selected_player.player_number == 2:
             print("adjusting 2")
@@ -30,6 +32,8 @@ def check_dynamic_user_input(selected_player, event):
                  selected_player.velocity[0] = -selected_player.MOVEMENT_SPEED
             elif event.key == pygame.K_RIGHT:
                 selected_player.velocity[0] = selected_player.MOVEMENT_SPEED
+            elif event.key == pygame.K_KP0:
+                selected_player.fire_selected_weapon()
 
     elif event.type == pygame.KEYUP:
         if selected_player.player_number == 1:
