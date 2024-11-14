@@ -1,22 +1,22 @@
-import pygame.sprite
+import pygame
 import json
+import src.tools.unit_handler
+from src.tools.unit_handler import swth_sprite
 
 pygame.init()
 
-queue_file = open("BaseClasses/enemy_queue.json")
-queue = json.load(queue_file)
+# queue_file = open("src/JSON_Files/enemy_queue.json")
+# queue = json.load(queue_file)
+# queue = json.load(queue_file)
 
 enemy_count = 0
-class Enemy(pygame.sprite.Sprite):
-    position = (0,0)
-    def __init__(self, position, image, health = 10, size=(30,30), score_value = 100):
-        super().__init__()
-        self.image = pygame.image.load(image).convert_alpha() # Loading the image for the sprite and
-        # making it memory friendly.
-        self.image = pygame.transform.scale(self.image, size) # Sizing the image
-        self.health = health
-        self.score_value = score_value
-        self.rect = self.image.get_rect(center=position) # Positioning it on the screen
+class Enemy(swth_sprite):
+    def __init__(self, position, image, size=(30,30)):
+
+        self.image = pygame.image.load(image).convert_alpha()
+        self.image = pygame.transform.scale(self.image, size)
+        super().__init__(self.image)
+        self.rect = self.image.get_rect(center=position)
         self.active = False # Ensuring the enemies aren't drawn until it is necessary to load them
         # This is further managed using a queue in the attached json file.
 
@@ -25,52 +25,47 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         if self.active:
-            pass # code for enemy animation is linked here
-
-    def take_damage(self, damage):
-        self.health -= damage
-        if self.health <= 0:
-            self.kill()
+            pass # code for enemy animation goes here
 
 class classicAlien(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/classicAlien.png")
+        super().__init__(position, "Images/Sprites/Enemies/classicAlien.png")
 
 class batBoss(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/batBass.png", size = (50, 50))
+        super().__init__(position, "Images/Sprites/Enemies/batBass.png", size = (50, 50))
 
 class beeEnemy(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/beeEnemy.png")
+        super().__init__(position, "Images/Sprites/Enemies/beeEnemy.png")
 
 class butterflyEnemy(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/butterflyEnemy.png")
+        super().__init__(position, "Images/Sprites/Enemies/butterflyEnemy.png")
 
 class flyEnemy(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/flyEnemy.png")
+        super().__init__(position, "Images/Sprites/Enemies/flyEnemy.png")
 
 class greenBoss(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/greenBoss.png", size = (50, 50))
+        super().__init__(position, "Images/Sprites/Enemies/greenBoss.png", size = (50, 50))
 
 class orangeAlien(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/orangeAlien.png")
+        super().__init__(position, "Images/Sprites/Enemies/orangeAlien.png")
 
 class purpleShip_Alien(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/purple_shipAlien.png", size = (50, 50))
+        super().__init__(position, "Images/Sprites/Enemies/purple_shipAlien.png", size = (50, 50))
 
 class redAlien(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/redAlien.png")
+        super().__init__(position, "Images/Sprites/Enemies/redAlien.png")
 
 class spider(Enemy):
     def __init__(self, position):
-        super().__init__(position, "Images/Sprites/spider.png")
+        super().__init__(position, "Images/Sprites/Enemies/spider.png")
 
 
 

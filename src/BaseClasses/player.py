@@ -1,8 +1,12 @@
 import numpy
 import pygame
 import json
-from src.Tools.control_handler import check_dynamic_user_input
-from src.BaseClasses.projectile import Projectile
+
+
+import src.tools.unit_handler
+from src.tools.control_handler import check_dynamic_user_input
+from src.base_classes.projectile import Projectile
+from src.tools.unit_handler import swth_sprite
 
 # import pprint
 
@@ -14,13 +18,13 @@ all_weapons = json.load(weapons_file)
 
 player_count = 0
 
-class player(pygame.sprite.Sprite):
+class player(swth_sprite):
     MOVEMENT_SPEED = all_controls["Movement_Speed"]
 
     projectile_group = pygame.sprite.Group()
 
     def __init__(self,):
-        super().__init__()
+
         global player_count
         global all_controls
         self.player_number = player_count + 1
@@ -28,7 +32,8 @@ class player(pygame.sprite.Sprite):
         self.image = pygame.image.load(all_controls["Player_"  + str(self.player_number)]["Sprite"])
         self.image = pygame.transform.scale(self.image, (100,100))
         self.rect = self.image.get_rect()
-        self.position = [50,50]
+        super().__init__(self.image)
+        self.position = [0,0]
         self.velocity = [0,0]
         self.current_weapon = "Default"
         self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"])
@@ -40,9 +45,13 @@ class player(pygame.sprite.Sprite):
 
     def update(self, *args, **kwargs):
         self.position = numpy.array(self.position) + numpy.array(self.velocity)
-        self.rect.center = self.position
+        super().update_position(self.position)
+        super().update()
         self.projectile_group.draw(pygame.display.get_surface())
         self.projectile_group.update()
+
+
+
 
     def fire_selected_weapon(self):
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)

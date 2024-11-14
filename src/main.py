@@ -1,49 +1,38 @@
-from BaseClasses.player import player
-from BaseClasses.menu import *
-import os
+import pygame
+import pygame.event
+from moviepy.editor import *
+from pygame import KEYDOWN, FULLSCREEN
+import src.tools.unit_handler as uh
 
-# Center the pygame window on the screen
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+from base_classes.player import player
+import time
 
+from src.base_classes.enemy import classicAlien
 
 pygame.init()
 
-
 # Set the width and height of the screen [width, height]
-size = (screen_width, screen_height)
+size = (1280, 720)
 screen = pygame.display.set_mode(size)
+
+
+
+
+
 pygame.display.set_caption("Space Defenders")
 
-# Playing the intro animation and closing it once done.
 # intro_video = VideoFileClip("Videos/intro_animation.mp4")
 # intro_video.preview()
 # intro_video.close()
 
-menu = Menu(screen)
 
-player_sprite_group = pygame.sprite.Group()
+player1 = player()
+player2 = player()
 
-def initialize_sprites(value):
-    global player_sprite_group, one_player_button, two_player_button
-    player_sprite_group.empty()
-    if value == 1:
-        player1 = player()
-        player_sprite_group.add(player1)
-    if value == 2:
-        player1 = player()
-        player2 = player()
-        player_sprite_group.add(player1, player2)
-    if one_player_button:
-       one_player_button.visible = False
-    if two_player_button:
-        two_player_button.visible = False
+enemy = classicAlien((100,100))
 
-
-# placeholder actions to be replaced with class creation
-one_player_button = player_mode_choice(screen_width/2 - 150, screen_height - 90,
-"One Player", lambda: initialize_sprites(1), screen)
-two_player_button = player_mode_choice(screen_width/2 + 150, screen_height - 90,
-"Two Players",lambda: initialize_sprites(2), screen)
+player_sprite_group = pygame.sprite.Group(player1, player2)
+enemy_sprite_group = pygame.sprite.Group(enemy)
 
 
 done = False
@@ -63,16 +52,12 @@ while not done:
 
 
     # --- Main event loop
-    events = pygame.event.get()
-    for event in events:
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                done = True
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-            for sprite in player_sprite_group:
-                sprite.update_position(event)
+            player1.update_position(event)
+            player2.update_position(event)
 
 
 
@@ -86,27 +71,29 @@ while not done:
 
     # If you want a background image, replace this clear with blit'ing the
     # background image.
-
-    menu.update(events)
-    one_player_button.update(events)
-    two_player_button.update(events)
-
     screen.fill((0,0,0))
 
-    # pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
 
-    menu.draw()
-    one_player_button.draw()
-    two_player_button.draw()
+
+
+    pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
+
 
     player_sprite_group.draw(screen)
+    enemy_sprite_group.draw(screen)
 
-    for sprite in player_sprite_group:
-        sprite.update()
+
+    player1.update()
+    player2.update()
+
+    # testing_sprite.update()
+    # screen.blit(player1.image, player1.rect)
+
+    enemy_sprite_group.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
-    # --- Limit to 120 frames per second
+    # --- Limit to 60 frames per second
     clock.tick(120)
 
 # Close the window and quit.
