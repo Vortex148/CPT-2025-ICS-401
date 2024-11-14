@@ -13,14 +13,15 @@ size = (1280, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
 #
-# intro_video = VideoFileClip("Videos/intro_animation.mp4")
-# intro_video.preview()
-# intro_video.close()
+intro_video = VideoFileClip("Videos/intro_animation.mp4")
+intro_video.preview()
+intro_video.close()
 
-player_sprite_group = pygame.sprite.Group()
 
 player1 = player()
 player2 = player()
+
+player_sprite_group = pygame.sprite.Group(player1, player2)
 
 
 
@@ -68,8 +69,7 @@ while not done:
     pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
 
 
-    screen.blit(player1.image, player1.rect)
-    screen.blit(player2.image, player2.rect)
+    player_sprite_group.draw(screen)
 
     player1.update()
     player2.update()
