@@ -1,28 +1,38 @@
 import pygame
 import pygame.event
 from moviepy.editor import *
-from pygame import KEYDOWN
+from pygame import KEYDOWN, FULLSCREEN
+import src.tools.unit_handler as uh
 
 from base_classes.player import player
 import time
+
+from src.base_classes.enemy import classicAlien
 
 pygame.init()
 
 # Set the width and height of the screen [width, height]
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
+
+
+
+
+
 pygame.display.set_caption("Space Defenders")
-#
-intro_video = VideoFileClip("Videos/intro_animation.mp4")
-intro_video.preview()
-intro_video.close()
+
+# intro_video = VideoFileClip("Videos/intro_animation.mp4")
+# intro_video.preview()
+# intro_video.close()
 
 
 player1 = player()
 player2 = player()
 
-player_sprite_group = pygame.sprite.Group(player1, player2)
+enemy = classicAlien((100,100))
 
+player_sprite_group = pygame.sprite.Group(player1, player2)
+enemy_sprite_group = pygame.sprite.Group(enemy)
 
 
 done = False
@@ -70,9 +80,16 @@ while not done:
 
 
     player_sprite_group.draw(screen)
+    enemy_sprite_group.draw(screen)
+
 
     player1.update()
     player2.update()
+
+    # testing_sprite.update()
+    # screen.blit(player1.image, player1.rect)
+
+    enemy_sprite_group.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
