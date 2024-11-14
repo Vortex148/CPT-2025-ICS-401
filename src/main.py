@@ -1,5 +1,7 @@
 import pygame
+import pygame.event
 from moviepy.editor import *
+from pygame import KEYDOWN
 
 from base_classes.player import player
 import time
@@ -20,7 +22,6 @@ player_sprite_group = pygame.sprite.Group()
 player1 = player()
 player2 = player()
 
-player_sprite_group.add(player1, player2)
 
 
 done = False
@@ -36,6 +37,8 @@ clock = pygame.time.Clock()
 
 
 while not done:
+
+
 
     # --- Main event loop
     for event in pygame.event.get():
@@ -65,8 +68,11 @@ while not done:
     pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
 
 
-    player_sprite_group.draw(screen)
-    player_sprite_group.update()
+    screen.blit(player1.image, player1.rect)
+    screen.blit(player2.image, player2.rect)
+
+    player1.update()
+    player2.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 

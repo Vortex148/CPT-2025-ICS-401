@@ -15,13 +15,6 @@ player_count = 0
 class player(pygame.sprite.Sprite):
     MOVEMENT_SPEED = all_controls["Movement_Speed"]
 
-    position = [0,0]
-    velocity = [0,0]
-    controls = None
-    player_number = None
-    image = None
-    rect = None
-
     def __init__(self,):
         super().__init__()
         global player_count
@@ -31,6 +24,8 @@ class player(pygame.sprite.Sprite):
         self.image = pygame.image.load(all_controls["Player_"  + str(self.player_number)]["Sprite"])
         self.image = pygame.transform.scale(self.image, (100,100))
         self.rect = self.image.get_rect()
+        self.position = [0,0]
+        self.velocity = [0,0]
         player_count = self.player_number
 
     def update_position(self, event):
@@ -38,6 +33,7 @@ class player(pygame.sprite.Sprite):
         # self.rect.center = self.position
 
     def update(self, *args, **kwargs):
+        print(f"{self.velocity} -- {self.player_number}")
         self.position = numpy.array(self.position) + numpy.array(self.velocity)
         self.rect.center = self.position
         # print(self.position)
