@@ -26,6 +26,7 @@ class player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.position = [0,0]
         self.velocity = [0,0]
+        self.current_weapon = None
         player_count = self.player_number
 
     def update_position(self, event):

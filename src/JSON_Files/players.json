@@ -1,21 +1,23 @@
 {
   "Movement_Speed": 10,
   "Player_1":{
-    "Sprite": "Images/player/Placeholder_player1.png",
+    "Sprite": "Images/Sprites/Players/Placeholder_player1.png",
     "Controls":[
       "w",
       "s",
       "a",
-      "d"
+      "d",
+      "x"
     ]
   },
   "Player_2": {
-    "Sprite": "Images/player/Placeholder_player2.png",
+    "Sprite": "Images/Sprites/Players/Placeholder_player2.png",
     "Controls":[
         "arrow_forward",
         "arrow_backward",
         "arrow_left",
-        "arrow_right"
+        "arrow_right",
+        "numpad_0"
     ]
   }
 }
