@@ -1,61 +1,111 @@
 import pygame
+from base_classes.player import player
+from common_variables import *
+from src.common_variables import screen_width, menu_button_width, menu_button_height, rules_height, rules_width, \
+close_button_width, close_button_height, screen_height, GOLD
+from src.main import screen
+
+
+def visibility(target):
+    target.visible = not target.visible
 
 # Defining a class for "clickability" to assign click detection to all instances of it
 class Clickability(pygame.sprite.Sprite):
-     # By giving this function image, x and y parameters, we are able to easily use the
-     # attributes of other classes in this one.The "execute" parameter similarly, allows
-     # us to import functions from those other classes and run them when the mouse
-     # click is in rectangle bounding the image.
+     # The "execute" parameter allows the import functions from other classes and
+     # running them when the mouse click is in rectangle bounding the image.
     def __init__(self, image, x, y, execute):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.execute = execute
+        self.visible = True
 
+        # Checking if the sprite was clicked
     def check_click(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP and self.rect.collidepoint(event.pos):
                 self.execute()
 
+        # Drawing the clickable sprite if it is set to visible
+    def draw(self, screen):
+        if self.visible:
+            screen.blit(self.image, self.rect.topleft)
+
 class Menu:
     def __init__(self, screen):
         self.screen = screen
 
-        # Making the rules invisible until otherwise declared,
-        # preventing the draw function from drawing them.
-        self.visible = False
-
         # Loading and sizing the image for the menu button
         menu_image = pygame.image.load("images/Menu.png")
-        menu_image = pygame.transform.scale(menu_image, (70, 70))
+        menu_image = pygame.transform.scale(menu_image, (menu_button_width, menu_button_height))
 
-        # Giving the menu button "clickability" attributes
-        self.menu_sprite = Clickability(menu_image, 1200, 100, self.show)
+        # Giving the menu button "clickability" attributes. The "execute" parameter runs the
+        # visibility function. Using lambda allows us to use specific values from this class
+        # by making the function "anonymous"
+        self.menu_sprite = Clickability(
+            menu_image,
+            screen_width - (0.0225 * screen_width),
+            screen_height/7.2,
+            lambda: visibility(self.rules_sprite)
+        )
 
         # Loading and sizing the rules menu
         rules_image = pygame.image.load("images/Rules.png")
-        rules_image = pygame.transform.scale(rules_image, (600, 600))
-        self.rules_sprite = pygame.sprite.Sprite()
-        self.rules_sprite.image = rules_image
-        self.rules_sprite.rect = self.rules_sprite.image.get_rect()
-        self.rules_sprite.rect.center = (640, 360)
+        rules_image = pygame.transform.scale(rules_image, (rules_width, rules_height))
+        self.rules_sprite = Clickability(
+            rules_image,
+            screen_width/2,
+            screen_height/2,
+            None
+        )
 
-        self.sprites = pygame.sprite.Group(self.menu_sprite)
+        # Starting with the rules menu invisible.
+        self.rules_sprite.visible = False
 
-    # Making the rules visible
-    def show(self):
-        self.visible = True
+        close_button_image = pygame.image.load("images/Close.png")
+        close_button_image = pygame.transform.scale(close_button_image, (close_button_width, close_button_height))
+
+        # Giving the menu button "clickability" attributes
+        self.close_button_sprite = Clickability(
+            close_button_image,
+            screen_width / 2 + (rules_width / 2) - (close_button_width / 2),
+            (screen_height - rules_height) / 2 + (close_button_height / 2),
+            lambda: visibility(self.rules_sprite))
+
+        self.sprites = pygame.sprite.Group(self.menu_sprite, self.rules_sprite, self.close_button_sprite)
 
     def update(self, events):
-        if not self.visible:
-            for sprite in self.sprites:
-                sprite.check_click(events)
+        self.menu_sprite.check_click(events)
 
-    # Drawing the rules menu if the "button" has been clicked
+        if self.rules_sprite.visible:
+            self.close_button_sprite.check_click(events)
+
+        # The menu button is always draw. If the rules are visible they are drawn as well
+        # as the close button. The loop resets and checks for clicks on the close button.
     def draw(self):
-        if not self.visible:
-            self.sprites.draw(self.screen)
-        else:
-            self.screen.blit(self.rules_sprite.image, self.rules_sprite.rect)
+        self.menu_sprite.draw(self.screen)
+        if self.rules_sprite.visible:
+            self.rules_sprite.draw(self.screen)
+            self.close_button_sprite.draw(self.screen)
+
+class player_mode_choice(self, x, y, text, execute):
+    def __init__(self):
+        self.screen
+        font = pygame.font.SysFont('Courier New', 50, False, False)
+        font.render(text, True, BLACK)
+        player_button = rect(260, 60, x, y)
+        player_button.fill(GOLD)
+        player_button.blit(text, (30, 30))
+
+    def update(self, events):
+        self.player_button.check_click(events)
+
+    def draw(self):
+        self.player_button.draw(screen)
+
+# Add code for item shop and other clickable objects below
+
+
+
 

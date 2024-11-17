@@ -28,7 +28,7 @@ class player(pygame.sprite.Sprite):
         self.image = pygame.image.load(all_controls["Player_"  + str(self.player_number)]["Sprite"])
         self.image = pygame.transform.scale(self.image, (100,100))
         self.rect = self.image.get_rect()
-        self.position = [0,0]
+        self.position = [50,50]
         self.velocity = [0,0]
         self.current_weapon = "Default"
         self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"])
@@ -43,7 +43,6 @@ class player(pygame.sprite.Sprite):
         self.rect.center = self.position
         self.projectile_group.draw(pygame.display.get_surface())
         self.projectile_group.update()
-
 
     def fire_selected_weapon(self):
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
