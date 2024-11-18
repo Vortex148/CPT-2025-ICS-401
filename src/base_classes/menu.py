@@ -3,7 +3,7 @@ from base_classes.player import player
 from common_variables import *
 from src.common_variables import screen_width, menu_button_width, menu_button_height, rules_height, rules_width, \
 close_button_width, close_button_height, screen_height, GOLD
-from src.main import screen
+
 
 
 def visibility(target):
@@ -25,7 +25,8 @@ class Clickability(pygame.sprite.Sprite):
     def check_click(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP and self.rect.collidepoint(event.pos):
-                self.execute()
+                if self.execute:
+                    self.execute()
 
         # Drawing the clickable sprite if it is set to visible
     def draw(self, screen):
@@ -89,20 +90,27 @@ class Menu:
             self.rules_sprite.draw(self.screen)
             self.close_button_sprite.draw(self.screen)
 
-class player_mode_choice(self, x, y, text, execute):
-    def __init__(self):
-        self.screen
-        font = pygame.font.SysFont('Courier New', 50, False, False)
-        font.render(text, True, BLACK)
-        player_button = rect(260, 60, x, y)
-        player_button.fill(GOLD)
-        player_button.blit(text, (30, 30))
+class player_mode_choice():
+    def __init__(self, x, y, text, execute, screen):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.visible = True
+        self.execute = execute
+        self.font = pygame.font.SysFont('Courier New', 15, True, False)
+        self.text_box = self.font.render(text, True, BLACK)
+        self.player_button = pygame.Surface((160, 80))
+        self.player_button.fill(GOLD)
+        self.player_button.blit(self.text_box, (30, 30))
+        self.player_button_sprite = Clickability(self.player_button, x, y, execute)
 
     def update(self, events):
-        self.player_button.check_click(events)
+        if self.visible:
+            self.player_button_sprite.check_click(events)
 
     def draw(self):
-        self.player_button.draw(screen)
+        if self.visible:
+            self.player_button_sprite.draw(self.screen)
 
 # Add code for item shop and other clickable objects below
 

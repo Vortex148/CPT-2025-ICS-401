@@ -5,13 +5,11 @@ from pygame import KEYDOWN
 from common_variables import *
 
 from base_classes.player import player
-from base_classes.menu import Menu, Clickability
+from base_classes.menu import *
 import time
 import os
 
-from src.base_classes.menu import player_mode_choice
-
-# Center the Pygame window on the screen
+# Center the pygame window on the screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 
@@ -30,14 +28,29 @@ intro_video.close()
 
 menu = Menu(screen)
 
-one_player_button = player_mode_choice(screen_width/2, screen_height - 30, "One Player", print("Placeholder action"))
-two_player_button = player_mode_choice(screen_width/2, screen_height - 30, "Two Players", print("Placeholder action"))
+player_sprite_group = pygame.sprite.Group()
 
-player1 = player()
-player2 = player()
+def initialize_sprites(value):
+    global player_sprite_group, one_player_button, two_player_button
+    player_sprite_group.empty()
+    if value == 1:
+        player1 = player()
+        player_sprite_group.add(player1)
+    if value == 2:
+        player1 = player()
+        player2 = player()
+        player_sprite_group.add(player1, player2)
+    if one_player_button:
+       one_player_button.visible = False
+    if two_player_button:
+        two_player_button.visible = False
 
-player_sprite_group = pygame.sprite.Group(player1, player2)
 
+# placeholder actions to be replaced with class creation
+one_player_button = player_mode_choice(screen_width/2 - 150, screen_height - 90,
+"One Player", lambda: initialize_sprites(1), screen)
+two_player_button = player_mode_choice(screen_width/2 + 150, screen_height - 90,
+"Two Players",lambda: initialize_sprites(2), screen)
 
 
 done = False
@@ -65,8 +78,8 @@ while not done:
             if event.key == pygame.K_ESCAPE:
                 done = True
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-            player1.update_position(event)
-            player2.update_position(event)
+            for sprite in player_sprite_group:
+                sprite.update_position(event)
 
 
 
@@ -95,8 +108,8 @@ while not done:
 
     player_sprite_group.draw(screen)
 
-    player1.update()
-    player2.update()
+    for sprite in player_sprite_group:
+        sprite.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
