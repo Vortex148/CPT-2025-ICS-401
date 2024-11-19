@@ -7,6 +7,7 @@ import src.tools.unit_handler
 from src.tools.control_handler import check_dynamic_user_input
 from src.base_classes.projectile import Projectile
 from src.tools.unit_handler import swth_sprite
+from src.tools.time_handler import Timer
 
 # import pprint
 
@@ -36,7 +37,7 @@ class player(swth_sprite):
         self.position = [0,0]
         self.velocity = [0,0]
         self.current_weapon = "Default"
-        self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"])
+        self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"]).convert_alpha()
         player_count = self.player_number
 
     def update_position(self, event):
@@ -44,15 +45,17 @@ class player(swth_sprite):
         # self.rect.center = self.position
 
     def update(self, *args, **kwargs):
-        self.position = numpy.array(self.position) + numpy.array(self.velocity)
+        # Units are in screen % / sec
+        self.position = numpy.array(self.position) + numpy.array(self.velocity) * Timer.get_last_frame_time()
         super().update_position(self.position)
         super().update()
-        self.projectile_group.draw(pygame.display.get_surface())
         self.projectile_group.update()
+        self.projectile_group.draw(pygame.display.get_surface())
 
 
 
 
     def fire_selected_weapon(self):
+        print(self.position)
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
         self.projectile_group.add(projectile)
