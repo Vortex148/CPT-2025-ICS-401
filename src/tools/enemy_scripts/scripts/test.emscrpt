@@ -1,0 +1,4 @@
+WAIT time 2000;
+WAIT time 1000;
+WAIT call;
+END;
