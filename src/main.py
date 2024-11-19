@@ -3,11 +3,13 @@ import pygame.event
 from moviepy.editor import *
 from pygame import KEYDOWN, FULLSCREEN
 import src.tools.unit_handler as uh
+import src.tools.time_handler
 
 from base_classes.player import player
 import time
 
 from src.base_classes.enemy import classicAlien
+from src.tools.time_handler import Timer
 
 pygame.init()
 
@@ -34,6 +36,8 @@ enemy = classicAlien((100,100))
 player_sprite_group = pygame.sprite.Group(player1, player2)
 enemy_sprite_group = pygame.sprite.Group(enemy)
 
+fps_limit = 120
+Timer(fps_limit)
 
 done = False
 
@@ -94,7 +98,7 @@ while not done:
     pygame.display.flip()
 
     # --- Limit to 60 frames per second
-    clock.tick(120)
-
+    clock.tick(fps_limit)
+    Timer.update()
 # Close the window and quit.
 pygame.quit()

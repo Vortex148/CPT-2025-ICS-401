@@ -4,6 +4,8 @@ import pygame
 
 
 import numpy
+from pygame.display import update
+
 
 # SWTH is a custom unit that is measured in as screen_width/100. This enables for various screen sizes to be supported easily
 class swth_sprite(pygame.sprite.Sprite):
@@ -30,6 +32,12 @@ class swth_sprite(pygame.sprite.Sprite):
     def update_position(self, position):
         self.position = position
 
+    def get_position(self):
+        return self.position
+
+    def get_image(self):
+        return self.image
+
     def draw(self):
         screen = pygame.display.get_surface()
 
@@ -38,6 +46,3 @@ class swth_sprite(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.center = self.generate_relative_coords()
-        print(self.rect.center)
-        print(self.position)
-
