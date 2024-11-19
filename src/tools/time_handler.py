@@ -1,4 +1,5 @@
 import pygame
+import time
 
 class Timer:
     last_tick = None
@@ -17,8 +18,11 @@ class Timer:
             raise Exception("Clock was never updated")
         if Timer.clock.get_time() - Timer.last_tick > 1000:
             raise Exception("Clock was likely not updated in time")
-
         return Timer.clock.get_time() * 0.001
+
+    @staticmethod
+    def get_time():
+        return time.time() * 1000
 
     @staticmethod
     def update():

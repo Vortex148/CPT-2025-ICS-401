@@ -1,14 +1,18 @@
 import pygame
 import pygame.event
 from moviepy.editor import *
+from numpy.random.mtrand import operator
 from pygame import KEYDOWN, FULLSCREEN
 import src.tools.unit_handler as uh
 import src.tools.time_handler
+import src.tools.enemy_scripts.parse_engine.parse_engine
+import pprint
 
 from base_classes.player import player
 import time
 
 from src.base_classes.enemy import classicAlien
+from src.tools.enemy_scripts.parse_engine.parse_engine import engine
 from src.tools.time_handler import Timer
 
 pygame.init()
@@ -16,7 +20,9 @@ pygame.init()
 # Set the width and height of the screen [width, height]
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
+script = engine.read_script("src/tools/enemy_scripts/scripts/test.emscrpt")
 
+script.read_next_line()
 
 
 
@@ -44,7 +50,7 @@ done = False
 # Loop until the user clicks the close button.
 
 
-
+operation = None
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -97,6 +103,21 @@ while not done:
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
+    if operation is not None:
+        if operation.command.duration_arg.condition_met():
+            operation = script.get_operation()
+            script.read_next_line()
+            print("met")
+
+    else:
+        operation = script.get_operation()
+        script.read_next_line()
+        print(script)
+
+    if operation.command.duration == "call":
+        operation.command.duration_arg.call()
+
+    operation.command.duration_arg.update()
     # --- Limit to 60 frames per second
     clock.tick(fps_limit)
     Timer.update()

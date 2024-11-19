@@ -2,7 +2,6 @@ from distutils.command.sdist import sdist
 
 import pygame
 
-
 import numpy
 from pygame.display import update
 
