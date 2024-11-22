@@ -99,12 +99,24 @@ while not done:
     player1.update()
     player2.update()
 
-    enemy.follow_trajectory([[50,50], [80,60], [10,20], [90,10], [70,50]])
-    enemy2.follow_trajectory([[10,10], [90,90], [10,90], [90,10], [50,50]])
-    enemy3.follow_trajectory(enemy_3_nodes)
+    enemy.follow_trajectory([[50,50], [80,60], [10,20], [90,10], [70,50]]) if enemy.active else None
+    enemy2.follow_trajectory([[10,10], [90,90], [10,90], [90,10], [50,50]]) if enemy2.active else None
+    enemy3.follow_trajectory(enemy_3_nodes) if enemy3.active else None
     # testing_sprite.update()
     # screen.blit(player1.image, player1.rect)
     enemy_sprite_group.update()
+    for i in enemy_sprite_group:
+        for x in player1.projectile_group:
+            hit = i.get_rect().colliderect(x.rect)
+            if hit:
+                i.kill()
+
+        for x in player2.projectile_group:
+            hit = i.get_rect().colliderect(x.rect)
+            if hit:
+                i.kill()
+
+
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 

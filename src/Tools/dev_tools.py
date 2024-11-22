@@ -58,7 +58,7 @@ class vector_drawer:
         )
 
         accel_heading = math.atan2(-accel_xy[0], accel_xy[1])
-        print(accel_heading)
+
 
         # Main circle
         pygame.draw.circle(self.screen, (255, 255, 255), self.shape.center, 50, 5)
