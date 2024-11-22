@@ -1,0 +1,23 @@
+{
+  "Alien": {
+    "Health": 100,
+    "Velocity": 5,
+    "Image_Path": "Images/Sprites/Enemies/classicAlien.png"
+  },
+  "Bee": {
+    "Health": 200,
+    "Velocity": 5,
+    "Image_Path": "Images/Sprites/Enemies/beeEnemy.png"
+  },
+  "Fly": {
+    "Health": 300,
+    "Velocity": 5,
+    "Image_Path": "Images/Sprites/Enemies/butterflyEnemy.png"
+
+  },
+  "OrangeAlien": {
+    "Health": 100,
+    "Velocity": 5,
+    "Image_Path": "Images/Sprites/Enemies/orangeAlien.png"
+  }
+}

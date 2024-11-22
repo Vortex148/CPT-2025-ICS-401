@@ -1,5 +1,8 @@
+from time import time_ns
+
 import pygame
-import pygame.event
+import random
+
 from moviepy.editor import *
 from pygame import KEYDOWN, FULLSCREEN
 import src.tools.unit_handler as uh
@@ -17,8 +20,9 @@ pygame.init()
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
 
-
-
+enemy_3_nodes = []
+for i in range(0,1000):
+    enemy_3_nodes.append([random.randrange(10,90,1), random.randrange(10,90,1)])
 
 
 pygame.display.set_caption("Space Defenders")
@@ -31,10 +35,17 @@ pygame.display.set_caption("Space Defenders")
 player1 = player()
 player2 = player()
 
-enemy = classicAlien((100,100))
+enemy = classicAlien()
+enemy2 = classicAlien()
+enemy3 = classicAlien()
+
+enemy.update_position([90,90])
+enemy2.update_position([10,10])
+
+enemy3.update_position([random.randrange(10,90,1), random.randrange(10,90,1)])
 
 player_sprite_group = pygame.sprite.Group(player1, player2)
-enemy_sprite_group = pygame.sprite.Group(enemy)
+enemy_sprite_group = pygame.sprite.Group(enemy, enemy2, enemy3)
 
 fps_limit = 120
 Timer(fps_limit)
@@ -52,8 +63,6 @@ clock = pygame.time.Clock()
 
 
 while not done:
-
-
 
     # --- Main event loop
     for event in pygame.event.get():
@@ -90,15 +99,19 @@ while not done:
     player1.update()
     player2.update()
 
+    enemy.follow_trajectory([[50,50], [80,60], [10,20], [90,10], [70,50]])
+    enemy2.follow_trajectory([[10,10], [90,90], [10,90], [90,10], [50,50]])
+    enemy3.follow_trajectory(enemy_3_nodes)
     # testing_sprite.update()
     # screen.blit(player1.image, player1.rect)
-
     enemy_sprite_group.update()
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
     # --- Limit to 60 frames per second
     clock.tick(fps_limit)
+    # print(Timer.get_last_frame_time()) if Timer.get_last_frame_time() > 0.1 else None
+
     Timer.update()
 # Close the window and quit.
 pygame.quit()
