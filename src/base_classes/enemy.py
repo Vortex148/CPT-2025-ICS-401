@@ -18,13 +18,19 @@ class Enemy(swth_sprite):
         self.image = pygame.transform.scale(self.image, size)
         super().__init__(self.image)
         self.traj_handle = trajectory_handler(30, 0, 180, [0, 0], super().get_rect(), self)
-        self.active = False # Ensuring the enemies aren't drawn until it is necessary to load them
+        self.active = True # Ensuring the enemies aren't drawn until it is necessary to load them
         # This is further managed using a queue in the attached json file.
         enemy_count += 1
         self.id = enemy_count
     def activate(self):
         self.active = True
 
+    def kill(self):
+        self.active = False
+        super().kill()
+
+    def get_rect(self):
+        return super().get_rect()
     # def update(self):
     #     if self.active:
     #         pass # code for enemy animation goes here
