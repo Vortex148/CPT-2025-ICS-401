@@ -1,9 +1,6 @@
 import numpy
 import pygame
 import json
-
-
-import src.tools.unit_handler
 from src.tools.control_handler import check_dynamic_user_input
 from src.base_classes.projectile import Projectile
 from src.tools.unit_handler import swth_sprite
