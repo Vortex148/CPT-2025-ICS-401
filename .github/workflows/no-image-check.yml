@@ -1,0 +1,37 @@
+name: Check for Keyword "images" in Commits
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to track
+
+  check_keyword:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Find keyword in changed files
+        run: |
+          # Define the keyword you are looking for
+          keyword="images"
+          
+          # Get a list of changed files in the current commit (using git diff)
+          files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          
+          # Loop through each file and search for the keyword
+          for file in $files; do
+            # Skip binary files
+            if [[ "$file" =~ \.(jpg|png|gif|pdf)$ ]]; then
+              continue
+            fi
+
+            # Search for the keyword in the file
+            if grep -q "$keyword" "$file"; then
+              echo "Found keyword '$keyword' in $file, please change it to Images"
+              exit 1
+            else
+              echo "No keyword '$keyword' found in $file"
+            fi
+          done
