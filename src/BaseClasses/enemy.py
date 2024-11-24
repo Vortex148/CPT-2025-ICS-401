@@ -1,13 +1,7 @@
 import pygame
 
-from src.tools.time_handler import Timer
 from src.tools.unit_handler import swth_sprite
 from src.tools.trajectory_handler import trajectory_handler
-
-
-# queue_file = open("src/JSON_Files/enemy_queue.json")
-# queue = json.load(queue_file)
-# queue = json.load(queue_file)
 
 enemy_count = 0
 
@@ -17,11 +11,13 @@ class Enemy(swth_sprite):
         self.image = pygame.image.load(image).convert_alpha()
         self.image = pygame.transform.scale(self.image, size)
         super().__init__(self.image)
-        self.traj_handle = trajectory_handler(30, 0, 180, [0, 0], super().get_rect(), self)
+        # Initializes the current_trajectory generation. Can be changed in future
+        self.traj_handle = trajectory_handler(30, 10000, [0, 0], super().get_rect(), self)
         self.active = True # Ensuring the enemies aren't drawn until it is necessary to load them
         # This is further managed using a queue in the attached json file.
         enemy_count += 1
         self.id = enemy_count
+
     def activate(self):
         self.active = True
 
@@ -29,15 +25,24 @@ class Enemy(swth_sprite):
         self.active = False
         super().kill()
 
+    # Gets rect from the swth_sprite super class
     def get_rect(self):
         return super().get_rect()
-    # def update(self):
-    #     if self.active:
-    #         pass # code for enemy animation goes here
 
+    # Follows current_trajectory. Note: Must run each frame until completion as it runs linearly, not in parallel (Not multithreaded)
     def follow_trajectory(self, trajectory):
-        super().update_position(self.traj_handle.follow_trajectory(trajectory, super().get_position()))
+        self.update_position(self.traj_handle.follow_trajectory(trajectory, super().get_position()))
 
+    def update_trajectory_generator(self, speed = 0, acceleration = 0):
+        # Checks that speed and acceleration values are valid, and updates accordingly
+        if speed > 0:
+            self.traj_handle.update_max_speed(speed)
+
+        if acceleration > 0:
+            self.traj_handle.update_acceleration(acceleration)
+
+    def update_position(self, position):
+        super().update_position(position)
 
 
 class classicAlien(Enemy):

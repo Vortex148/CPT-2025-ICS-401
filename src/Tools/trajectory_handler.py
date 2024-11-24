@@ -1,21 +1,17 @@
-from cmath import acosh
-from tkinter.constants import ACTIVE
-
 import numpy
 import math
 
-from numpy.distutils.system_info import accelerate_lapack_info
 
 from src.tools.time_handler import Timer
 from src.tools.dev_tools import vector_drawer
 
 
 class trajectory_handler:
-    tolerance = 2
+    tolerance = 0.1
 
-    def __init__(self, max_speed, min_speed, accel, position, rect, runner):
+    def __init__(self, max_speed, accel, position, rect, runner):
         self.max_speed = max_speed
-        self.min_speed = min_speed
+
         self.accel = accel
         self.position = position
         self.trajectory_index = 0
@@ -26,19 +22,26 @@ class trajectory_handler:
         self.path_iteration = 0
         self.runner = runner
 
+    def update_max_speed(self, value):
+        self.max_speed = value
+
+    def update_acceleration(self, value):
+        self.accel = value
+
     def follow_trajectory(self, trajectory, current_position):
-        if self.last_speed[0] == 0:  # Start of trajectory
+        if self.last_speed[0] == 0:  # Start of current_trajectory
             self.initial_pose = current_position.copy()
 
-        if self.trajectory_index < len(trajectory):  # Check if trajectory is complete
+        if self.trajectory_index < len(trajectory):  # Check if current_trajectory is complete
+
             current_node = trajectory[self.trajectory_index]
-            self.trajectory = trajectory
+            previous_node = trajectory[self.trajectory_index - 1] if self.trajectory_index > 0 else self.initial_pose
+            self.current_trajectory = trajectory
+
             # Calculate updated position
             delta_position_over_time = numpy.add(
-                self.go_to_node(
-                    trajectory[self.trajectory_index - 1]
-                    if self.trajectory_index > 0
-                    else self.initial_pose,
+                self.__go_to_node(
+                    previous_node,
                     current_node,
                     current_position,
                 ),
@@ -60,12 +63,14 @@ class trajectory_handler:
 
             return delta_position_over_time
 
-    def go_to_node(self, start_position, end_position, current_position):
+    #TODO: Check time logic. Im pretty sure its wrong but it works
+    def __go_to_node(self, start_position, end_position, current_position):
         delta_y = end_position[1] - current_position[1]
         delta_x = end_position[0] - current_position[0]
 
         dist_to_node = math.sqrt(delta_x**2 + delta_y**2)
-        acceleration= self.accel / (1 / Timer.delta)
+        # Converts acceleration from units/sec to units/frame time. Need to validate
+        acceleration = self.accel / (1 / Timer.delta)
 
         # Calculate initial motion parameters
         if self.path_iteration == 0:
@@ -80,24 +85,24 @@ class trajectory_handler:
             )
 
         heading = math.atan2(delta_y, delta_x)
+
         # Acceleration and deceleration logic
-
         if dist_to_node <= self.dist_to_decelerate:
-            acceleration = -acceleration * 0.90  # Gradual deceleration
-            # acceleration = -0.001
-            # print((dist_to_node / self.dist_to_decelerate))
+            # To prevent from decelerating to fast and missing node, causes slight overshoot on occasion
+            acceleration = -acceleration * 0.90
         else:
-            acceleration = acceleration# Accelerate
+            acceleration = acceleration#
 
 
-        acceleration *= Timer.delta  # Scale by time delta
+        acceleration *= Timer.delta  # Scale by time delta (frame time)
+
         # Update speed with clamping
         acceleration_x = math.cos(heading) * acceleration
         acceleration_y = math.sin(heading) * acceleration
         x_speed = self.last_speed[0] + acceleration_x
         y_speed = self.last_speed[1] + acceleration_y
-
         speed_magnitude = math.sqrt(x_speed**2 + y_speed**2)
+
         if speed_magnitude * 1 / Timer.delta > self.max_speed:  # Limit speed to max
             scale = self.max_speed * Timer.delta / speed_magnitude
             x_speed *= scale
@@ -109,18 +114,18 @@ class trajectory_handler:
         delta_position = numpy.array([x_speed, y_speed])
         x_speed = x_speed * 1 / Timer.delta
         y_speed = y_speed * 1 / Timer.delta
+
+        # Comment out to disable overlay
         self.dev_tools.draw(
             [x_speed, -y_speed],
             math.sqrt(x_speed**2 + y_speed**2),
-            [0, 0],
             acceleration,
             [acceleration_x, acceleration_y],
-            heading,
             dist_to_node,
             end_position,
             self.runner,
             self.trajectory_index,
-            len(self.trajectory)
+            len(self.current_trajectory)
         )
         self.path_iteration += 1
 
