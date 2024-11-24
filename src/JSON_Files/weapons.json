@@ -2,6 +2,6 @@
   "Default": {
     "Sprite":"Images/Sprites/Weapons/projectile.png",
     "Damage":10,
-    "Velocity":[0,1]
+    "Velocity":[0,0.1]
   }
 }

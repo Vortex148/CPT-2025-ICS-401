@@ -2,24 +2,23 @@ import pygame
 import json
 import numpy
 
+import src.Tools.unit_handler
+
 weapons_file = open("src/JSON_Files/weapons.json")
 all_weapons = json.load(weapons_file)
 
-class Projectile(pygame.sprite.Sprite):
-    FADE_OUT_SPEED = 10
+class Projectile(src.Tools.unit_handler.swth_sprite):
+    FADE_OUT_SPEED = 5
     def __init__(self, sprite, weapon, starting_position):
-        super().__init__()
-        self.image = sprite
-        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.sprite = pygame.transform.scale(sprite, (1, 1))
+        super().__init__(sprite)
         self.rect = self.image.get_rect()
-        self.position = starting_position.copy()
-        self.rect.center = self.position
+        super().update_position(starting_position)
         self.velocity = numpy.multiply(all_weapons[weapon]["Velocity"].copy(), [1,-1])
         self.opacity = 255
 
 
     def __del__(self):
-
         self.kill()
 
     def update(self, *args, **kwargs):
@@ -27,10 +26,9 @@ class Projectile(pygame.sprite.Sprite):
             self.fade_out()
 
         else:
-            self.position = numpy.array(self.velocity) + numpy.array(self.position)
-            self.rect.center = self.position
 
-
+            super().update_position( numpy.array(self.velocity) + numpy.array(super().get_position()))
+            super().update()
 
     def fade_out(self):
         self.opacity -= self.FADE_OUT_SPEED
@@ -38,7 +36,7 @@ class Projectile(pygame.sprite.Sprite):
         if self.opacity < 0:
             self.__del__()
 
-        self.image.set_alpha(self.opacity)
+        super().get_image().set_alpha(self.opacity)
 
 
 
