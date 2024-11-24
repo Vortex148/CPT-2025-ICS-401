@@ -3,7 +3,7 @@ import json
 
 pygame.init()
 
-queue_file = open("base_classes/enemy_queue.json")
+queue_file = open("BaseClasses/enemy_queue.json")
 queue = json.load(queue_file)
 
 enemy_count = 0

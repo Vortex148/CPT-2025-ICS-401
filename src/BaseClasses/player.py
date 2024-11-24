@@ -1,8 +1,8 @@
 import numpy
 import pygame
 import json
-from src.tools.control_handler import check_dynamic_user_input
-from src.base_classes.projectile import Projectile
+from src.Tools.control_handler import check_dynamic_user_input
+from src.BaseClasses.projectile import Projectile
 
 # import pprint
 

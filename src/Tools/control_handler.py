@@ -1,9 +1,7 @@
-from time import perf_counter
-
 import pygame
 
 def check_dynamic_user_input(selected_player, event):
-    from src.base_classes.player import player
+    from src.BaseClasses.player import player
 
     if event.type == pygame.KEYDOWN:
 

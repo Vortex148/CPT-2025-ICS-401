@@ -1,8 +1,6 @@
 import pygame
-from base_classes.player import player
-from common_variables import *
-from src.common_variables import screen_width, menu_button_width, menu_button_height, rules_height, rules_width, \
-close_button_width, close_button_height, screen_height, GOLD
+from src.Tools.Constants.ScreenConstants import *
+from src.Tools.Constants.ColourConstants import *
 
 
 
@@ -38,7 +36,7 @@ class Menu:
         self.screen = screen
 
         # Loading and sizing the image for the menu button
-        menu_image = pygame.image.load("images/Menu.png")
+        menu_image = pygame.image.load("Images/Menu.png")
         menu_image = pygame.transform.scale(menu_image, (menu_button_width, menu_button_height))
 
         # Giving the menu button "clickability" attributes. The "execute" parameter runs the
@@ -52,7 +50,7 @@ class Menu:
         )
 
         # Loading and sizing the rules menu
-        rules_image = pygame.image.load("images/Rules.png")
+        rules_image = pygame.image.load("Images/Rules.png")
         rules_image = pygame.transform.scale(rules_image, (rules_width, rules_height))
         self.rules_sprite = Clickability(
             rules_image,
@@ -64,7 +62,7 @@ class Menu:
         # Starting with the rules menu invisible.
         self.rules_sprite.visible = False
 
-        close_button_image = pygame.image.load("images/Close.png")
+        close_button_image = pygame.image.load("Images/Close.png")
         close_button_image = pygame.transform.scale(close_button_image, (close_button_width, close_button_height))
 
         # Giving the menu button "clickability" attributes

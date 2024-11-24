@@ -1,12 +1,5 @@
-import pygame
-import pygame.event
-from moviepy.editor import *
-from pygame import KEYDOWN
-from common_variables import *
-
-from base_classes.player import player
-from base_classes.menu import *
-import time
+from BaseClasses.player import player
+from BaseClasses.menu import *
 import os
 
 # Center the pygame window on the screen
@@ -22,9 +15,9 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
 
 # Playing the intro animation and closing it once done.
-intro_video = VideoFileClip("Videos/intro_animation.mp4").resize(height = screen_height, width = screen_width)
-intro_video.preview()
-intro_video.close()
+# intro_video = VideoFileClip("Videos/intro_animation.mp4")
+# intro_video.preview()
+# intro_video.close()
 
 menu = Menu(screen)
 
