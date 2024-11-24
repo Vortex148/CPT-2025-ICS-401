@@ -1,8 +1,6 @@
 import pygame
 
 def check_dynamic_user_input(selected_player, event):
-    from src.BaseClasses.player import player
-
     if event.type == pygame.KEYDOWN:
 
         if selected_player.player_number == 1:

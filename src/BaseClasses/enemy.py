@@ -1,7 +1,7 @@
 import pygame
 
-from src.tools.unit_handler import swth_sprite
-from src.tools.trajectory_handler import trajectory_handler
+from src.Tools.unit_handler import swth_sprite
+from src.Tools.trajectory_handler import trajectory_handler
 
 enemy_count = 0
 

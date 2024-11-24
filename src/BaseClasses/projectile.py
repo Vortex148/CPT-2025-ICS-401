@@ -2,12 +2,12 @@ import pygame
 import json
 import numpy
 
-import src.tools.unit_handler
+import src.Tools.unit_handler
 
 weapons_file = open("src/JSON_Files/weapons.json")
 all_weapons = json.load(weapons_file)
 
-class Projectile(src.tools.unit_handler.swth_sprite):
+class Projectile(src.Tools.unit_handler.swth_sprite):
     FADE_OUT_SPEED = 5
     def __init__(self, sprite, weapon, starting_position):
         self.sprite = pygame.transform.scale(sprite, (1, 1))

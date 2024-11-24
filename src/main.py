@@ -1,19 +1,12 @@
-from time import time_ns
-
-import pygame
 import random
 
 from moviepy.editor import *
-from pygame import KEYDOWN, FULLSCREEN
-import src.tools.unit_handler as uh
-import src.tools.time_handler
 
-from base_classes.player import player
-import time
+from src.BaseClasses.player import player
 
-from src.base_classes.enemy import classicAlien
-from src.tools.time_handler import Timer
-from base_classes.menu import *
+from src.BaseClasses.enemy import classicAlien
+from src.Tools.time_handler import Timer
+from src.BaseClasses.menu import *
 
 pygame.init()
 
