@@ -1,9 +1,9 @@
 name: Check for Keyword "images" in Commits
 
 on:
-  push:
+  pull_request:
     branches:
-      - '*'
+      - '*'  # Trigger on any branch PR
 
 jobs:
   checkkeyword:
@@ -13,13 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Ensure the git context is correct
+        run: |
+          # Fetch all history for git diff
+          git fetch --prune --unshallow
+
       - name: Find keyword in changed files
         run: |
           # Define the keyword you are looking for
           keyword="images"
           
-          # Get a list of changed files in the current commit (using git diff)
-          files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          # Get a list of changed files in the current pull request
+          files=$(git diff --name-only origin/main...${{ github.sha }})
           
           # Loop through each file and search for the keyword
           for file in $files; do
@@ -31,7 +36,7 @@ jobs:
             # Search for the keyword in the file
             if grep -q "$keyword" "$file"; then
               echo "Found keyword '$keyword' in $file, please change it to Images"
-              exit 1
+              exit 1  # Fail the action
             else
               echo "No keyword '$keyword' found in $file"
             fi
