@@ -43,7 +43,7 @@ class player(swth_sprite):
 
     def update(self, *args, **kwargs):
         # Units are in screen % / sec
-        self.position = numpy.array(self.position) + numpy.array(self.velocity) * Timer.get_last_frame_time()
+        self.position = numpy.array(self.position) + numpy.array(self.velocity) * Timer.get_last_frame_time_s()
         super().update_position(self.position)
         super().update()
         self.projectile_group.update()
@@ -53,6 +53,5 @@ class player(swth_sprite):
 
 
     def fire_selected_weapon(self):
-        print(self.position)
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
         self.projectile_group.add(projectile)

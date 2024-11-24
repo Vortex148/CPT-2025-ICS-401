@@ -1,4 +1,3 @@
-from time import time_ns
 
 from pygame.time import Clock
 import time
@@ -25,7 +24,8 @@ class Timer:
 
 
     @staticmethod
-    def get_last_frame_time():
+    # Returns frame time in seconds (Time between frames)
+    def get_last_frame_time_s():
         clock_tick = Timer.clock.get_time()
         if Timer.last_tick is None:
             raise Exception("Clock was never updated")
@@ -39,12 +39,11 @@ class Timer:
     def update():
         clock_tick = Timer.clock.tick(Timer.fps_cap)
 
+        # To try and mitigate stuttering
         if clock_tick / 1000 > Timer.max_frame_delay:
             print(f"Clock was not updated in time, sending fake frame with value of {Timer.last_tick / 1000}")
         else:
             Timer.last_tick = clock_tick
             Timer.current_time = time.time()
             Timer.delta = Timer.current_time - Timer.last_time  # Calculate delta
-
             Timer.last_time = Timer.current_time  # Update last_time for the next frame
-            Timer.last_time_ns = time.time_ns()

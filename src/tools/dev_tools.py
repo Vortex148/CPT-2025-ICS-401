@@ -12,7 +12,7 @@ class vector_drawer:
         self.shape = rect
         self.screen = pygame.display.get_surface()
 
-    def draw(self, xyspeed, overall_speed, max_speed, accel, accel_xy ,heading, distance_to_target, desired_pose, runner, index, max_index):
+    def draw(self, xyspeed, overall_speed, accel, accel_xy, distance_to_target, desired_pose, runner, index, max_index):
         # Velocity label
         velocity_label = self.font.render(
             f"X-Y Speed : {array(numpy.around(xyspeed, 3))} Speed: {round(overall_speed, 3)}",
@@ -29,7 +29,7 @@ class vector_drawer:
 
         # Acceleration label
         accel_label = self.font.render(
-            f"Acceleration : {array(numpy.around(accel, 2))} ", True, (255, 255, 255)
+            f"Acceleration : {array(numpy.around(accel, 5))} ", True, (255, 255, 255)
         )
         accel_label_rect = numpy.add(self.shape.center, [-accel_label.get_width() / 2, 90])
         # ID label
@@ -46,7 +46,7 @@ class vector_drawer:
         index_label_rect = numpy.add(self.shape.center, [55, 10])
 
 
-        # Desired pose marker
+        # Desired node marker
         pygame.draw.circle(
             self.screen, [0, 255, 0], tuple(generate_relative_value_2d(desired_pose)), 10
         )
@@ -60,7 +60,7 @@ class vector_drawer:
         accel_heading = math.atan2(-accel_xy[0], accel_xy[1])
 
 
-        # Main circle
+        # Outline Circle
         pygame.draw.circle(self.screen, (255, 255, 255), self.shape.center, 50, 5)
 
         # Heading and speed line
