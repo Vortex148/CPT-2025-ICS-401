@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Change this to the branch you want to track
 
-  check_keyword:
+  checkkeyword:
     runs-on: ubuntu-latest
 
     steps:
