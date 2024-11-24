@@ -3,7 +3,7 @@ name: Check for Keyword "images" in Commits
 on:
   push:
     branches:
-      - main  # Change this to the branch you want to track
+      - '*'
 
 jobs:
   checkkeyword:
