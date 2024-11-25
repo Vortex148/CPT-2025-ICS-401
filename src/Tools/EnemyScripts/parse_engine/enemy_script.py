@@ -1,7 +1,4 @@
-import io
-
-from src.base_classes.enemy import beeEnemy
-from src.tools.enemy_scripts.parse_engine.tokens import Operator
+from src.Tools.EnemyScripts.parse_engine.tokens import Operator
 
 
 class enemy_script:

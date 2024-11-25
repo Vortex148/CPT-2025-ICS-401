@@ -1,7 +1,7 @@
 
 
-from src.tools.time_handler import Timer
-
+from src.Tools.time_handler import Timer
+from src.Tools.EnemyScripts.parse_engine.path_follower import PathFollower
 
 class Token:
 
@@ -33,28 +33,31 @@ class END_Command:
 class WAIT_Command:
     def __init__(self, args):
         #TODO: Replace with actual minimum rather than arbitrary "1"
+        offset = 0
         if len(args) < 1:
             raise Exception(f"WAIT operation requires at least one arguments")
 
         if args[0] == "time":
             self.duration = args[1]
+            offset = 1
         else:
             self.duration = args[0]
         self.duration_arg = Duration_Argument(args[0], self.duration)
-
+        self.enemy_values = args[1 + offset]
+        PathFollower(self.enemy_values, 0)
+        # print(self.enemy_values)
 
 
 
 class Duration_Argument(Token):
-    options = ["time", "call", "condition"]
+    options = ["time", "call", "end"]
 
 
     def __init__(self, name, duration):
         super().__init__(name, self.options)
         self.condition_desired = duration
-        print(duration)
         self.current_state = None
-        self.start_time = Timer.get_time()
+        self.start_time = Timer.get_time_s()
 
 
     def condition_met(self):
@@ -67,6 +70,8 @@ class Duration_Argument(Token):
     def update(self):
         if self.name == "time":
             self.current_state = self.condition_desired if Timer.get_time() - self.start_time > int(self.condition_desired) else Timer.get_time() - self.start_time
+
+
 
     def call(self):
         self.current_state = "call"

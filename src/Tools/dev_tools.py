@@ -6,11 +6,12 @@ from src.Tools.unit_handler import generate_relative_value_2d
 
 
 class vector_drawer:
-    font = pygame.font.SysFont("arial.ttf", 30)
+
 
     def __init__(self, rect):
         self.shape = rect
         self.screen = pygame.display.get_surface()
+        self.font = pygame.font.SysFont("arial.ttf", 30)
 
     def draw(self, xyspeed, overall_speed, accel, accel_xy, distance_to_target, desired_pose, runner, index, max_index):
         # Velocity label

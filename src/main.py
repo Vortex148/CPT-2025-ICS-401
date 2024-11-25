@@ -1,12 +1,11 @@
 import random
 
-from moviepy.editor import *
-
 from src.BaseClasses.player import player
 
 from src.BaseClasses.enemy import classicAlien
 from src.Tools.time_handler import Timer
 from src.BaseClasses.menu import *
+from src.Tools.EnemyScripts.parse_engine import parse_engine
 
 pygame.init()
 
@@ -22,10 +21,13 @@ for i in range(0,1000):
 pygame.display.set_caption("Space Defenders")
 
 # Playing the intro animation and closing it once done.
-intro_video = VideoFileClip("Videos/intro_animation.mp4")
-intro_video.preview()
-intro_video.close()
-
+# intro_video = VideoFileClip("Videos/intro_animation.mp4")
+# intro_video.preview()
+# intro_video.close()
+script = parse_engine.engine.read_script("src/Tools/EnemyScripts/scripts/test.emscrpt")
+# script.get_operation()
+script.read_next_line()
+script.get_operation()
 menu = Menu(screen)
 
 player_sprite_group = pygame.sprite.Group()
