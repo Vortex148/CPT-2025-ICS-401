@@ -1,6 +1,6 @@
 import pygame
 import pygame.event
-from moviepy.editor import *
+from moviepy.editor import * # Library for mp4 player
 from pygame import KEYDOWN
 from common_variables import *
 
@@ -26,10 +26,12 @@ intro_video = VideoFileClip("Videos/intro_animation.mp4").resize(height = screen
 intro_video.preview()
 intro_video.close()
 
-menu = Menu(screen)
+menu = Menu(screen) # Game menu
 
 player_sprite_group = pygame.sprite.Group()
 
+# Drawing one or both players depending on the value given.
+# This is then passed into the player modw button as its callback.
 def initialize_sprites(value):
     global player_sprite_group, one_player_button, two_player_button
     player_sprite_group.empty()
@@ -40,6 +42,8 @@ def initialize_sprites(value):
         player1 = player()
         player2 = player()
         player_sprite_group.add(player1, player2)
+
+    # Once either button has been clicked, both disappear.
     if one_player_button:
        one_player_button.visible = False
     if two_player_button:
@@ -88,9 +92,6 @@ while not done:
 
     # --- Screen-clearing code goes here
 
-    # Here, we clear the screen to white. Don't put other drawing commands
-    # above this, or they will be erased with this command.
-
     # If you want a background image, replace this clear with blit'ing the
     # background image.
 
@@ -98,9 +99,9 @@ while not done:
     one_player_button.update(events)
     two_player_button.update(events)
 
+    # Here, we clear the screen to white. Don't put other drawing commands
+    # above this, or they will be erased with this command.
     screen.fill((0,0,0))
-
-    # pygame.display.set_caption(f"Space Defenders -- FPS {clock.get_fps()}")
 
     menu.draw()
     one_player_button.draw()
@@ -110,10 +111,11 @@ while not done:
 
     for sprite in player_sprite_group:
         sprite.update()
-    # --- Go ahead and update the screen with what we've drawn.
+
+    # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
-    # --- Limit to 120 frames per second
+    # Limit to 120 frames per second
     clock.tick(120)
 
 # Close the window and quit.
