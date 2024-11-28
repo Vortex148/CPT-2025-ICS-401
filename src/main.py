@@ -53,6 +53,7 @@ def initialize_sprites(value):
 # placeholder actions to be replaced with class creation
 one_player_button = player_mode_choice(screen_width/2 - 150, screen_height - 90,
 "One Player", lambda: initialize_sprites(1), screen)
+
 two_player_button = player_mode_choice(screen_width/2 + 150, screen_height - 90,
 "Two Players",lambda: initialize_sprites(2), screen)
 
