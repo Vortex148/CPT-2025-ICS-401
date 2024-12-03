@@ -9,7 +9,7 @@ from base_classes.menu import *
 import time
 import os
 
-# Center the pygame window on the screen
+# Center the pygame window on the screepin
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 
@@ -49,8 +49,6 @@ def initialize_sprites(value):
     if two_player_button:
         two_player_button.visible = False
 
-
-# placeholder actions to be replaced with class creation
 one_player_button = player_mode_choice(screen_width/2 - 150, screen_height - 90,
 "One Player", lambda: initialize_sprites(1), screen)
 
