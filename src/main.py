@@ -5,6 +5,7 @@ from pygame import KEYDOWN
 from common_variables import *
 
 from base_classes.player import player
+from moviepy.editor import *
 from base_classes.menu import *
 import time
 import os
@@ -22,13 +23,14 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Space Defenders")
 
 # Playing the intro animation and closing it once done.
-intro_video = VideoFileClip("Videos/intro_animation.mp4").resize(height = screen_height, width = screen_width)
+'''intro_video = VideoFileClip("Videos/intro_animation.mp4").resize(height = screen_height, width = screen_width)
 intro_video.preview()
-intro_video.close()
+intro_video.close()'''
 
 menu = Menu(screen) # Game menu
 
 player_sprite_group = pygame.sprite.Group()
+
 
 # Drawing one or both players depending on the value given.
 # This is then passed into the player modw button as its callback.
@@ -38,10 +40,12 @@ def initialize_sprites(value):
     if value == 1:
         player1 = player()
         player_sprite_group.add(player1)
+        player_count = 1
     if value == 2:
         player1 = player()
         player2 = player()
         player_sprite_group.add(player1, player2)
+        player_count = 2
 
     # Once either button has been clicked, both disappear.
     if one_player_button:
@@ -54,6 +58,7 @@ one_player_button = player_mode_choice(screen_width/2 - 150, screen_height - 90,
 
 two_player_button = player_mode_choice(screen_width/2 + 150, screen_height - 90,
 "Two Players",lambda: initialize_sprites(2), screen)
+
 
 
 done = False

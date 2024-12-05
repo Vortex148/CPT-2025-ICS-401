@@ -37,6 +37,7 @@ class player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.position = [50,50]
         self.velocity = [0,0]
+        self.health = 100
         self.current_weapon = "Default"
         self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"])
         player_count = self.player_number
