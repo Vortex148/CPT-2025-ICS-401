@@ -42,6 +42,8 @@ class player(pygame.sprite.Sprite):
         self.current_weapon_sprite = pygame.image.load(all_weapons[self.current_weapon]["Sprite"])
         player_count = self.player_number
 
+        self.coin_balance = 500
+
     def update_position(self, event):
         check_dynamic_user_input(self, event)
         # self.rect.center = self.position

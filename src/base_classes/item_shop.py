@@ -1,19 +1,54 @@
 import pygame
+import json
 from src.common_variables import *
-from src.base_classes.menu import Clickability
+from src.base_classes.button_classes import Clickability, basic_button
+# from src.main_testing import game
+from src.base_classes.game_state import game
 
+players_list = [game.player1, game.player2]
 
-item_counter = 0
+pygame.init()
 
+def update_player_json(**kwargs):
+    with open("players.json", "r") as player_file:
+        data = json.load(player_file)
 
-# Creating the visibility function globally so it can be accessed in each class. It is like a switch.
+    for key, value in kwargs.items():
+        data[key] = value
+
+    with open("players.json", "w") as player_file:
+        json.dump(data, player_file, indent=4)
+
+def yes(price, name, item_info, item_type, purchase_surface, players_list):
+    if all(p.coin_balance >= price for p in players_list):
+        for p in players_list:
+            p.coin_balance -= price
+            print(f"{name}.title() was bought from the item shop")
+
+            if item_type == "ship":
+                p.health = item_info.get("Health")
+                new_movement_speed = item_info.get("Velocity")
+                update_player_json(Movement_Speed=new_movement_speed)
+            elif item_type == "blaster":
+                p.current_weapon = name
+            elif item_type == "upgrade":
+                weapon_name = p.current_weapon
+                # Defaulting to 0 if no value is provided.
+                [weapon_name]["Damage"] += item_info.get("Damage Increase", 0)
+                p.health += item_info.get("Health Increase", 0)
+
+    else:
+        message = "Not enough money to purchase this item"
+        font = pygame.font.SysFont('Courier New', 15, True, False)
+        text = font.render(message, True, WHITE)
+        purchase_surface.blit(text, (30, 30))
+        print("closing function to go here -- need global visibility")
+
+def no():
+    print("closing function to go here -- need global visibility")
+
 def visibility(target1):
    target1.visible = not target1.visible
-
-def place_holder_item_click(screen):
-    pygame.draw.rect(screen, BLUE, [100, 100, 500, 500])
-    purchase_button_yes = "p"
-    purchase_button_no = "p"
 
 class open_and_background:
    def __init__(self, screen):
@@ -54,13 +89,11 @@ class open_and_background:
            lambda: visibility(self.background_sprite)
        ) #add code for whole item shop
 
-
    def update(self, events):
        self.open_button_sprite.check_click(events)
 
        if self.background_sprite.visible:
            self.close_button_sprite.check_click(events)
-
 
    def draw(self):
        self.open_button_sprite.draw(self.screen)
@@ -96,6 +129,7 @@ class shop_items(pygame.sprite.Sprite):
    item_number = 0
    def __init__(self, screen, name, path, price, item_info):
        super().__init__()
+       global players_list
        shop_items.item_number += 1
        self.item_number = shop_items.item_number
        self.screen = screen
@@ -103,9 +137,9 @@ class shop_items(pygame.sprite.Sprite):
        self.price = price
        self.item_info = item_info
 
-
        item_image = pygame.image.load(path)
        item_image = pygame.transform.scale(item_image, (item_width, item_height))
+
        self.visible = False
 
        pos_x = 330
@@ -134,9 +168,21 @@ class shop_items(pygame.sprite.Sprite):
            item_image,
            pos_x,
            pos_y,
-           lambda: place_holder_item_click(screen), # to be replaced with purchase function
+           lambda: self.place_holder_item_click(), # to be replaced with purchase function
            hover_text
        )
+
+   def place_holder_item_click(self):
+       x = 400
+       y = 300
+       item_type = type(self).__name__
+       background_surface = pygame.Surface((500, 500))
+       background_surface.fill(BLUE)
+       purchase_button_yes = basic_button(x, y, "Yes", lambda: yes(self.price,
+                self.name, self.item_info, item_type, background_surface, players_list), self.screen)
+
+       purchase_button_no = basic_button(x, y + 50, "No", lambda: no(), self.screen)
+       print(item_type)
 
    def update(self, events):
        if self.visible:
@@ -153,13 +199,11 @@ class weapons(shop_items):
        self.damage = item_info.get("Damage")
        self.velocity = item_info.get("Velocity")
 
-
 class ships(shop_items):
    def __init__(self, screen, path, price, item_info, name):
        super().__init__(screen, name, path, price, item_info)
        self.health = item_info.get("Health")
        self.velocity = item_info.get("Velocity")
-
 
 class upgrades(shop_items):
    def __init__(self, screen , path, price, item_info, name):

@@ -4,22 +4,22 @@
     "Damage":200,
     "Velocity":[0,1]
   },
-   "Gatlin Gun": {
+   "gatlin_gun": {
     "Sprite":"images/Sprites/Weapons/Gatlin_Bullet.png",
     "Damage":250,
     "Velocity":[0,1]
   },
-   "Rocket Launcher": {
+   "rocket_launcher": {
     "Sprite":"images/Sprites/Weapons/rocketBullet.png",
     "Damage":400,
     "Velocity":[0,0.5]
   },
-   "Purple Blaster": {
+   "purple_blaster": {
     "Sprite":"images/Sprites/Weapons/Green_Bullet.png",
     "Damage":150,
     "Velocity":[0,1.5]
   },
-   "Yellow Blaster": {
+   "yellow_blsater": {
     "Sprite":"images/Sprites/Weapons/Blue_Bullet.png",
     "Damage": 300,
     "Velocity":[0,1.2]
