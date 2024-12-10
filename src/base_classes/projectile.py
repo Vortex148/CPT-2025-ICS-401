@@ -13,7 +13,7 @@ class Projectile(pygame.sprite.Sprite):
     def __init__(self, sprite, weapon, starting_position):
         super().__init__() # Allowing access to the
         self.image = sprite
-        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.position = starting_position.copy() # Copying the starting position of the
         self.rect.center = self.position

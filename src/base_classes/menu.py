@@ -72,7 +72,8 @@ class Menu:
 
 # Creating the class for buttons that represents one player or two player game modes.
 class player_mode_choice(basic_button):
-   def __init__(self, x, y, text, execute_click, screen, color=YELLOW):
-       super().__init__(x, y, text, execute_click, screen, color)
+    def __init__(self, x, y, text, execute_click, screen, width=160, height=80, color=YELLOW):
+        super().__init__(x, y, text, execute_click, screen, width, height, color)
+
 
 

@@ -5,7 +5,7 @@ class Clickability(pygame.sprite.Sprite):
     # The "execute" parameter allows the import of functions from other classes and
     # runs them when the mouse click is in rectangle bounding the image.
 
-   def __init__(self, sprite_image, x, y, execute_click=None, hover_text=None):
+   def __init__(self, sprite_image, x, y, execute_click=None, hover_text=None, hover_surface=None):
        super().__init__()
        self.image = sprite_image
        self.rect = self.image.get_rect()
@@ -14,6 +14,7 @@ class Clickability(pygame.sprite.Sprite):
        self.visible = True
        self.hovering = False
        self.hover_text = hover_text
+       self.hover_surface = hover_surface
 
 
        self.font = pygame.font.SysFont("Courier New", 16, True, False)
@@ -52,21 +53,35 @@ class Clickability(pygame.sprite.Sprite):
                    text_rect = text.get_rect()
                    text_rect.x = 200
                    text_rect.y = 200
-                   screen.blit(text, text_rect)
+                   if self.hover_surface:
+                       self.hover_surface.blit(text, text_rect)
+                   else:
+                       screen.blit(text, text_rect)
 
-class basic_button:
-   def __init__(self, x, y, text, execute_click, screen, color=YELLOW):
+class basic_button(pygame.sprite.Sprite):
+   def __init__(self, x, y, text, execute_click, screen, width=160, height=80, color=YELLOW):
+       super().__init__()
        self.screen = screen
        self.x = x
        self.y = y
+       self.text = text
        self.color = None
        self.visible = True
+       self.width = width
+       self.height = height
        self.execute_click = execute_click
        self.font = pygame.font.SysFont('Courier New', 15, True, False)
-       self.text_box = self.font.render(text, True, BLACK)
-       self.button = pygame.Surface((160, 80))
+       self.text_box = self.font.render(self.text, True, BLACK)
+       self.button = pygame.Surface((self.width, self.height))
        self.button.fill(color)
-       self.button.blit(self.text_box, (30, 30))
+
+       # Positioning the text in the center of the button
+       self.text_rect = self.text_box.get_rect()
+       self.text_width = self.text_rect.width
+       self.text_height = self.text_rect.height
+       self.text_x = (self.text_width - self.width)/2  # (self length - total)/2
+       self.text_y = (self.text_height - self.height)/2  # (self height - total)/2
+       self.button.blit(self.text_box, (self.text_x, self.text_y))
        self.button_sprite = Clickability(self.button, x, y, execute_click)
 
    def update(self, events):

@@ -1,23 +1,22 @@
 {
-  "Movement_Speed": 10,
-  "Player_1":{
-    "Sprite": "Images/Sprites/Players/Placeholder_player1.png",
-    "Controls":[
-      "w",
-      "s",
-      "a",
-      "d",
-      "x"
-    ]
-  },
-  "Player_2": {
-    "Sprite": "Images/Sprites/Players/Placeholder_player2.png",
-    "Controls":[
-        "arrow_forward",
-        "arrow_backward",
-        "arrow_left",
-        "arrow_right",
-        "numpad_0"
-    ]
-  }
+    "Movement_Speed": 15,
+    "Sprite": "images/Game_Shop/Ships/orange_ship.png",
+    "Player_1": {
+        "Controls": [
+            "w",
+            "s",
+            "a",
+            "d",
+            "x"
+        ]
+    },
+    "Player_2": {
+        "Controls": [
+            "arrow_forward",
+            "arrow_backward",
+            "arrow_left",
+            "arrow_right",
+            "numpad_0"
+        ]
+    }
 }
