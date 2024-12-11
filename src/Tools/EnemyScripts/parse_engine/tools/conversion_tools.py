@@ -1,4 +1,10 @@
-from src.Tools.EnemyScripts.parse_engine.enemy_data import enemy_data
+
+class enemy_data:
+    def __init__(self, type, nodes):
+        self.type = type
+        self.nodes = nodes
+
+
 
 
 class tools:

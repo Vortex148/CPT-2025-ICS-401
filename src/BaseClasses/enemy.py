@@ -25,13 +25,17 @@ class Enemy(swth_sprite):
         self.active = False
         super().kill()
 
+    def draw(self):
+        pygame.display.get_surface().blit(self.image, self.rect)
+
     # Gets rect from the swth_sprite super class
     def get_rect(self):
         return super().get_rect()
 
     # Follows current_trajectory. Note: Must run each frame until completion as it runs linearly, not in parallel (Not multithreaded)
     def follow_trajectory(self, trajectory):
-        self.update_position(self.traj_handle.follow_trajectory(trajectory, super().get_position()))
+        position = self.traj_handle.follow_trajectory(trajectory, super().get_position())
+        self.update_position(position)
 
     def update_trajectory_generator(self, speed = 0, acceleration = 0):
         # Checks that speed and acceleration values are valid, and updates accordingly
@@ -44,6 +48,29 @@ class Enemy(swth_sprite):
     def update_position(self, position):
         super().update_position(position)
 
+    def check_collision(self, rect):
+        return self.rect.colliderect(rect)
+
+def generate_enemy(type):
+    match(type):
+        case "alien":
+            return classicAlien()
+        case "batboss":
+            return batBoss()
+        case "bee":
+            return beeEnemy()
+        case "alien":
+            return classicAlien()
+        case "alien":
+            return classicAlien()
+        case "alien":
+            return classicAlien()
+        case "alien":
+            return classicAlien()
+        case "alien":
+            return classicAlien()
+        case _:
+            return classicAlien()
 
 class classicAlien(Enemy):
     def __init__(self):
@@ -54,12 +81,12 @@ class batBoss(Enemy):
         super().__init__("Images/Sprites/Enemies/batBass.png", size = (50, 50))
 
 class beeEnemy(Enemy):
-    def __init__(self, position):
-        super().__init__(position, "Images/Sprites/Enemies/beeEnemy.png")
+    def __init__(self, ):
+        super().__init__("Images/Sprites/Enemies/beeEnemy.png")
 
 class butterflyEnemy(Enemy):
-    def __init__(self, position):
-        super().__init__(position, "Images/Sprites/Enemies/butterflyEnemy.png")
+    def __init__(self):
+        super().__init__("Images/Sprites/Enemies/butterflyEnemy.png")
 
 class flyEnemy(Enemy):
     def __init__(self, position):

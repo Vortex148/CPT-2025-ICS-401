@@ -5,7 +5,7 @@ from src.BaseClasses.player import player
 from src.BaseClasses.enemy import classicAlien
 from src.Tools.time_handler import Timer
 from src.BaseClasses.menu import *
-from src.Tools.EnemyScripts.parse_engine import parse_engine
+from src.Tools.EnemyScripts.parse_engine.tools import parse_engine
 
 pygame.init()
 
@@ -26,13 +26,14 @@ pygame.display.set_caption("Space Defenders")
 # intro_video.close()
 script = parse_engine.engine.read_script("src/Tools/EnemyScripts/scripts/test.emscrpt")
 # script.get_operation()
-script.read_next_line()
-script.get_operation()
+# script.read_next_line()
+# script.get_operation()
 menu = Menu(screen)
 
 player_sprite_group = pygame.sprite.Group()
 
 player_selection_done = False
+
 
 # Initializes players and adds them to player_sprite_group
 def initialize_sprites(value):
@@ -94,7 +95,6 @@ clock = pygame.time.Clock()
 while not done:
 
 
-
     # --- Main event loop
     events = pygame.event.get()
     for event in events:
@@ -134,17 +134,23 @@ while not done:
         sprite.update()
 
 
-    enemy.follow_trajectory([[10,10], [90,10], [90,20], [10,20], [10,30], [90,30], [90,40], [10,40],[10,50], [90,50]]) if enemy.active else None
-    # enemy.follow_trajectory([[50,50], [80,60], [10,20], [90,10], [70,50]]) if enemy.active else None
-    enemy2.follow_trajectory([[10,10], [90,90], [10,90], [90,10], [50,50]]) if enemy2.active else None
-    enemy3.follow_trajectory(enemy_3_nodes) if enemy3.active else None
+    # enemy.follow_trajectory([[10,10], [90,10], [90,20], [10,20], [10,30], [90,30], [90,40], [10,40],[10,50], [90,50]]) if enemy.active else None
+    # # enemy.follow_trajectory([[50,50], [80,60], [10,20], [90,10], [70,50]]) if enemy.active else None
+    # enemy2.follow_trajectory([[10,10], [90,90], [10,90], [90,10], [50,50]]) if enemy2.active else None
+    # enemy3.follow_trajectory(enemy_3_nodes) if enemy3.active else None
     enemy_sprite_group.update()
+
+    script.update()
+
     for i in enemy_sprite_group:
         for x in player_sprite_group:
             for y in x.projectile_group:
                 hit = i.get_rect().colliderect(y.rect)
+                if script.current_operation.type == "WAIT":
+                    script.check_collision(y.rect)
                 if hit:
                     i.kill()
+
 
 
     # --- Go ahead and update the screen with what we've drawn.
