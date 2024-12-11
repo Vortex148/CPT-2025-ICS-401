@@ -1,4 +1,4 @@
-'''import pygame
+import pygame
 import pygame.event
 from moviepy.editor import * # Library for mp4 player
 from pygame import KEYDOWN
@@ -9,6 +9,7 @@ from moviepy.editor import *
 from src.base_classes.game_state import *
 from base_classes.button_classes import Clickability
 from src.base_classes.menu import *
+from src.base_classes.background_animation import star, star_group, create_stars
 
 
 # Center the pygame window on the screepin
@@ -37,7 +38,6 @@ menu = Menu(screen) # Game menu
 
 player_sprite_group = pygame.sprite.Group()
 
-
 # Drawing one or both players depending on the value given.
 # This is then passed into the player modw button as its callback.
 
@@ -45,18 +45,10 @@ done = False
 
 # Loop until the user clicks the close button.
 
-
-
-
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-
-
 while not done:
-
-
-
     # --- Main event loop
     events = pygame.event.get()
     for event in events:
@@ -69,15 +61,15 @@ while not done:
             for sprite in player_sprite_group:
                 sprite.update_position(event)
 
-
-
-
     # --- Game logic should go here
 
     # --- Screen-clearing code goes here
 
     # If you want a background image, replace this clear with blit'ing the
     # background image.
+
+    for Star in star_group:
+        Star.update_position()
 
     menu.update(events)
     game.one_player_button.update(events)
@@ -86,6 +78,9 @@ while not done:
     # Here, we clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
     screen.fill((0,0,0))
+
+    # star_group.update()
+    star_group.draw(screen)
 
     menu.draw()
     game.one_player_button.draw()
@@ -103,4 +98,4 @@ while not done:
     clock.tick(120)
 
 # Close the window and quit.
-pygame.quit()'''
+pygame.quit()
