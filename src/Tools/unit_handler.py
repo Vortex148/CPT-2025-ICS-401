@@ -11,6 +11,11 @@ def generate_relative_value_2d(value_2d):
     value_2d = numpy.multiply(value_2d, pygame.display.get_surface().get_size())
     return value_2d
 
+def generate_relative_value(value, modifier):
+    value = value / 100
+    value = value * modifier
+    return value
+
 # SWTH is a custom unit that is measured in as screen_width/100. This enables for various screen sizes to be supported easily
 class swth_sprite(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -32,6 +37,10 @@ class swth_sprite(pygame.sprite.Sprite):
 
 
     def update_position(self, position):
+        self.generate_relative_coords()
+        self.position = position
+
+    def update_position_abs(self, position):
         self.position = position
 
     def get_position(self):
@@ -49,7 +58,6 @@ class swth_sprite(pygame.sprite.Sprite):
 
     def draw(self):
         screen = pygame.display.get_surface()
-
         # screen.blit(self.image,(1180,100))
         screen.blit(self.image, self.generate_relative_coords())
 

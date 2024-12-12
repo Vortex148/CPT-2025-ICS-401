@@ -1,6 +1,6 @@
 import pygame
 from src.common_variables import *
-from src.base_classes.button_classes import Clickability, basic_button
+from src.BaseClasses.button_classes import Clickability, basic_button
 
 pygame.init()
 
@@ -65,15 +65,16 @@ class Menu:
    # The menu button is always drawn. If the rules are visible they are drawn as well
    # as the close button. The loop resets and checks for clicks on the close button.
    def draw(self):
-       self.menu_sprite.draw(self.screen)
+       self.menu_sprite.draw()
        if self.rules_sprite.visible:
-           self.rules_sprite.draw(self.screen)
-           self.close_button_sprite.draw(self.screen)
+           self.rules_sprite.draw()
+           self.close_button_sprite.draw()
 
 # Creating the class for buttons that represents one player or two player game modes.
 class player_mode_choice(basic_button):
-    def __init__(self, x, y, text, execute_click, screen, width=160, height=80, color=YELLOW):
-        super().__init__(x, y, text, execute_click, screen, width, height, color)
+    def __init__(self, x, y, text, screen, width=10, height=5, color=YELLOW):
+        super().__init__(x, y, text, screen=screen, width=width, height=height, color=color)
 
 
-
+    def get_clicked(self, events):
+        return super().return_bool_val(events)

@@ -17,6 +17,9 @@ all_weapons = json.load(weapons_file)
 
 player_count = 0
 
+player_sprite_group = pygame.sprite.Group()
+
+
 class player(swth_sprite):
     MOVEMENT_SPEED = all_controls["Movement_Speed"]
 
@@ -54,5 +57,17 @@ class player(swth_sprite):
 
 
     def fire_selected_weapon(self):
-        projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
+        projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position + [0,-7])
         self.projectile_group.add(projectile)
+
+
+def initialize_sprites(value):
+    global player_sprite_group
+    player_sprite_group.empty()
+    if value == 1:
+        player1 = player()
+        player_sprite_group.add(player1)
+    if value == 2:
+        player1 = player()
+        player2 = player()
+        player_sprite_group.add(player1, player2)

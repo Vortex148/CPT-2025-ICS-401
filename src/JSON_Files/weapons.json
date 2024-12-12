@@ -3,7 +3,7 @@
         "Sprite": "images/Sprites/Weapons/smallBullet.png",
         "Damage": 200,
         "Velocity": [
-            0,5
+            0,40
         ]
     },
     "Gatlin Gun": {
