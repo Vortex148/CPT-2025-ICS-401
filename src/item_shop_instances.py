@@ -46,7 +46,7 @@ rocket_launcher = weapons(screen,"images/Game_Shop/Blasters/rocket_launcher.png"
                 {"Damage": 500, "Velocity": 3}, "Rocket Launcher")
 
 yellow_blaster = weapons(screen,"images/Game_Shop/Blasters/yellow_blaster.png",450,
-        {"Damage": 300, "Velocity": 12}, "Yellow_Blaster")
+        {"Damage": 300, "Velocity": 12}, "Yellow Blaster")
 
 # Defining some ships
 black_ship = ships(screen,"images/Game_Shop/Ships/black_ship.png",

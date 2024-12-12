@@ -5,7 +5,7 @@ from src.common_variables import *
 from src.base_classes.game_state import game
 import pygame
 
-def recreate_players(new_weapon=None, new_sprite=None):
+def recreate_players(new_weapon=None, new_health=None, new_damage=None, new_speed=None):
     # Resetting the player count and copying values that are frame specific.
     player.player_count = 0
     old_values = \
@@ -14,21 +14,22 @@ def recreate_players(new_weapon=None, new_sprite=None):
         "Health Player 1": game.player1.health,
         "Health Player 2": game.player2.health,
         "Coin Balance": game.player1.coin_balance,
-        "Weapon": game.player1.current_weapon,
+        "Old Weapon": game.player1.current_weapon,
         "Player 1 Number": game.player1.player_number,
-        "Player 2 Number": game.player2.player_number}
+        "Player 2 Number": game.player2.player_number,
+        }
 
     game.player_sprite_group.empty()
     # Creating new versions of each player if they exist
     if game.player1:
         game.player1 = player()
         game.player1.position = old_values["Position Player 1"]
-        game.player1.health = old_values["Health Player 1"]
+        game.player1.health = new_health if new_health else old_values["Health Player 1"]
         game.player1.coin_balance = old_values["Coin Balance"]
         if new_weapon:
-            game.player1.weapon = new_weapon
+            game.player1.current_weapon = new_weapon
+        game.player1.current_weapon = old_values["Old Weapon"]
         game.player1.player_number = old_values["Player 1 Number"]
-        # game.player1.image =
         print("running recreation")
         game.player_sprite_group.add(game.player1)
         # game.update_player_sprite_group([game.player1])
@@ -38,10 +39,11 @@ def recreate_players(new_weapon=None, new_sprite=None):
     else:
         game.player2 = player()
         game.player2.position = old_values["Position Player 2"]
-        game.player2.health = old_values["Health Player 2"]
+        game.player2.health = new_health if new_health else old_values["Health Player 1"]
         game.player2.coin_balance = old_values["Coin Balance"]
         if new_weapon:
-            game.player2.weapon = new_weapon
+            game.player2.current_weapon = new_weapon
+        game.player2.current_weapon = old_values["Old Weapon"]
         game.player2.player_number = old_values["Player 2 Number"]
         print("running recreation")
         game.player_sprite_group.add(game.player2)
@@ -87,8 +89,7 @@ def yes(price, name, item_info, item_type, purchase_surface, players_list, image
                     new_weapon = p.current_weapon
                     print("blasters running")
                     recreate_players(new_weapon)
-                    print(f"New weapon = {p.current_weapon}")
-                    p.fire_selected_weapon
+                    print(f"New Weapon = {new_weapon}")
 
                 # Updating player attributes when an upgrade is bought.
                 elif item_type == "upgrades":

@@ -3,7 +3,8 @@
         "Sprite": "images/Sprites/Weapons/smallBullet.png",
         "Damage": 200,
         "Velocity": [
-            0,5
+            0,
+            10
         ]
     },
     "Gatlin Gun": {
@@ -11,7 +12,7 @@
         "Damage": 250,
         "Velocity": [
             0,
-            4
+            12
         ]
     },
     "Rocket Launcher": {
@@ -19,7 +20,7 @@
         "Damage": 400,
         "Velocity": [
             0,
-            3
+            8
         ]
     },
     "Purple Blaster": {
@@ -27,7 +28,7 @@
         "Damage": 150,
         "Velocity": [
             0,
-            7
+            15
         ]
     },
     "Yellow Blaster": {
@@ -35,8 +36,8 @@
         "Damage": 300,
         "Velocity": [
             0,
-            7
+            13
         ]
     },
-    "damage": 200
+    "damage": 400
 }

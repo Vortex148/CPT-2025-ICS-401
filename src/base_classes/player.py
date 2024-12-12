@@ -15,16 +15,16 @@ from src.base_classes.projectile import Projectile
 class player(pygame.sprite.Sprite):
     player_count = 0
     # bring inside to ensure udates on each instance
-    controls_file = open("src/JSON_Files/players.json")
-    all_controls = json.load(controls_file)
-    MOVEMENT_SPEED = all_controls["Movement_Speed"]
 
     def __init__(self,):
         super().__init__()
-        weapons_file = open("src/JSON_Files/weapons.json")
-        self.all_weapons = json.load(weapons_file)
+        self.controls_file = open("src/JSON_Files/players.json")
+        self.all_controls = json.load(self.controls_file)
+        self.MOVEMENT_SPEED = self.all_controls["Movement_Speed"]
+        self.weapons_file = open("src/JSON_Files/weapons.json")
+        self.all_weapons = json.load(self.weapons_file)
 
-        self.SPRITE = player.all_controls["Sprite"]
+        self.SPRITE = self.all_controls["Sprite"]
 
         self.projectile_group = pygame.sprite.Group()
 
@@ -57,8 +57,8 @@ class player(pygame.sprite.Sprite):
         self.image = pygame.image.load(self.SPRITE)
         self.image = pygame.transform.scale(self.image, (100, 100))
 
-    def update_weapon(self, weapon_name):
-        self.current_weapon = weapon_name
+    def update_weapon(self):
+        self.current_weapon = self.current_weapon
         self.current_weapon_sprite = pygame.image.load(self.all_weapons[self.current_weapon]["Sprite"])
 
     def update_position(self, event):
@@ -76,6 +76,7 @@ class player(pygame.sprite.Sprite):
         self.update_coin_balance()
         self.update_health()
         self.update_player_sprite()
+        self.update_weapon()
 
 
     def fire_selected_weapon(self):
