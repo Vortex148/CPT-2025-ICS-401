@@ -1,27 +1,42 @@
 {
-  "Default": {
-    "Sprite":"images/Sprites/Weapons/smallBullet.png",
-    "Damage":200,
-    "Velocity":[0,1]
-  },
-   "Gatlin Gun": {
-    "Sprite":"images/Sprites/Weapons/Gatlin_Bullet.png",
-    "Damage":250,
-    "Velocity":[0,1]
-  },
-   "Rocket Launcher": {
-    "Sprite":"images/Sprites/Weapons/rocketBullet.png",
-    "Damage":400,
-    "Velocity":[0,0.5]
-  },
-   "Purple Blaster": {
-    "Sprite":"images/Sprites/Weapons/Green_Bullet.png",
-    "Damage":150,
-    "Velocity":[0,1.5]
-  },
-   "Yellow Blaster": {
-    "Sprite":"images/Sprites/Weapons/Blue_Bullet.png",
-    "Damage": 300,
-    "Velocity":[0,1.2]
-  }
+    "Default": {
+        "Sprite": "images/Sprites/Weapons/smallBullet.png",
+        "Damage": 200,
+        "Velocity": [
+            0,5
+        ]
+    },
+    "Gatlin Gun": {
+        "Sprite": "images/Sprites/Weapons/Gatlin_Bullet.png",
+        "Damage": 250,
+        "Velocity": [
+            0,
+            4
+        ]
+    },
+    "Rocket Launcher": {
+        "Sprite": "images/Sprites/Weapons/rocketBullet.png",
+        "Damage": 400,
+        "Velocity": [
+            0,
+            3
+        ]
+    },
+    "Purple Blaster": {
+        "Sprite": "images/Sprites/Weapons/Green_Bullet.png",
+        "Damage": 150,
+        "Velocity": [
+            0,
+            7
+        ]
+    },
+    "Yellow Blaster": {
+        "Sprite": "images/Sprites/Weapons/Blue_Bullet.png",
+        "Damage": 300,
+        "Velocity": [
+            0,
+            7
+        ]
+    },
+    "damage": 200
 }

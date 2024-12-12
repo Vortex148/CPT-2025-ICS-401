@@ -62,7 +62,7 @@ white_ship = ships(screen,"images/Game_Shop/Ships/white_ship.png",
                          450, {"Health": 500, "Velocity": 10}, "White Ship")
 
 # Defining some upgrades
-increase_movement_speed = upgrades(screen,"images/Game_Shop/Upgrades/placeholder.png",500,
+increase_movement_speed = upgrades(screen,"images/Game_Shop/Upgrades/increase_movement_speed.png",500,
         {"Movement Speed Increase": 1}, "Movement Speed Increase")
 
 increase_damage = upgrades(screen,"images/Game_Shop/Upgrades/increase_damage.png",550,

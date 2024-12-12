@@ -62,6 +62,8 @@ while not done:
     for button in buttons_group:
         button.update(events)
 
+    game.player_sprite_group.update()
+
     # Setting the background to black
     screen.fill(BLACK)
 

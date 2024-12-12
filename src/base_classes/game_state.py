@@ -41,6 +41,14 @@ class Game:
 
         self.close_player_buttons()
 
+    def update_player_sprite_group(self, new_group=None):
+        if new_group:
+            game.player_sprite_group.empty()
+            for sprite in new_group:
+                self.player_sprite_group.add(sprite)
+        else:
+            pass
+
     def create_buttons(self):
         self.one_player_button = player_mode_choice(screen_width / 2 - 150, screen_height - 90,
                                                "One Player", lambda: self.initialize_sprites(1), screen)

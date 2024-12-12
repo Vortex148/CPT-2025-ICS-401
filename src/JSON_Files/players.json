@@ -1,6 +1,6 @@
 {
-    "Movement_Speed": 15,
-    "Sprite": "images/Game_Shop/Ships/orange_ship.png",
+    "Movement_Speed": 5,
+    "Sprite": "images/Game_Shop/Ships/red_spider_ship.png",
     "Player_1": {
         "Controls": [
             "w",
