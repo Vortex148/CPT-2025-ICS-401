@@ -1,0 +1,22 @@
+{
+  "Orange Ship": {
+    "Sprite": "images/Game_Shop/Ships/orange_ship.png",
+    "Health": 300,
+    "Velocity": 15
+  },
+  "Black Ship": {
+    "Sprite": "images/Game_Shop/Ships/black_ship.png",
+    "Health": 400,
+    "Velocity": 10
+  },
+  "Red Spider Ship": {
+    "Sprite": "images/Game_Shop/Ships/red_spider_ship.png",
+    "Health": 700,
+    "Velocity": 5
+  },
+  "White Ship": {
+    "Sprite": "images/Game_Shop/Ships/white_ship.png",
+    "Health": 500,
+    "Velocity": 10
+  }
+}
