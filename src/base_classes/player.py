@@ -1,7 +1,7 @@
 import numpy
 import pygame
 import json
-from src.tools.control_handler import check_dynamic_user_input
+from src.Tools.control_handler import check_dynamic_user_input
 from src.base_classes.projectile import Projectile
 
 # import pprint
@@ -46,21 +46,6 @@ class player(pygame.sprite.Sprite):
 
         self.coin_balance = 100000
 
-    def update_health(self, amount=0):
-        self.health +=  amount
-
-    def update_coin_balance(self, amount=0):
-        self.coin_balance +=  amount
-
-    def update_player_sprite(self):
-        self.SPRITE = self.all_controls["Sprite"]
-        self.image = pygame.image.load(self.SPRITE)
-        self.image = pygame.transform.scale(self.image, (100, 100))
-
-    def update_weapon(self):
-        self.current_weapon = self.current_weapon
-        self.current_weapon_sprite = pygame.image.load(self.all_weapons[self.current_weapon]["Sprite"])
-
     def update_position(self, event):
         check_dynamic_user_input(self, event)
         # self.rect.center = self.position
@@ -71,13 +56,6 @@ class player(pygame.sprite.Sprite):
         self.rect.center = self.position
         self.projectile_group.draw(pygame.display.get_surface())
         self.projectile_group.update()
-
-        # Syncing player attributes
-        self.update_coin_balance()
-        self.update_health()
-        self.update_player_sprite()
-        self.update_weapon()
-
 
     def fire_selected_weapon(self):
         # Generating the appropriate projectile based on the weapon of the

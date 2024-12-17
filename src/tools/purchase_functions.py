@@ -1,6 +1,6 @@
 from src.base_classes.game_state import game
 from src.base_classes.player import player
-from src.tools.json_handler import update_json, read_json
+from src.Tools.json_handler import update_json, read_json
 from src.common_variables import *
 from src.base_classes.game_state import game
 import pygame
@@ -47,8 +47,6 @@ def recreate_players(new_weapon=None, new_health=None, new_damage=None, new_spee
         game.player2.player_number = old_values["Player 2 Number"]
         print("running recreation")
         game.player_sprite_group.add(game.player2)
-
-    game.player_sprite_group.update()
 
         # game.update_player_sprite_group([game.player1, game.player2])
 

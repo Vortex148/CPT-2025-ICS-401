@@ -4,14 +4,17 @@ from src.common_variables import *
 from src.base_classes.button_classes import Clickability, basic_button
 from src.base_classes.game_state import game
 from src.base_classes.player import player
-from src.tools.json_handler import get_json_path, update_json, read_json
-from src.tools.purchase_functions import *
+from src.Tools.json_handler import get_json_path, update_json, read_json
+from src.Tools.purchase_functions import *
 
 # The game engine must be initialized to define font styles
 pygame.init()
 
 # When an item is purchased from the item shop, the players must be recreated
 # to display the changes in real time.
+class item_shop:
+    pass
+# contains all info
 
 # Class for the item shop structure
 class open_and_background:
@@ -63,13 +66,19 @@ class open_and_background:
            target_2 = not target_2
            print(target_2)
 
+   def update_item_shop_visibility_state(self):
+       return self.item_shop_visible
+
    # Checking if the buttons were clicked each frame.
    def update(self, events):
-       self.open_button_sprite.check_click(events)
+       if self.open_button_sprite.visible:
+           self.open_button_sprite.check_click(events)
 
        if self.background_sprite.visible:
            self.close_button_sprite.check_click(events)
            self.item_shop_visible = True
+
+       self.item_shop_visible = self.update_item_shop_visibility_state()
 
    # Drawing the close button if the background is visible.
    def draw(self):

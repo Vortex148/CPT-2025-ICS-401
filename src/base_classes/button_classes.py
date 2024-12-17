@@ -79,8 +79,8 @@ class basic_button(pygame.sprite.Sprite):
        self.text_rect = self.text_box.get_rect()
        self.text_width = self.text_rect.width
        self.text_height = self.text_rect.height
-       self.text_x = (self.text_width - self.width)/2  # (self length - total)/2
-       self.text_y = (self.text_height - self.height)/2  # (self height - total)/2
+       self.text_x = (self.text_width - self.width)/2
+       self.text_y = (self.text_height - self.height)/2
        self.button.blit(self.text_box, (self.text_x, self.text_y))
        self.button_sprite = Clickability(self.button, x, y, execute_click)
 
