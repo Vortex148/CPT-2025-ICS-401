@@ -16,7 +16,7 @@ class player(pygame.sprite.Sprite):
     player_count = 0
     # bring inside to ensure udates on each instance
 
-    def __init__(self,):
+    def __init__(self, weapon="Default"):
         super().__init__()
         self.controls_file = open("src/JSON_Files/players.json")
         self.all_controls = json.load(self.controls_file)
@@ -29,21 +29,24 @@ class player(pygame.sprite.Sprite):
         self.projectile_group = pygame.sprite.Group()
 
         # Making player count and all-controls accessible to the method.
-        player.player_count
-        self.player_number = player.player_count + 1
-        self.controls = self.all_controls["Player_"  + str(self.player_number)] # Assigning the player controls
+
+        player.player_count += 1
+        if player.player_count > 2:
+            player.player_count = 0
+            player.player_count += 1
+
+        self.controls = self.all_controls["Player_"  + str(player.player_count)] # Assigning the player controls
 
         # Loading the image for that player and sizing it.
         self.image = pygame.image.load(self.SPRITE)
         self.image = pygame.transform.scale(self.image, (100,100))
         self.rect = self.image.get_rect()
-        self.position = [50,50]
+        self.player_number = player.player_count
+        self.position = [350 + 100 * self.player_number, 500]
         self.velocity = [0,0]
         self.health = 100
-        self.current_weapon = "Default"
+        self.current_weapon = weapon
         self.current_weapon_sprite = pygame.image.load(self.all_weapons[self.current_weapon]["Sprite"])
-        player.player_count = self.player_number
-
         self.coin_balance = 100000
 
     def update_position(self, event):
@@ -62,3 +65,4 @@ class player(pygame.sprite.Sprite):
         # player and starting it at the position of the player.
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
         self.projectile_group.add(projectile)
+        print(f"Firing: {self.current_weapon_sprite}")

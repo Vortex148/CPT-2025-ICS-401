@@ -1,10 +1,8 @@
 {
-    "Movement_Speed": 10,
-    "Sprite": "images/Game_Shop/Ships/white_ship.png",
+    "Movement_Speed": 5,
+    "Sprite": "images/Game_Shop/Ships/red_spider_ship.png",
     "Player_1": {
         "Controls": [
-            "w",
-            "s",
             "a",
             "d",
             "x"
@@ -12,8 +10,6 @@
     },
     "Player_2": {
         "Controls": [
-            "arrow_forward",
-            "arrow_backward",
             "arrow_left",
             "arrow_right",
             "numpad_0"

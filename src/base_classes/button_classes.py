@@ -16,9 +16,7 @@ class Clickability(pygame.sprite.Sprite):
        self.hover_text = hover_text
        self.hover_surface = hover_surface
 
-
        self.font = pygame.font.SysFont("Courier New", 16, True, False)
-
 
     # Checking if the sprite was clicked
    def check_click(self, events):
@@ -38,7 +36,6 @@ class Clickability(pygame.sprite.Sprite):
    def draw(self, screen):
        if self.visible:
            screen.blit(self.image, self.rect.topleft)
-
 
            if self.hovering:
                hover_rect = self.rect.copy()

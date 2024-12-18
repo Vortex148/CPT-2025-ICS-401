@@ -1,6 +1,7 @@
 import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *
+from src.Tools.global_tools import toggle_group_visibility
 
 
 SCREEN_WIDTH = 800
@@ -9,9 +10,6 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Function for changing the visibility of the entire group
-def toggle_group_visibility(group, state):
-    for sprite in group:
-        sprite.visible = state
 
 # Using the visibility function to display only the category selected
 def toggle_weapons():
@@ -63,7 +61,7 @@ white_ship = ships(screen,"images/Game_Shop/Ships/white_ship.png",
 
 # Defining some upgrades
 increase_movement_speed = upgrades(screen,"images/Game_Shop/Upgrades/increase_movement_speed.png",500,
-        {"Movement Speed Increase": 1}, "Movement Speed Increase")
+        {"Movement Speed Increase": 2}, "Movement Speed Increase")
 
 increase_damage = upgrades(screen,"images/Game_Shop/Upgrades/increase_damage.png",550,
         {"Damage Increase": 30}, "Increase Damage")
@@ -89,3 +87,15 @@ weapons_group.add(gatlin_laser_gun, purple_blaster, rocket_launcher, yellow_blas
 ships_group.add(black_ship, orange_ship, red_spider_ship, white_ship)
 upgrades_group.add(increase_health, increase_damage, upgrades_placeholder, increase_movement_speed)
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
+
+
+def make_invisible(group):
+    for sprite in group:
+        sprite.visible = False
+    for button in buttons_group:
+        button.visible = False
+
+toggle_ships()
+
+
+

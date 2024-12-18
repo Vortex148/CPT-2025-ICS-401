@@ -27,7 +27,8 @@ intro_video.close()'''
 # Creating  player mode choice buttons, the menu and game shop
 game.create_buttons()
 menu = Menu(screen)
-game_shop = open_and_background(screen)
+game_shop = open_and_background(screen, ships_group,
+            weapons_group, upgrades_group, buttons_group)
 
 done = False
 
@@ -63,6 +64,9 @@ while not done:
     # Setting the background to black
     screen.fill(BLACK)
 
+    # Drawing the players and game shop button
+    game.player_sprite_group.draw(screen)
+
     # Drawing the menu and player buttons on startup
     if not game.level_is_running:
         menu.update(events)
@@ -85,16 +89,15 @@ while not done:
                     sprite.update(events)
                     if sprite.visible:
                         sprite.draw()
+            # if
 
         # If the purchase confirmation background is showing, the "yes", "no" buttons are drawn
         if shop_items.purchase_background_visibility:
             screen.blit(shop_items.current_item.purchase_background_surface, (100, 100))
             shop_items.purchase_button_yes.update(events)
             shop_items.purchase_button_no.update(events)
-            draw_purchase_buttons(shop_items)
+            draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no")
 
-    # Drawing the players and game shop button
-    game.player_sprite_group.draw(screen)
 
     for player in game.player_sprite_group:
         player.update()

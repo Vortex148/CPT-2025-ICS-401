@@ -74,6 +74,9 @@ class Game:
         if self.two_player_button.visible:
             self.two_player_button.update(events)
 
+    def re_initalize_json_to_default(self):
+        pass
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
