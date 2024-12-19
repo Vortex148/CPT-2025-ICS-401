@@ -99,7 +99,7 @@ class item_category_button(basic_button):
 class shop_items(pygame.sprite.Sprite):
    item_number = 0
    purchase_background_visibility = False
-   equipping_visibility = False
+   equipping_background_visibility = False
    current_item = None
    purchase_button_yes = None
    purchase_button_no = None
@@ -169,13 +169,16 @@ class shop_items(pygame.sprite.Sprite):
        self.selected_item = self.item_sprite
 
    def equip(self):
+       print("running equipping")
        x = (self.purchase_rect_x + self.purchase_rect_width / 2)
        y = self.purchase_rect_y
-       shop_items.purchase_background_visibility = True
+       shop_items.equipping_background_visibility = True
+       # add new text for purhase background
        shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(),
-                                                     self.screen, 60, 30)
+                                                     self.screen, 60, 30, RED)
 
-       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close(shop_items), self.screen, 60, 30)
+       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_equipping(shop_items),
+                            self.screen, 60, 30, RED)
 
    def item_click(self):
        x = (self.purchase_rect_x + self.purchase_rect_width/2)

@@ -6,6 +6,7 @@ from src.item_shop_instances import (buttons_group, weapons_group,
 # from moviepy.editor import *
 from src.base_classes.game_state import game
 from src.base_classes.item_shop import shop_items
+from src.Tools.global_tools import draw_choice_screen
 
 # Initializing the game engine.
 pygame.init()
@@ -93,11 +94,20 @@ while not done:
 
         # If the purchase confirmation background is showing, the "yes", "no" buttons are drawn
         if shop_items.purchase_background_visibility:
-            screen.blit(shop_items.current_item.purchase_background_surface, (100, 100))
-            shop_items.purchase_button_yes.update(events)
-            shop_items.purchase_button_no.update(events)
-            draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no")
+            draw_choice_screen(shop_items, "purchase_background_visibility", shop_items.current_item.purchase_button_yes,
+                               shop_items.current_item.purchase_button_no, shop_items.current_item.purchase_background_surface,
+                               events, screen, lambda: draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no"))
 
+            # if type ==
+            # screen.blit(shop_items.current_item.purchase_background_surface, (100, 100))
+            # shop_items.purchase_button_yes.update(events)
+            # shop_items.purchase_button_no.update(events)
+            # draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no")
+
+    if shop_items.equipping_background_visibility:
+        draw_choice_screen(shop_items, "equipping_background_visibility", shop_items.current_item.equip_confirm,
+                           shop_items.current_item.equip_deny, shop_items.current_item.purchase_background_surface,
+                           events, screen, lambda: draw_choice_buttons(shop_items, "equip_confirm", "equip_deny"))
 
     for player in game.player_sprite_group:
         player.update()

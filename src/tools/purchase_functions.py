@@ -31,13 +31,13 @@ def recreate_players(new_weapon=None, new_health=None):
     # Resetting the player count and copying values that are frame specific.
     old_values = \
         {"Position Player 1": game.player1.position,
-        "Position Player 2": game.player2.position,
+        "Position Player 2": game.player2.position if game.player2 else None,
         "Health Player 1": game.player1.health,
-        "Health Player 2": game.player2.health,
+        "Health Player 2": game.player2.health if game.player2 else None,
         "Coin Balance": game.player1.coin_balance,
         "Old Weapon": game.player1.current_weapon,
         "Player 1 Number": game.player1.player_number,
-        "Player 2 Number": game.player2.player_number,
+        "Player 2 Number": game.player2.player_number if game.player2 else None,
         }
 
     game.player_sprite_group.empty()
@@ -53,7 +53,6 @@ def recreate_players(new_weapon=None, new_health=None):
         game.player1.coin_balance = old_values["Coin Balance"]
         game.player1.current_weapon = old_values["Old Weapon"]
         game.player1.player_number = old_values["Player 1 Number"]
-        print("running recreation")
         game.player_sprite_group.add(game.player1)
         # game.update_player_sprite_group([game.player1])
 
@@ -72,7 +71,6 @@ def recreate_players(new_weapon=None, new_health=None):
             game.player2.current_weapon = new_weapon
         game.player2.current_weapon = old_values["Old Weapon"]
         game.player2.player_number = old_values["Player 2 Number"]
-        print("running recreation")
         game.player_sprite_group.add(game.player2)
 
         # game.update_player_sprite_group([game.player1, game.player2])
@@ -92,7 +90,6 @@ def yes(price, name, item_info, item_type,
 
                 # If a ship item is clicked, health, velocity and sprite image are updated.
                 if item_type == "ships":
-                    print("running ship")
                     p.health = item_info.get("Health")
                     new_movement_speed = item_info.get("Velocity")
                     new_player_sprite_path = image_path
@@ -114,8 +111,6 @@ def yes(price, name, item_info, item_type,
 
                 # Updating player attributes when an upgrade is bought.
                 elif item_type == "upgrades":
-                    print("running upgrades")
-
                     # Damage Increases
                     weapon_name = p.current_weapon
                     damage = p.all_weapons[weapon_name]["Damage"]
@@ -155,8 +150,6 @@ def no(class_name):
 
 def equip():
     pass
-
-
 
 def close_equipping(class_name, visibility):
     setattr(class_name, visibility, False)
