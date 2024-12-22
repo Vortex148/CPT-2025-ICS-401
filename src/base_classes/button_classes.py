@@ -1,10 +1,10 @@
 import pygame
 from src.common_variables import *
 
+# Todo: Needs to be refactored
 class Clickability(pygame.sprite.Sprite):
-    # The "execute" parameter allows the import of functions from other classes and
-    # runs them when the mouse click is in rectangle bounding the image.
-
+    # The "execute_click" parameter takes a function as a parameter and runs it in the
+    # "check_click" method. "execute_click" argument functions must be passed in "lamda" (used in all instance of this class).
    def __init__(self, sprite_image, x, y, execute_click=None, hover_text=None, hover_surface=None):
        super().__init__()
        self.image = sprite_image
@@ -27,7 +27,8 @@ class Clickability(pygame.sprite.Sprite):
                if self.execute_click:
                    self.execute_click()
 
-
+   # Checking if the mouse shares coordinates with
+   # the sprite and setting self.hover to true if so.
    def check_hover(self):
       mouse_position = pygame.mouse.get_pos()
       self.hovering = self.rect.collidepoint(mouse_position)
@@ -37,6 +38,8 @@ class Clickability(pygame.sprite.Sprite):
        if self.visible:
            screen.blit(self.image, self.rect.topleft)
 
+           # Drawing a rectangle over the hovered sprite (used in the
+           # game shop to display info about the item)
            if self.hovering:
                hover_rect = self.rect.copy()
                hover_rect.x += 30
@@ -45,6 +48,7 @@ class Clickability(pygame.sprite.Sprite):
 
                pygame.draw.rect(screen, GRAY, hover_rect)
 
+               # If there is text to be displayed when hovering, it is blit to the hover rect.
                if self.hover_text:
                    text = self.font.render(self.hover_text, True, WHITE)
                    text_rect = text.get_rect()
@@ -55,7 +59,9 @@ class Clickability(pygame.sprite.Sprite):
                    else:
                        screen.blit(text, text_rect)
 
+# Blueprint for basic buttons
 class basic_button(pygame.sprite.Sprite):
+   # Parameters for position, text, click function, size etc... make button highly customizable.
    def __init__(self, x, y, text, execute_click, screen, width=160, height=80, color=YELLOW):
        super().__init__()
        self.screen = screen
@@ -72,7 +78,7 @@ class basic_button(pygame.sprite.Sprite):
        self.button = pygame.Surface((self.width, self.height))
        self.button.fill(color)
 
-       # Positioning the text in the center of the button
+       # Positioning the text in the center of the button --> Todo: needs reworking
        self.text_rect = self.text_box.get_rect()
        self.text_width = self.text_rect.width
        self.text_height = self.text_rect.height
@@ -81,10 +87,12 @@ class basic_button(pygame.sprite.Sprite):
        self.button.blit(self.text_box, (self.text_x, self.text_y))
        self.button_sprite = Clickability(self.button, x, y, execute_click)
 
+   # Checking for clicks
    def update(self, events):
        if self.visible:
             self.button_sprite.check_click(events)
 
+   # Drawing the button
    def draw(self):
        if self.visible:
             self.button_sprite.draw(self.screen)

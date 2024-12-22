@@ -55,7 +55,6 @@ while not done:
 
 
     # UPDATE BLOCK FOR MENU AND ITEM SHOP
-    # Checking for hover and clicks on buttons
     game.update(events)
 
     for button in buttons_group:
@@ -68,49 +67,53 @@ while not done:
     # Drawing the players and game shop button
     game.player_sprite_group.draw(screen)
 
-    # Drawing the menu and player buttons on startup
+    # Drawing the game shop, next level buttons and main menu whenever a level is not running
     if not game.level_is_running:
         menu.update(events)
         game_shop.update(events)
 
+        # Drawing the menu and game shop
         menu.draw()
         game_shop.draw()
 
-        if game.one_player_button.visible:
+        # Drawing the player mode choice buttons if they are visible
+        if game.one_player_button.visible or game.two_player_button.visible:
             game.one_player_button.draw()
             game.two_player_button.draw()
 
+        # Drawing the item shop if the state tracker for it is true.
         if game_shop.item_shop_visible:
             for button_sprite in buttons_group:
                 button_sprite.draw()
 
+            # Looped drawing of the game items
             for group in [weapons_group, ships_group, upgrades_group]:
                 for sprite in group:
                     sprite.item_sprite.check_hover()
-                    sprite.update(events)
+                    sprite.update(events) # checking for clicks
                     if sprite.visible:
                         sprite.draw()
-            # if
 
-        # If the purchase confirmation background is showing, the "yes", "no" buttons are drawn
+        # If the yes/no background is showing, the "yes", "no" buttons are drawn.
+        # This handles both the purchase and equipping menus.
         if shop_items.purchase_background_visibility:
             draw_choice_screen(shop_items, "purchase_background_visibility", shop_items.current_item.purchase_button_yes,
                                shop_items.current_item.purchase_button_no, shop_items.current_item.purchase_background_surface,
-                               events, screen, lambda: draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no"))
+                               events, screen,lambda: draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no"))
+        if shop_items.equipping_background_visibility:
+            draw_choice_screen(shop_items, "equipping_background_visibility", shop_items.current_item.equip_confirm,
+                               shop_items.current_item.equip_deny, shop_items.current_item.purchase_background_surface,
+                               events, screen, lambda: draw_choice_buttons(shop_items, "equip_confirm", "equip_deny"))
 
-            # if type ==
-            # screen.blit(shop_items.current_item.purchase_background_surface, (100, 100))
-            # shop_items.purchase_button_yes.update(events)
-            # shop_items.purchase_button_no.update(events)
-            # draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no")
+        # Once the players have been initialized, the start level button is drawn.
+        # It is only drawn when the item shop is inivisible so that it is not accidentally clicked.
+        if game.player_button_clicked_state and not game_shop.item_shop_visible:
+            game.start_game_button.draw()
 
-    if shop_items.equipping_background_visibility:
-        draw_choice_screen(shop_items, "equipping_background_visibility", shop_items.current_item.equip_confirm,
-                           shop_items.current_item.equip_deny, shop_items.current_item.purchase_background_surface,
-                           events, screen, lambda: draw_choice_buttons(shop_items, "equip_confirm", "equip_deny"))
-
+    # Updating the position of each player.
     for player in game.player_sprite_group:
         player.update()
+
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()

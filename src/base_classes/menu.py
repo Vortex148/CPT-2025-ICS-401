@@ -19,9 +19,7 @@ class Menu:
        menu_image = pygame.transform.scale(menu_image, (menu_button_width, menu_button_height))
 
 
-       # Giving the menu button "clickability" attributes. The "execute" parameter runs the
-       # visibility function. Using lambda allows us to use specific values from this class
-       # in the clickability class by making the function "anonymous".
+       # Making the menu button clickable
        self.menu_sprite = Clickability(
            menu_image,
            screen_width - (0.0225 * screen_width),
@@ -63,17 +61,13 @@ class Menu:
 
 
    # The menu button is always drawn. If the rules are visible they are drawn as well
-   # as the close button. The loop resets and checks for clicks on the close button.
+   # as the close button. The close button is checked for clicks if the rules are visible.
    def draw(self):
        self.menu_sprite.draw(self.screen)
+
        if self.rules_sprite.visible:
            self.rules_sprite.draw(self.screen)
            self.close_button_sprite.draw(self.screen)
-
-# Creating the class for buttons that represents one player or two player game modes.
-class player_mode_choice(basic_button):
-    def __init__(self, x, y, text, execute_click, screen, width=160, height=80, color=YELLOW):
-        super().__init__(x, y, text, execute_click, screen, width, height, color)
 
 
 

@@ -5,33 +5,44 @@ from src.common_variables import *
 from src.base_classes.game_state import game
 import pygame
 
+# Drawing function for generic yes/no buttons.
 def draw_choice_buttons(class_name, button_yes, button_no):
     yes_button = getattr(class_name, button_yes)
     no_button = getattr(class_name, button_no)
     yes_button.draw()
     no_button.draw()
 
-def close_purchase(class_name, visibility):
+# Closing the
+def close_yes_no(class_name, visibility):
     setattr(class_name, visibility, False)
 
-def equipping(selected_item, screen):
+# ToDo: blits purchase or equipped flag on top of item
+def equipping_or_purchase(selected_item, screen, image_type):
     print("running equipping function")
+    if image_type == "purchase":
+        image_path = "images/Game_Shop/Purchased.png"
+    elif image_type == "equipped":
+        image_path = "images/Game_Shop/Equipped.png"
+
+    # Getting the coordinates of the selected item
+    # and positioning the flag relative to it
     item_rect = selected_item.get_rect()
     width = item_rect.width
     height = item_rect.height
     x_pos = item_rect.x
     y_pos = item_rect.y
 
-    equipped_image = pygame.image.load("images/Game_Shop/Equipped.png")
-    equipped_image = pygame.transform.scale(equipped_image, (width, height))
+    image = pygame.image.load(image_path)
+    image = pygame.transform.scale(image, (width, height))
 
-    screen.blit(equipped_image, (x_pos, y_pos))
+    screen.blit(image, (x_pos, y_pos))
 
+# Copying the old values from the player class and recreating
+# them with updated attributes for the most recent purchase
 def recreate_players(new_weapon=None, new_health=None):
-    # Resetting the player count and copying values that are frame specific.
     old_values = \
         {"Position Player 1": game.player1.position,
-        "Position Player 2": game.player2.position if game.player2 else None,
+        "Position Player 2": game.player2.position if game.player2 else None, # Format to only access player 2 attributes when they exist
         "Health Player 1": game.player1.health,
         "Health Player 2": game.player2.health if game.player2 else None,
         "Coin Balance": game.player1.coin_balance,
@@ -40,6 +51,7 @@ def recreate_players(new_weapon=None, new_health=None):
         "Player 2 Number": game.player2.player_number if game.player2 else None,
         }
 
+    # Emptying the sprite group so that the old players are deleted.
     game.player_sprite_group.empty()
 
     # Creating new versions of each player if they exist
@@ -54,9 +66,7 @@ def recreate_players(new_weapon=None, new_health=None):
         game.player1.current_weapon = old_values["Old Weapon"]
         game.player1.player_number = old_values["Player 1 Number"]
         game.player_sprite_group.add(game.player1)
-        # game.update_player_sprite_group([game.player1])
 
-    print(game.player2)
     if game.player2 == None:
         print("No second player")
     else:
@@ -73,15 +83,14 @@ def recreate_players(new_weapon=None, new_health=None):
         game.player2.player_number = old_values["Player 2 Number"]
         game.player_sprite_group.add(game.player2)
 
-        # game.update_player_sprite_group([game.player1, game.player2])
-
+# Equipping the item when it is purchased from the shop.
 def yes(price, name, item_info, item_type,
         purchase_surface, players_list,
         image_path, selected_item, class_name, instance_name):
-    # player_button_clicked_state tracks whether the players have been initialized.
-    # if they have not, running this block will cause an error because the players
-    # default to none. To access the most recent value of this attribute, we import it
-    # when the function is called.
+
+    # Ensuring the players have been initialized before allowing
+    # them to purchase an item. This prevents the TypeErrors thrown
+    # when trying to change attributes that don't exist (defaulted to None in game class)
     if game.player_button_clicked_state:
         if all(p.coin_balance >= price for p in players_list):
             for p in players_list:
@@ -134,7 +143,7 @@ def yes(price, name, item_info, item_type,
                     print(f"New Movement Speed: {updated_movement_speed}")
                     recreate_players()
 
-            close_purchase(class_name, "purchase_background_visibility")
+            close_yes_no(class_name, "purchase_background_visibility")
             instance_name.item_purchased = True
 
         # If the player does not have enough money, a notice is returned and the purchase closed.
@@ -143,13 +152,15 @@ def yes(price, name, item_info, item_type,
             font = pygame.font.SysFont('Courier New', 15, True, False)
             text = font.render(message, True, WHITE)
             purchase_surface.blit(text, (30, 30))
-            close_purchase(class_name, "purchase_background_visibility")
+            close_yes_no(class_name, "purchase_background_visibility")
 
+# Closing the purchase menu if the user presses the no button
 def no(class_name):
-    close_purchase(class_name, "purchase_background_visibility")
+    close_yes_no(class_name, "purchase_background_visibility")
 
-def equip():
+# In progress: equipping function for items in the shop. Respective labels will be
+# 'blit' onto the item if the user has bought or purchased it. This prevents, double charging
+# and allows the user to swap between their weapons and ships between levels.
+def equip(item):
     pass
 
-def close_equipping(class_name, visibility):
-    setattr(class_name, visibility, False)

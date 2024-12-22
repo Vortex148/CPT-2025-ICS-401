@@ -2,8 +2,13 @@ import pygame
 import random
 from src.common_variables import *
 
+# This animation is currently only used in the "main.py" game
+# loop. It has yet to be integrated into the working code.
+
+# Grouping the stars together so they can be drawn easily
 star_group = pygame.sprite.Group()
 
+# Creating the blueprint for background stars
 class star(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -19,6 +24,8 @@ class star(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect()
 
+    # Updating the star's position each frame by its speed
+    # and resetting it if it has reached the bottom
     def update_position(self):
         self.y += self.animation_speed * 0.8
         self.rect.center = (self.x, self.y)
@@ -27,9 +34,7 @@ class star(pygame.sprite.Sprite):
             self.x = random.randrange(-30, 1000)
         self.rect.center = (self.x, self.y)
 
-    def update(self):
-        self.update_position()
-
+# Creating 50 stars in random places on the screen
 def create_stars():
     for i in range(50):
         x_pos = random.randrange(-30, screen_width + 30 )

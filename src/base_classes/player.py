@@ -38,8 +38,10 @@ class player(pygame.sprite.Sprite):
         self.controls = self.all_controls["Player_"  + str(player.player_count)] # Assigning the player controls
 
         # Loading the image for that player and sizing it.
+        self.sprite_width = 100
+        self.sprite_height = 100
         self.image = pygame.image.load(self.SPRITE)
-        self.image = pygame.transform.scale(self.image, (100,100))
+        self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
         self.rect = self.image.get_rect()
         self.player_number = player.player_count
         self.position = [350 + 100 * self.player_number, 500]
@@ -53,9 +55,15 @@ class player(pygame.sprite.Sprite):
         check_dynamic_user_input(self, event)
         # self.rect.center = self.position
 
+        # check if the selected new position is outside of screen width
+        # if it is, revert to last position
+
     def update(self, *args, **kwargs):
         # Ensuring that position and fired projectiles are updated each frame
+        last_position = self.position.copy()
         self.position = numpy.array(self.position) + numpy.array(self.velocity)
+        if self.position[0] > 800 - (self.sprite_width/2) or self.position[0] < 0 + (self.sprite_width/2):
+            self.position[0] = last_position[0]
         self.rect.center = self.position
         self.projectile_group.draw(pygame.display.get_surface())
         self.projectile_group.update()

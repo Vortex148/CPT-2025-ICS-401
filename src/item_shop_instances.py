@@ -73,13 +73,13 @@ upgrades_placeholder = upgrades(screen,"images/Game_Shop/Upgrades/placeholder.pn
         {"Placeholder" : "x"}, "Upgrades Placeholder")
 
 # Defining some buttons
-weapons_category_button = item_category_button(300, 540, "Weapons",
+weapons_category_button = basic_button(300, 540, "Weapons",
                                                lambda: toggle_weapons(), screen)
 
-ships_category_button = item_category_button(400, 540, "Ships",
+ships_category_button = basic_button(400, 540, "Ships",
                                              lambda: toggle_ships(), screen)
 
-upgrades_category_button = item_category_button(500, 540, "Upgrades",
+upgrades_category_button = basic_button(500, 540, "Upgrades",
                                                 lambda: toggle_upgrades(), screen)
 
 # Adding the items to their respective groups
@@ -89,12 +89,7 @@ upgrades_group.add(increase_health, increase_damage, upgrades_placeholder, incre
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
 
 
-def make_invisible(group):
-    for sprite in group:
-        sprite.visible = False
-    for button in buttons_group:
-        button.visible = False
-
+# Toggling the ships when the module is initialized to draw the ships by default when the shop is opened.
 toggle_ships()
 
 

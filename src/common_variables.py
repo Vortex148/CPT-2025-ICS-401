@@ -7,7 +7,7 @@ images_directory = os.path.join(PROJECT_ROOT, "images")
 videos_directory = os.path.join(PROJECT_ROOT, "Videos")
 sounds_directory = os.path.join(PROJECT_ROOT, "Sounds")
 
-screen_width = 900
+screen_width = 800
 screen_height = 600
 menu_button_width, menu_button_height = 50, 50
 rules_width, rules_height = 400, 400
