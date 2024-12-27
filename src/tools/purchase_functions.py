@@ -17,8 +17,7 @@ def close_yes_no(class_name, visibility):
     setattr(class_name, visibility, False)
 
 # ToDo: blits purchase or equipped flag on top of item
-def equipping_or_purchase(selected_item, screen, image_type):
-    print("running equipping function")
+def equipping_or_purchase(selected_item, screen, image_type, position):
     if image_type == "purchase":
         image_path = "images/Game_Shop/Purchased.png"
     elif image_type == "equipped":
@@ -29,8 +28,8 @@ def equipping_or_purchase(selected_item, screen, image_type):
     item_rect = selected_item.get_rect()
     width = item_rect.width
     height = item_rect.height
-    x_pos = item_rect.x
-    y_pos = item_rect.y
+    x_pos = position[0]
+    y_pos = position[1]
 
     image = pygame.image.load(image_path)
     image = pygame.transform.scale(image, (width, height))
@@ -106,6 +105,8 @@ def yes(price, name, item_info, item_type,
                     update_json("players", Movement_Speed=new_movement_speed)
                     update_json("players", Sprite=new_player_sprite_path)
                     recreate_players()
+
+                    instance_name.item_purchased = True
                 # If weapon is selected, the type of bullet shot is changed.
                 # So is the damage and speed. In progress.
                 elif item_type == "weapons":
@@ -117,9 +118,10 @@ def yes(price, name, item_info, item_type,
                     recreate_players(new_weapon)
                     print(f"New Weapon = {new_weapon}")
 
+                    instance_name.item_purchased = True
 
                 # Updating player attributes when an upgrade is bought.
-                elif item_type == "upgrades":
+                if item_type == "upgrades":
                     # Damage Increases
                     weapon_name = p.current_weapon
                     damage = p.all_weapons[weapon_name]["Damage"]
@@ -144,7 +146,6 @@ def yes(price, name, item_info, item_type,
                     recreate_players()
 
             close_yes_no(class_name, "purchase_background_visibility")
-            instance_name.item_purchased = True
 
         # If the player does not have enough money, a notice is returned and the purchase closed.
         else:
@@ -161,6 +162,7 @@ def no(class_name):
 # In progress: equipping function for items in the shop. Respective labels will be
 # 'blit' onto the item if the user has bought or purchased it. This prevents, double charging
 # and allows the user to swap between their weapons and ships between levels.
-def equip(item):
-    pass
+def equip(obj, close):
+    setattr(obj, "equipped", True)
+    close()
 

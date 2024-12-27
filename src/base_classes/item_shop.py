@@ -107,6 +107,7 @@ class shop_items(pygame.sprite.Sprite):
        self.equipped = False
 
        # Defining instance variables from parameters
+       self.item_type = type(self).__name__
        self.path = path
        self.item_number = shop_items.item_number
        self.screen = screen
@@ -155,15 +156,27 @@ class shop_items(pygame.sprite.Sprite):
        hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
                     "\n".join(f"{key.title()}: {value}" for key, value in item_info.items())
 
-       self.item_sprite = Clickability(
-           self.item_image,
-           self.pos_x,
-           self.pos_y,
-           lambda: self.item_click() if not self.item_purchased
-           else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
-           hover_text,
-           self.purchase_background_surface # surface to blit text onto
-       )
+       if self.item_type == "upgrades":
+           self.item_sprite = Clickability(
+               self.item_image,
+               self.pos_x,
+               self.pos_y,
+               lambda: self.item_click(),
+               # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
+               hover_text,
+               self.purchase_background_surface  # surface to blit text onto
+           )
+
+       elif self.item_type == "ships" or "weapons":
+           self.item_sprite = Clickability(
+               self.item_image,
+               self.pos_x,
+               self.pos_y,
+               lambda: self.item_click() if not self.item_purchased
+               else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
+               hover_text,
+               self.purchase_background_surface # surface to blit text onto
+           )
 
        self.selected_item = self.item_sprite
 
@@ -174,8 +187,9 @@ class shop_items(pygame.sprite.Sprite):
        y = self.purchase_rect_y
        shop_items.equipping_background_visibility = True
        # add new text for purchase background
-       shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(self),
-                                                     self.screen, 60, 30, RED)
+       shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(self,
+                lambda: close_yes_no(shop_items, "equipping_background_visibility")),
+                self.screen, 60, 30, RED)
 
        shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items, "equipping_background_visibility"),
                             self.screen, 60, 30, RED)
@@ -186,7 +200,6 @@ class shop_items(pygame.sprite.Sprite):
        y = self.purchase_rect_y
 
        # Getting the name of the child class for handling in the purchase function
-       item_type = type(self).__name__
        shop_items.current_item = self
 
        # Importing the players now prevents stale attribute values.
@@ -197,7 +210,7 @@ class shop_items(pygame.sprite.Sprite):
 
        # Calling the "yes" function when the confirm button is clicked
        shop_items.purchase_button_yes = basic_button(x, y, "Yes", lambda: yes(self.price,
-                                self.name, self.item_info, item_type,
+                                self.name, self.item_info, self.item_type,
                                 self.purchase_background_surface, players_list,
                                 self.path, self.selected_item, shop_items, self),
                                 self.screen, 60, 30)

@@ -55,6 +55,8 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
+# read json command
+
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
@@ -63,6 +65,7 @@ while not done:
         # Window closing code
         if event.type == pygame.QUIT:
             done = True
+            # json rewrite function
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 done = True
@@ -107,7 +110,14 @@ while not done:
 
             # Looped drawing of the game items
             for group in [weapons_group, ships_group, upgrades_group]:
+                rest_unequipped = False
                 for sprite in group:
+                    if rest_unequipped:
+                        sprite.equipped = False
+                    if sprite.equipped:
+                        # global rest_unequipped
+                        rest_unequipped = True
+                        # change the rest of the sprites in the group to unequipped
                     sprite.item_sprite.check_hover()
                     sprite.update(events) # checking for clicks
                     if sprite.visible:
