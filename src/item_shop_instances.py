@@ -74,13 +74,13 @@ upgrades_placeholder = upgrades(screen,"images/Game_Shop/Upgrades/placeholder.pn
 
 # Defining some buttons
 weapons_category_button = basic_button(300, 540, "Weapons",
-                                               lambda: toggle_weapons(), screen)
+                                               lambda: toggle_weapons(), screen, 60, 20)
 
 ships_category_button = basic_button(400, 540, "Ships",
-                                             lambda: toggle_ships(), screen)
+                                             lambda: toggle_ships(), screen, 60, 20)
 
 upgrades_category_button = basic_button(500, 540, "Upgrades",
-                                                lambda: toggle_upgrades(), screen)
+                                                lambda: toggle_upgrades(), screen, 60, 20)
 
 # Adding the items to their respective groups
 weapons_group.add(gatlin_laser_gun, purple_blaster, rocket_launcher, yellow_blaster)

@@ -1,3 +1,22 @@
+'''
+
+-----------------------------------------------------------
+
+Name:  Space Defenders
+
+Purpose: For our CPT we created a Galaga-type game. This was
+an incredible learning experience both inside and out of programming.
+Intensive use of classes and animation techniques no doubt improved our
+ability as programmers. However, there was equal learning in working as a team
+We both agree we
+
+Authors:   Charlie Blackburn, John Szewczyk
+
+Created From:  10/28/2024 to 01/17/2025
+
+-----------------------------------------------------------
+
+'''
 import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *

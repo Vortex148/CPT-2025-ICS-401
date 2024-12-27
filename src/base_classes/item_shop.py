@@ -127,8 +127,8 @@ class shop_items(pygame.sprite.Sprite):
        self.item_image = pygame.transform.scale(self.item_image, (item_width, item_height))
 
        # Position of first object
-       pos_x = 330
-       pos_y = 180
+       self.pos_x = 330
+       self.pos_y = 180
 
        self.visible = False
 
@@ -139,17 +139,17 @@ class shop_items(pygame.sprite.Sprite):
            shop_items.item_number = 1
 
        if self.item_number == 1:
-           pos_x = 330
-           pos_y = 180
+           self.pos_x = 330
+           self.pos_y = 180
        elif self.item_number == 2:
-           pos_x = 510
-           pos_y = 180
+           self.pos_x = 510
+           self.pos_y = 180
        elif self.item_number == 3:
-           pos_x = 330
-           pos_y = 420
+           self.pos_x = 330
+           self.pos_y = 420
        elif self.item_number == 4:
-           pos_x = 510
-           pos_y = 420
+           self.pos_x = 510
+           self.pos_y = 420
 
        # Details of the object stored in hover_text so it is displayed when the item is hovered over.
        hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
@@ -157,8 +157,8 @@ class shop_items(pygame.sprite.Sprite):
 
        self.item_sprite = Clickability(
            self.item_image,
-           pos_x,
-           pos_y,
+           self.pos_x,
+           self.pos_y,
            lambda: self.item_click() if not self.item_purchased
            else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
            hover_text,
@@ -174,10 +174,10 @@ class shop_items(pygame.sprite.Sprite):
        y = self.purchase_rect_y
        shop_items.equipping_background_visibility = True
        # add new text for purchase background
-       shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(),
+       shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(self),
                                                      self.screen, 60, 30, RED)
 
-       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items, self.equipping_background_visibility),
+       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items, "equipping_background_visibility"),
                             self.screen, 60, 30, RED)
 
    # Defines what happens when an item is clicked
@@ -210,19 +210,19 @@ class shop_items(pygame.sprite.Sprite):
    # Following two methods in progress- for equipping/double purchase prevention code
    def draw_purchased(self):
        if self.item_purchased:
-           equipping_or_purchase(self.item_image, self.screen, "purchase")
+           equipping_or_purchase(self.item_image, self.screen, "purchase", [self.pos_x, self.pos_y])
 
    def draw_equipped(self):
        if self.equipped:
-           equipping_or_purchase(self.item_image, self.screen, "equipped")
+           equipping_or_purchase(self.item_image, self.screen, "equipped", [self.pos_x, self.pos_y])
 
    # Checking for clicks each frame
    def update(self, events):
        if self.visible:
            self.item_sprite.check_click(events)
            self.item_sprite.check_hover()
-       self.draw_equipped()
-       self.draw_purchased()
+           self.draw_equipped()
+           self.draw_purchased()
 
    def draw(self):
        if self.visible:
