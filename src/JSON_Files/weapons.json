@@ -4,7 +4,7 @@
         "Damage": 200,
         "Velocity": [
             0,
-            10
+            20
         ]
     },
     "Gatlin Gun": {
@@ -12,7 +12,7 @@
         "Damage": 250,
         "Velocity": [
             0,
-            12
+            4
         ]
     },
     "Rocket Launcher": {
@@ -20,7 +20,7 @@
         "Damage": 400,
         "Velocity": [
             0,
-            8
+            3
         ]
     },
     "Purple Blaster": {
@@ -28,7 +28,7 @@
         "Damage": 150,
         "Velocity": [
             0,
-            15
+            7
         ]
     },
     "Yellow Blaster": {
@@ -36,8 +36,7 @@
         "Damage": 300,
         "Velocity": [
             0,
-            13
+            7
         ]
-    },
-    "Damage": 250
+    }
 }

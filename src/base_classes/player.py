@@ -73,4 +73,3 @@ class player(pygame.sprite.Sprite):
         # player and starting it at the position of the player.
         projectile = Projectile(self.current_weapon_sprite, self.current_weapon, self.position)
         self.projectile_group.add(projectile)
-        print(f"Firing: {self.current_weapon_sprite}")

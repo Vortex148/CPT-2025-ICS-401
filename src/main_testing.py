@@ -26,6 +26,7 @@ from src.item_shop_instances import (buttons_group, weapons_group,
 from src.base_classes.game_state import game
 from src.base_classes.item_shop import shop_items
 from src.Tools.global_tools import draw_choice_screen
+from src.Tools.json_handler import copy_default_json, rewrite_default_json
 
 # Initializing the game engine.
 pygame.init()
@@ -57,6 +58,8 @@ clock = pygame.time.Clock()
 
 # read json command
 
+copy_default_json()
+
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
@@ -64,6 +67,7 @@ while not done:
     for event in events:  # User did something
         # Window closing code
         if event.type == pygame.QUIT:
+            rewrite_default_json()
             done = True
             # json rewrite function
         if event.type == pygame.KEYDOWN:
