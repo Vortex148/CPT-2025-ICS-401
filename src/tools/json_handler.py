@@ -43,3 +43,11 @@ def read_json(file, *args):
         results[x] = data.get(x)
 
     return results
+
+def load_default_json(file):
+    file_path = get_json_path(file)
+
+    with open(file_path, 'r') as FILE:
+        return json.load(FILE)
+
+
