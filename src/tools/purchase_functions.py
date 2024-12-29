@@ -122,13 +122,14 @@ def yes(price, name, item_info, item_type,
 
                 # Updating player attributes when an upgrade is bought.
                 if item_type == "upgrades":
+
                     # Damage Increases
                     weapon_name = p.current_weapon
                     damage = p.all_weapons[weapon_name]["Damage"]
                     print(f"Current damage: {damage}")
                     damage_increase = item_info.get("Damage Increase", 0) # Defaulting to 0 if no value is provided.
                     update_json("weapons", Damage=(damage + damage_increase))
-                    new_damage = read_json("weapons", "damage")
+                    new_damage = read_json("weapons", "Damage")
                     print(f"New Damage: {new_damage}\n")
 
                     # Health Increases
@@ -166,3 +167,82 @@ def equip(obj, close):
     setattr(obj, "equipped", True)
     close()
 
+# WANT: purchase function to solely subtract coin balance from player
+# equip function should actually run recreation, just some moving around
+
+def purchase(price, name, players_list, instance_name, purchase_surface, class_name):
+    # Ensuring the players have been initialized before allowing
+    # them to purchase an item. This prevents the TypeErrors thrown
+    # when trying to change attributes that don't exist (defaulted to None in game class)
+    if game.player_button_clicked_state:
+        if all(p.coin_balance >= price for p in players_list):
+            for p in players_list:
+                p.coin_balance -= price
+                print(f"{name.title()} was bought from the item shop. New Player Balance: {p.coin_balance}")
+
+            instance_name.item_purchased = True
+
+        else:
+            message = "Not enough money to purchase this item"
+            font = pygame.font.SysFont('Courier New', 15, True, False)
+            text = font.render(message, True, WHITE)
+            purchase_surface.blit(text, (30, 30))
+            close_yes_no(class_name, "purchase_background_visibility")
+
+def equip_2(obj, close, item_type, item_info, image_path,
+          name, players_list, class_name):
+    setattr(obj, "equipped", True)
+
+    for p in players_list:
+    # If a ship item is clicked, health, velocity and sprite image are updated.
+        if item_type == "ships":
+            p.health = item_info.get("Health")
+            new_movement_speed = item_info.get("Velocity")
+            new_player_sprite_path = image_path
+            print(new_player_sprite_path)
+            update_json("players", Movement_Speed=new_movement_speed)
+            update_json("players", Sprite=new_player_sprite_path)
+            recreate_players()
+
+        # If weapon is selected, the type of bullet shot is changed.
+        # So is the damage and speed. In progress.
+        elif item_type == "weapons":
+            current_weapon = p.current_weapon
+            print(f"Current weapon: {current_weapon}")
+            p.current_weapon = name
+            new_weapon = p.current_weapon
+            print("blasters running")
+            recreate_players(new_weapon)
+            print(f"New Weapon = {new_weapon}")
+
+
+        # Updating player attributes when an upgrade is bought.
+        if item_type == "upgrades":
+            # Damage Increases
+            weapon_name = p.current_weapon
+            damage = p.all_weapons[weapon_name]["Damage"]
+            print(f"Current damage: {damage}")
+            damage_increase = item_info.get("Damage Increase", 0)  # Defaulting to 0 if no value is provided.
+            update_json("weapons", Damage=(damage + damage_increase))
+            new_damage = read_json("weapons", "Damage")
+            print(f"New Damage: {new_damage}\n")
+
+            # Health Increases
+            print(f"Current health: {p.health}")
+            p.health += item_info.get("Health Increase", 0)
+            print(f"New health: {p.health}\n")
+
+            # Movement speed increases
+            Movement_Speed = p.MOVEMENT_SPEED
+            print(f"Current Movement Speed: {Movement_Speed}")
+            movement_increase = item_info.get("Movement Speed Increase", 0)
+            update_json("players", Movement_Speed=(Movement_Speed + movement_increase))
+            updated_movement_speed = read_json("players", "Movement_Speed")
+            print(f"New Movement Speed: {updated_movement_speed}")
+            recreate_players()
+
+    close_yes_no(class_name, "purchase_background_visibility")
+
+# If the player does not have enough money, a notice is returned and the purchase closed.
+
+    close()

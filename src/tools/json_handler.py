@@ -1,5 +1,6 @@
 import json
 import os
+
 from src.common_variables import *
 #Todo: create function that reads default values from json and rewrites
 # them to the player and weapons json files when the game is quit.
@@ -7,6 +8,9 @@ from src.common_variables import *
 
 # Joining the json file name to its directory
 # (directories defined in "common_variables.py")
+
+group = ['players', 'ships', 'weapons']
+
 def get_json_path(file_name):
     return os.path.join(json_directory, f"{file_name}.json")
 
@@ -44,10 +48,36 @@ def read_json(file, *args):
 
     return results
 
-def load_default_json(file):
+def load_json(file):
     file_path = get_json_path(file)
 
     with open(file_path, 'r') as FILE:
         return json.load(FILE)
 
+def copy_default_json(group=group):
+    global DEFAULT_data
+    DEFAULT_data = []
+    for file in group:
+        DEFAULT_data.append(load_json(file))
 
+def rewrite_default_json(group=group):
+    for i, file in enumerate(group):
+        file_path = get_json_path(file)
+        rewritting_data = DEFAULT_data[i]
+        with open(file_path, 'w') as FILE:
+            json.dump(rewritting_data, FILE, indent=4)
+
+def update_json_2(file, **kwargs):
+    file_path = get_json_path(file)
+
+    # Opening the file and copying the data
+    with open(file_path, "r") as reading_file:
+        data = json.load(reading_file)
+
+    # Changing the desired key value pair(s)
+    for key, value in kwargs.items():
+        data[key] = value
+
+    # Writing the change(s) back to the file
+    with open(file_path, "w") as writing_file:
+        json.dump(data, writing_file, indent=4)

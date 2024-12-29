@@ -113,19 +113,26 @@ while not done:
                 button_sprite.draw()
 
             # Looped drawing of the game items
-            for group in [weapons_group, ships_group, upgrades_group]:
+            for group in [ships_group, weapons_group, upgrades_group]:
                 rest_unequipped = False
-                for sprite in group:
+                equipped_sprite = None
+                # pop and append
+                for sprite in list(group):
+                    sprite.item_sprite.check_hover()
+                    sprite.update(events)  # checking for clicks
+                    if sprite.visible:
+                        sprite.draw()
+
                     if rest_unequipped:
                         sprite.equipped = False
                     if sprite.equipped:
-                        # global rest_unequipped
                         rest_unequipped = True
-                        # change the rest of the sprites in the group to unequipped
-                    sprite.item_sprite.check_hover()
-                    sprite.update(events) # checking for clicks
-                    if sprite.visible:
-                        sprite.draw()
+                        equipped_sprite = sprite
+
+                if equipped_sprite:
+                    group.remove(equipped_sprite)
+                    group.add(equipped_sprite)
+
 
         # If the yes/no background is showing, the "yes", "no" buttons are drawn.
         # This handles both the purchase and equipping menus.

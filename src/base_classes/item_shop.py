@@ -222,7 +222,7 @@ class shop_items(pygame.sprite.Sprite):
 
    # Following two methods in progress- for equipping/double purchase prevention code
    def draw_purchased(self):
-       if self.item_purchased:
+       if self.item_purchased and not self.equipped:
            equipping_or_purchase(self.item_image, self.screen, "purchase", [self.pos_x, self.pos_y])
 
    def draw_equipped(self):
