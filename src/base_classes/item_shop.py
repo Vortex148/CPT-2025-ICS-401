@@ -185,13 +185,21 @@ class shop_items(pygame.sprite.Sprite):
        print("running equipping")
        x = (self.purchase_rect_x + self.purchase_rect_width / 2)
        y = self.purchase_rect_y
+
+       if game.player2 != None:
+           players_list = [game.player1, game.player2]
+       elif game.player2 == None:
+           players_list = [game.player1]
+
        shop_items.equipping_background_visibility = True
        # add new text for purchase background
        shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(self,
-                lambda: close_yes_no(shop_items, "equipping_background_visibility")),
+                lambda: close_yes_no(shop_items, "equipping_background_visibility"), self.item_type, self.item_info,
+                                     self.path, self.name, players_list),
                 self.screen, 60, 30, RED)
 
-       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items, "equipping_background_visibility"),
+       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items,
+                            "equipping_background_visibility"),
                             self.screen, 60, 30, RED)
 
    # Defines what happens when an item is clicked
@@ -203,16 +211,16 @@ class shop_items(pygame.sprite.Sprite):
        shop_items.current_item = self
 
        # Importing the players now prevents stale attribute values.
+
        if game.player2 != None:
            players_list = [game.player1, game.player2]
        elif game.player2 == None:
            players_list = [game.player1]
 
        # Calling the "yes" function when the confirm button is clicked
-       shop_items.purchase_button_yes = basic_button(x, y, "Yes", lambda: yes(self.price,
-                                self.name, self.item_info, self.item_type,
-                                self.purchase_background_surface, players_list,
-                                self.path, self.selected_item, shop_items, self),
+       shop_items.purchase_button_yes = basic_button(x, y, "Yes", lambda: purchase(self.price,
+                                self.name, players_list, self,
+                                self.purchase_background_surface, shop_items),
                                 self.screen, 60, 30)
 
        shop_items.purchase_button_no = basic_button(x, y + 50, "No", lambda: no(shop_items), self.screen, 60, 30)
