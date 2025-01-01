@@ -48,6 +48,30 @@ def read_json(file, *args):
 
     return results
 
+
+def read_json_2(file, searches):
+    file_path = get_json_path(file)
+
+    # Defining a dictionary and appending the results of the search to it
+    results = []
+
+    with open(file_path, "r") as FILE:
+        data = json.load(FILE)
+
+    for path in searches:
+        keys = path.split(".")
+        target = data
+
+        for key in keys:
+            target = target.get(key, None)
+            if target is None:
+                break
+
+        results.append(target)
+
+    print(results)
+    return results
+
 def load_json(file):
     file_path = get_json_path(file)
 
@@ -67,7 +91,7 @@ def rewrite_default_json(group=group):
         with open(file_path, 'w') as FILE:
             json.dump(rewritting_data, FILE, indent=4)
 
-def update_json_2(file, **kwargs):
+def update_json_2(file, updates):
     file_path = get_json_path(file)
 
     # Opening the file and copying the data
@@ -75,8 +99,14 @@ def update_json_2(file, **kwargs):
         data = json.load(reading_file)
 
     # Changing the desired key value pair(s)
-    for key, value in kwargs.items():
-        data[key] = value
+    for path, value in updates.items():
+        keys = path.split(".")
+        target = data
+
+        for key in keys[:-1]:
+            target = target[key]
+
+        target[keys[-1]] = value
 
     # Writing the change(s) back to the file
     with open(file_path, "w") as writing_file:

@@ -2,6 +2,8 @@ import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *
 from src.Tools.global_tools import toggle_group_visibility
+from src.Tools.json_handler import read_json_2
+import json
 
 
 SCREEN_WIDTH = 800
@@ -33,6 +35,16 @@ ships_group = pygame.sprite.Group()
 upgrades_group = pygame.sprite.Group()
 buttons_group = pygame.sprite.Group()
 
+
+weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blaster"]
+ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
+
+for i in range(4):
+    name = weapons_list[i]
+    results = read_json_2("weapons", [f"{name}.Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"])
+    weapons_list[i] = weapons(screen, results[0], {"Damage": results[1], "Velocity" : results[2]}, results[3], f"{name}")
+
+
 # Defining some weapons
 gatlin_laser_gun = weapons(screen,"images/Game_Shop/Blasters/gatlin_laser_gun.png",
                            200, {"Damage": 250, "Velocity": 10}, "Gatlin Gun")
@@ -41,7 +53,7 @@ purple_blaster = weapons(screen,"images/Game_Shop/Blasters/purple_blaster.png",
                          150, {"Damage": 150, "Velocity": 15}, "Purple Blaster")
 
 rocket_launcher = weapons(screen,"images/Game_Shop/Blasters/rocket_launcher.png",100,
-                {"Damage": 500, "Velocity": 3}, "Rocket Launcher")
+                {"Damage": 500, "Velocity": 5}, "Rocket Launcher")
 
 yellow_blaster = weapons(screen,"images/Game_Shop/Blasters/yellow_blaster.png",450,
         {"Damage": 300, "Velocity": 12}, "Yellow Blaster")

@@ -161,7 +161,7 @@ class shop_items(pygame.sprite.Sprite):
                self.item_image,
                self.pos_x,
                self.pos_y,
-               lambda: self.item_click(),
+               lambda: self.equip(),
                # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
                hover_text,
                self.purchase_background_surface  # surface to blit text onto
@@ -182,7 +182,7 @@ class shop_items(pygame.sprite.Sprite):
 
    # In progress
    def equip(self):
-       print("running equipping")
+       shop_items.current_item = self
        x = (self.purchase_rect_x + self.purchase_rect_width / 2)
        y = self.purchase_rect_y
 

@@ -1,7 +1,7 @@
 {
     "Default": {
         "Sprite": "images/Sprites/Weapons/smallBullet.png",
-        "Damage": 200,
+        "Damage": 230,
         "Velocity": [
             0,
             20
@@ -10,6 +10,7 @@
     "Gatlin Gun": {
         "Sprite": "images/Sprites/Weapons/Gatlin_Bullet.png",
         "Damage": 250,
+        "Price": 200,
         "Velocity": [
             0,
             4
@@ -18,6 +19,7 @@
     "Rocket Launcher": {
         "Sprite": "images/Sprites/Weapons/rocketBullet.png",
         "Damage": 400,
+        "Price": 300,
         "Velocity": [
             0,
             3
@@ -26,6 +28,7 @@
     "Purple Blaster": {
         "Sprite": "images/Sprites/Weapons/Green_Bullet.png",
         "Damage": 150,
+        "Price": 100,
         "Velocity": [
             0,
             7
@@ -34,6 +37,7 @@
     "Yellow Blaster": {
         "Sprite": "images/Sprites/Weapons/Blue_Bullet.png",
         "Damage": 300,
+        "Price": 250,
         "Velocity": [
             0,
             7
