@@ -8,6 +8,7 @@
         ]
     },
     "Gatlin Gun": {
+        "Ship Sprite": "images/Game_Shop/Blasters/gatlin_laser_gun.png",
         "Sprite": "images/Sprites/Weapons/Gatlin_Bullet.png",
         "Damage": 250,
         "Price": 200,
@@ -17,6 +18,7 @@
         ]
     },
     "Rocket Launcher": {
+        "Ship Sprite": "images/Game_Shop/Blasters/rocket_launcher.png",
         "Sprite": "images/Sprites/Weapons/rocketBullet.png",
         "Damage": 400,
         "Price": 300,
@@ -26,6 +28,7 @@
         ]
     },
     "Purple Blaster": {
+        "Ship Sprite": "images/Game_Shop/Blasters/purple_blaster.png",
         "Sprite": "images/Sprites/Weapons/Green_Bullet.png",
         "Damage": 150,
         "Price": 100,
@@ -35,6 +38,7 @@
         ]
     },
     "Yellow Blaster": {
+        "Ship Sprite": "images/Game_Shop/Blasters/yellow_blaster.png",
         "Sprite": "images/Sprites/Weapons/Blue_Bullet.png",
         "Damage": 300,
         "Price": 250,

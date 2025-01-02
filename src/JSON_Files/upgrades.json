@@ -1,0 +1,17 @@
+{
+    "Movement Speed Increase": {
+        "Sprite": "images/Game_Shop/Upgrades/increase_movement_speed.png",
+        "Price": 500,
+        "Movement Speed Increase": 2
+    },
+    "Increase Damage": {
+        "Sprite": "images/Game_Shop/Upgrades/increase_damage.png",
+        "Price": 550,
+        "Damage Increase": 30
+    },
+    "Increase Health": {
+        "Sprite": "images/Game_Shop/Upgrades/increase_health.png",
+        "Price": 450,
+        "Health Increase": 100
+    }
+}

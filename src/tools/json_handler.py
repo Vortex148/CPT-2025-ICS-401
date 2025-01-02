@@ -52,7 +52,7 @@ def read_json(file, *args):
 def read_json_2(file, searches):
     file_path = get_json_path(file)
 
-    # Defining a dictionary and appending the results of the search to it
+    # Defining a list and appending the results of the search to it
     results = []
 
     with open(file_path, "r") as FILE:
