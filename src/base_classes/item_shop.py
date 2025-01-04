@@ -114,6 +114,7 @@ class shop_items(pygame.sprite.Sprite):
        self.name = name
        self.price = price
        self.item_info = item_info
+       print(self.price)
 
        # Defining the purchase menu for each item
        self.purchase_background_surface = pygame.Surface((200, 200))
@@ -253,21 +254,21 @@ class shop_items(pygame.sprite.Sprite):
 # Category specific attributes like damage and velocity are added
 # In the class constructor.
 class weapons(shop_items):
-   def __init__(self, screen, path, price, item_info, name):
+   def __init__(self, screen, name, path, price, item_info):
        super().__init__(screen, name, path, price, item_info)
        self.damage = item_info.get("Damage")
        self.velocity = item_info.get("Velocity")
 
 # Blueprint for upgrades
 class ships(shop_items):
-   def __init__(self, screen, path, price, item_info, name):
+    def __init__(self, screen, name, path, price, item_info):
        super().__init__(screen, name, path, price, item_info)
        self.health = item_info.get("Health")
        self.velocity = item_info.get("Velocity")
 
 # Blueprint for upgrades
 class upgrades(shop_items):
-   def __init__(self, screen , path, price, item_info, name):
+    def __init__(self, screen, name, path, price, item_info):
        super().__init__(screen, name, path, price, item_info)
        # Defaulting to 0 if no parameter is given. This avoids needing to
        # differentiate between the types of upgrades. All upgrades update all

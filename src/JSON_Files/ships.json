@@ -14,6 +14,7 @@
     "Red Spider Ship": {
         "Sprite": "images/Game_Shop/Ships/red_spider_ship.png",
         "Health": 450,
+        "Price": 800,
         "Velocity": 5
     },
     "White Ship": {

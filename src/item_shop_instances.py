@@ -41,40 +41,39 @@ weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blast
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
 upgrades_list = ["Health Increase", "Damage Increase", "Movement Speed Increase"]
 
-for index, _ in enumerate(weapons_list + ships_list): # + upgrades_list
-    if index < len(weapons_list):  # Determine which list the item belongs to
-        name = weapons_list[index]
-    else:
-        name = ships_list[index - len(weapons_list)]
-
-    length_level_2 = len(weapons_list) + len(ships_list)
-    length_level_3 = length_level_2 + len(upgrades_list)
+for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrades_list
+    length_2 = len(weapons_list) + len(ships_list)
+    length_3 = length_2 + len(upgrades_list)
 
     if index < len(weapons_list):
-        searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"]
+        name = weapons_list[index]
+        searches = [f"{name}.Weapon Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"]
         GROUP = weapons_group
         LIST = weapons_list
         class_type = weapons
         item_info = ["Damage", "Velocity"]
-    elif len(weapons_list) < index <= length_level_2:
-        searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
+        local_index = index
+        reading_file = "weapons"
+    elif len(weapons_list) <= index < length_2:
+        name = ships_list[index - len(weapons_list)]
+        searches = [f"{name}.Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
         GROUP = ships_group
         LIST = ships_list
         class_type = ships
         item_info = ["Health", "Movement Speed"]
-    elif length_level_2 < index <= length_level_3:
-        # searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
-        # GROUP = upgrades_group
-        # LIST = upgrades_list
-        # class_type = upgrades
-        # item_info = ["Upgrade"]
-        pass
+        local_index = index - len(weapons_list)
+        reading_file = "ships"
+    elif length_2 <= index < length_3:
+        searches = [f"{name}.Sprite", f"{name}.Price", f"{name}.{name}"]
+        GROUP = upgrades_group
+        LIST = upgrades_list
+        class_type = upgrades
+        item_info = ["Upgrade"]
+        local_index = index - length_2
+        reading_file = "upgrades"
 
-    # local index = logic
-
-    results = read_json_2("weapons" if index < len(weapons_list) else "ships", searches)
-
-    # weapons(screen, attr1, attr2, {"Damage": attr3, "Velocity": attr4}, NAME)
+    print("Reading JSON")
+    results = read_json_2(reading_file, searches)
 
     attr1 = results[0]
     attr2 = results[1]
@@ -83,7 +82,7 @@ for index, _ in enumerate(weapons_list + ships_list): # + upgrades_list
 
     # looped append and variable def
     attributes = [attr1, attr2, attr3, attr4]
-    print(attributes)
+    print(f"Attributes: {attributes}")
     NAME = f"{name}"
 
     x = len(item_info)
@@ -92,12 +91,12 @@ for index, _ in enumerate(weapons_list + ships_list): # + upgrades_list
     for y in range(x):
         ITEM_INFO[item_info[y]] = attributes[y+2]
 
-    print(ITEM_INFO)
+    print(f"Item Info: {ITEM_INFO}")
 
-    instance = create_instance(class_type, screen, attr1, attr2, ITEM_INFO, NAME)
+    instance = create_instance(class_type, screen, NAME, attr1, attr2, ITEM_INFO)
 
-    LIST[index] = instance
-    instance = LIST[index]
+    LIST[local_index] = instance
+    instance = LIST[local_index]
     GROUP.add(instance)
 
 # Defining some weapons
@@ -113,7 +112,8 @@ rocket_launcher = weapons(screen,"images/Game_Shop/Blasters/rocket_launcher.png"
 yellow_blaster = weapons(screen,"images/Game_Shop/Blasters/yellow_blaster.png",450,
         {"Damage": 300, "Velocity": 12}, "Yellow Blaster")
 '''
-# Defining some ships
+
+'''# Defining some ships
 black_ship = ships(screen,"images/Game_Shop/Ships/black_ship.png",
                            500, {"Health": 400, "Velocity": 10}, "Black Ship")
 
@@ -125,19 +125,17 @@ red_spider_ship = ships(screen,"images/Game_Shop/Ships/red_spider_ship.png",
 
 white_ship = ships(screen,"images/Game_Shop/Ships/white_ship.png",
                          450, {"Health": 500, "Velocity": 10}, "White Ship")
+'''
 
-# Defining some upgrades
-increase_movement_speed = upgrades(screen,"images/Game_Shop/Upgrades/increase_movement_speed.png",500,
-        {"Movement Speed Increase": 2}, "Movement Speed Increase")
+'''# Defining some upgrades
+increase_movement_speed = upgrades(screen,"Movement Speed Increase", "images/Game_Shop/Upgrades/increase_movement_speed.png",500,
+        {"Movement Speed Increase": 2})
 
-increase_damage = upgrades(screen,"images/Game_Shop/Upgrades/increase_damage.png",550,
-        {"Damage Increase": 30}, "Increase Damage")
+increase_damage = upgrades(screen,"Increase Damage", "images/Game_Shop/Upgrades/increase_damage.png",550,
+        {"Damage Increase": 30})
 
-increase_health = upgrades(screen,"images/Game_Shop/Upgrades/increase_health.png",450,
-        {"Health Increase": 100}, "Increase Health")
-
-upgrades_placeholder = upgrades(screen,"images/Game_Shop/Upgrades/placeholder.png",450,
-        {"Placeholder" : "x"}, "Upgrades Placeholder")
+increase_health = upgrades(screen, "Increase Health", "images/Game_Shop/Upgrades/increase_health.png",450,
+        {"Health Increase": 100})'''
 
 # Defining some buttons
 weapons_category_button = basic_button(300, 540, "Weapons",
@@ -152,8 +150,8 @@ upgrades_category_button = basic_button(500, 540, "Upgrades",
 # Adding the items to their respective groups
 
 # weapons_group.add(gatlin_laser_gun, purple_blaster, rocket_launcher, yellow_blaster)
-ships_group.add(black_ship, orange_ship, red_spider_ship, white_ship)
-upgrades_group.add(increase_health, increase_damage, upgrades_placeholder, increase_movement_speed)
+# ships_group.add(black_ship, orange_ship, red_spider_ship, white_ship)
+# upgrades_group.add(increase_health, increase_damage, increase_movement_speed)
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
 
 
