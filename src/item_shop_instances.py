@@ -41,22 +41,28 @@ weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blast
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
 upgrades_list = ["Health Increase", "Damage Increase", "Movement Speed Increase"]
 
-for i in enumerate(weapons_list + ships_list): # + upgrades_list
-    name = weapons_list[i] if i < 4 else ships_list[i-4] # if i <8 else weapons_list[i-8]
+for index, _ in enumerate(weapons_list + ships_list): # + upgrades_list
+    if index < len(weapons_list):  # Determine which list the item belongs to
+        name = weapons_list[index]
+    else:
+        name = ships_list[index - len(weapons_list)]
 
-    if i < 4:
+    length_level_2 = len(weapons_list) + len(ships_list)
+    length_level_3 = length_level_2 + len(upgrades_list)
+
+    if index < len(weapons_list):
         searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"]
         GROUP = weapons_group
         LIST = weapons_list
         class_type = weapons
         item_info = ["Damage", "Velocity"]
-    elif 4 < i <= 8:
+    elif len(weapons_list) < index <= length_level_2:
         searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
         GROUP = ships_group
         LIST = ships_list
         class_type = ships
         item_info = ["Health", "Movement Speed"]
-    elif 8 < i <= 12:
+    elif length_level_2 < index <= length_level_3:
         # searches = [f"{name}.Ship Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
         # GROUP = upgrades_group
         # LIST = upgrades_list
@@ -64,7 +70,9 @@ for i in enumerate(weapons_list + ships_list): # + upgrades_list
         # item_info = ["Upgrade"]
         pass
 
-    results = read_json_2("weapons" if i < 4 else "ships", searches)
+    # local index = logic
+
+    results = read_json_2("weapons" if index < len(weapons_list) else "ships", searches)
 
     # weapons(screen, attr1, attr2, {"Damage": attr3, "Velocity": attr4}, NAME)
 
@@ -75,18 +83,21 @@ for i in enumerate(weapons_list + ships_list): # + upgrades_list
 
     # looped append and variable def
     attributes = [attr1, attr2, attr3, attr4]
+    print(attributes)
     NAME = f"{name}"
 
     x = len(item_info)
     ITEM_INFO = {}
 
     for y in range(x):
-        ITEM_INFO[y] = attributes[y+2]
+        ITEM_INFO[item_info[y]] = attributes[y+2]
+
+    print(ITEM_INFO)
 
     instance = create_instance(class_type, screen, attr1, attr2, ITEM_INFO, NAME)
 
-    LIST[i] = instance
-    instance = LIST[i]
+    LIST[index] = instance
+    instance = LIST[index]
     GROUP.add(instance)
 
 # Defining some weapons
