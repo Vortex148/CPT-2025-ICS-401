@@ -59,7 +59,7 @@ class Menu:
        if self.rules_sprite.visible:
            self.close_button_sprite.check_click(events)
 
-
+   #
    # The menu button is always drawn. If the rules are visible they are drawn as well
    # as the close button. The close button is checked for clicks if the rules are visible.
    def draw(self):

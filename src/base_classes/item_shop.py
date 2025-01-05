@@ -80,7 +80,7 @@ class open_and_background:
            self.close_button_sprite.check_click(events)
            self.item_shop_visible = True
 
-   # Drawing the close button if the background is visible.
+   # Drawing the close button if the background is visible.The open button is always drawn.
    def draw(self):
        self.open_button_sprite.draw(self.screen)
 
@@ -107,14 +107,13 @@ class shop_items(pygame.sprite.Sprite):
        self.equipped = False
 
        # Defining instance variables from parameters
-       self.item_type = type(self).__name__
+       self.item_type = type(self).__name__ # Returns the name of the child class to distinguish purchase functions in the purchase functions file.
        self.path = path
        self.item_number = shop_items.item_number
        self.screen = screen
        self.name = name
        self.price = price
        self.item_info = item_info
-       print(self.price)
 
        # Defining the purchase menu for each item
        self.purchase_background_surface = pygame.Surface((200, 200))
@@ -157,6 +156,7 @@ class shop_items(pygame.sprite.Sprite):
        hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
                     "\n".join(f"{key.title()}: {value}" for key, value in item_info.items())
 
+       #
        if self.item_type == "upgrades":
            self.item_sprite = Clickability(
                self.item_image,

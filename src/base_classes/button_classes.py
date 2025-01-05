@@ -52,8 +52,8 @@ class Clickability(pygame.sprite.Sprite):
                if self.hover_text:
                    text = self.font.render(self.hover_text, True, WHITE)
                    text_rect = text.get_rect()
-                   text_rect.x = 200
-                   text_rect.y = 200
+                   text_rect.x = 0
+                   text_rect.y = 0
                    if self.hover_surface:
                        self.hover_surface.blit(text, text_rect)
                    else:

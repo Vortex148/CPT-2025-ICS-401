@@ -41,12 +41,15 @@ weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blast
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
 upgrades_list = ["Increase Health", "Increase Damage", "Movement Speed Increase"]
 
-for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrades_list
+# Looped creation of items in the shop
+for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     length_2 = len(weapons_list) + len(ships_list)
     length_3 = length_2 + len(upgrades_list)
 
+    # Defining item specific attributes based on the index (and thus the list currently being iterated)
     if index < len(weapons_list):
         name = weapons_list[index]
+        # Defining searches to extract JSON attributes (done in the following two elifs as well)
         searches = [f"{name}.Weapon Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"]
         GROUP = weapons_group
         LIST = weapons_list
@@ -76,13 +79,13 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrad
     print("Reading JSON")
     results = read_json_2(reading_file, searches)
 
+    # Copying the results of the search to variables for use in instantiation
     attr1 = results[0]
     attr2 = results[1]
     attr3 = results[2]
     if len(LIST) >= 4:
         attr4 = results[3]
 
-    # looped append and variable def
     attributes = [attr1, attr2, attr3, attr4]
     print(f"Attributes: {attributes}")
     NAME = f"{name}"
@@ -90,54 +93,17 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrad
     x = len(item_info)
     ITEM_INFO = {}
 
+    # Defining "item info" as one variable to fit the format of classes' arguments
     for y in range(x):
         ITEM_INFO[item_info[y]] = attributes[y+2]
 
     print(f"Item Info: {ITEM_INFO}")
 
+    # Creating instances of each item and adding them to the respective group
     instance = create_instance(class_type, screen, NAME, attr1, attr2, ITEM_INFO)
-
     LIST[local_index] = instance
     instance = LIST[local_index]
     GROUP.add(instance)
-
-# Defining some weapons
-'''gatlin_laser_gun = weapons(screen,"images/Game_Shop/Blasters/gatlin_laser_gun.png",
-                           200, {"Damage": 250, "Velocity": 10}, "Gatlin Gun")
-
-purple_blaster = weapons(screen,"images/Game_Shop/Blasters/purple_blaster.png",
-                         150, {"Damage": 150, "Velocity": 15}, "Purple Blaster")
-
-rocket_launcher = weapons(screen,"images/Game_Shop/Blasters/rocket_launcher.png",100,
-                {"Damage": 500, "Velocity": 5}, "Rocket Launcher")
-
-yellow_blaster = weapons(screen,"images/Game_Shop/Blasters/yellow_blaster.png",450,
-        {"Damage": 300, "Velocity": 12}, "Yellow Blaster")
-'''
-
-'''# Defining some ships
-black_ship = ships(screen,"images/Game_Shop/Ships/black_ship.png",
-                           500, {"Health": 400, "Velocity": 10}, "Black Ship")
-
-orange_ship = ships(screen,"images/Game_Shop/Ships/orange_ship.png",
-                         550, {"Health": 300, "Velocity": 15}, "Orange Ship")
-
-red_spider_ship = ships(screen,"images/Game_Shop/Ships/red_spider_ship.png",
-                         450, {"Health": 700, "Velocity": 5}, "Red Spider Ship")
-
-white_ship = ships(screen,"images/Game_Shop/Ships/white_ship.png",
-                         450, {"Health": 500, "Velocity": 10}, "White Ship")
-'''
-
-'''# Defining some upgrades
-increase_movement_speed = upgrades(screen,"Movement Speed Increase", "images/Game_Shop/Upgrades/increase_movement_speed.png",500,
-        {"Movement Speed Increase": 2})
-
-increase_damage = upgrades(screen,"Increase Damage", "images/Game_Shop/Upgrades/increase_damage.png",550,
-        {"Damage Increase": 30})
-
-increase_health = upgrades(screen, "Increase Health", "images/Game_Shop/Upgrades/increase_health.png",450,
-        {"Health Increase": 100})'''
 
 # Defining some buttons
 weapons_category_button = basic_button(300, 540, "Weapons",
@@ -149,11 +115,6 @@ ships_category_button = basic_button(400, 540, "Ships",
 upgrades_category_button = basic_button(500, 540, "Upgrades",
                                                 lambda: toggle_upgrades(), screen, 60, 20)
 
-# Adding the items to their respective groups
-
-# weapons_group.add(gatlin_laser_gun, purple_blaster, rocket_launcher, yellow_blaster)
-# ships_group.add(black_ship, orange_ship, red_spider_ship, white_ship)
-# upgrades_group.add(increase_health, increase_damage, increase_movement_speed)
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
 
 

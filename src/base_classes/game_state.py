@@ -70,16 +70,13 @@ class Game:
         elif self.level_number == 3:
             pass
 
+    # Checking for button clicks
     def update(self, events):
         if self.one_player_button.visible:
             self.one_player_button.update(events)
 
         if self.two_player_button.visible:
             self.two_player_button.update(events)
-
-    def re_initalize_json_to_default(self):
-        pass
-
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600

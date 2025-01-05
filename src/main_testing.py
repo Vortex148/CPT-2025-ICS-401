@@ -116,10 +116,10 @@ while not done:
             for group in [ships_group, weapons_group, upgrades_group]:
                 rest_unequipped = False
                 equipped_sprite = None
-                # pop and append
+
                 for sprite in list(group):
                     sprite.item_sprite.check_hover()
-                    sprite.update(events)  # checking for clicks
+                    sprite.update(events)
                     if sprite.visible:
                         sprite.draw()
 
