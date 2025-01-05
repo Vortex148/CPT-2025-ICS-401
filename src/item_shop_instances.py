@@ -39,7 +39,7 @@ buttons_group = pygame.sprite.Group()
 
 weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blaster"]
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
-upgrades_list = ["Health Increase", "Damage Increase", "Movement Speed Increase"]
+upgrades_list = ["Increase Health", "Increase Damage", "Movement Speed Increase"]
 
 for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrades_list
     length_2 = len(weapons_list) + len(ships_list)
@@ -55,21 +55,22 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrad
         local_index = index
         reading_file = "weapons"
     elif len(weapons_list) <= index < length_2:
-        name = ships_list[index - len(weapons_list)]
+        local_index = index - len(weapons_list)
+        name = ships_list[local_index]
         searches = [f"{name}.Sprite", f"{name}.Price", f"{name}.Health", f"{name}.Velocity"]
         GROUP = ships_group
         LIST = ships_list
         class_type = ships
         item_info = ["Health", "Movement Speed"]
-        local_index = index - len(weapons_list)
         reading_file = "ships"
     elif length_2 <= index < length_3:
+        local_index = index - length_2
+        name = upgrades_list[local_index]
         searches = [f"{name}.Sprite", f"{name}.Price", f"{name}.{name}"]
         GROUP = upgrades_group
         LIST = upgrades_list
         class_type = upgrades
-        item_info = ["Upgrade"]
-        local_index = index - length_2
+        item_info = [f"{name}"]
         reading_file = "upgrades"
 
     print("Reading JSON")
@@ -78,7 +79,8 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list): # + upgrad
     attr1 = results[0]
     attr2 = results[1]
     attr3 = results[2]
-    attr4 = results[3]
+    if len(LIST) >= 4:
+        attr4 = results[3]
 
     # looped append and variable def
     attributes = [attr1, attr2, attr3, attr4]

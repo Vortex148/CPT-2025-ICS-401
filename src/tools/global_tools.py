@@ -1,7 +1,7 @@
 # Flipping the visibility of each sprite in the desired group
 
-def create_instance(class_type, *args, **kwargs):
-    return class_type(*args, **kwargs)
+def create_instance(class_type, *args):
+    return class_type(*args)
 
 def toggle_group_visibility(group, state):
     for sprite in group:
