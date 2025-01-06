@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="877.54797"
+   height="474.05481"
+   viewBox="0 0 232.18457 125.42701"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="setting_menu.png"
+   inkscape:export-xdpi="450.86331"
+   inkscape:export-ydpi="450.86331"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="settings_menu.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0779321"
+     inkscape:cx="120.13744"
+     inkscape:cy="216.15462"
+     inkscape:window-width="2560"
+     inkscape:window-height="1494"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid5"
+       units="mm"
+       originx="-40.99091"
+       originy="-62.099998"
+       spacingx="0.99999998"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-40.99091,-62.099995)">
+    <rect
+       style="fill:#666666;stroke-width:0.264583"
+       id="rect1"
+       width="169.00909"
+       height="125.42727"
+       x="104.36363"
+       y="62.286358"
+       ry="10.063637" />
+    <rect
+       style="fill:#666666;stroke-width:0.264583"
+       id="rect2"
+       width="84.504547"
+       height="125.42727"
+       x="188.86818"
+       y="62.286354"
+       ry="10.063637" />
+    <rect
+       style="fill:#666666;stroke-width:0.264583"
+       id="rect3"
+       width="68.372726"
+       height="125.42728"
+       x="205"
+       y="62.286354"
+       ry="0.24545455" />
+    <text
+       xml:space="preserve"
+       style="font-size:7.05799px;font-family:'Press Start 2P';-inkscape-font-specification:'Press Start 2P, Normal';fill:#cccccc;stroke-width:0.141431"
+       x="126.97104"
+       y="80.185837"
+       id="text4"
+       transform="scale(1.0345953,0.9665615)"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="stroke-width:0.141431"
+         x="126.97104"
+         y="80.185837">Settings</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:0.134959"
+       id="rect4"
+       width="57.504539"
+       height="0.63863063"
+       x="131.36363"
+       y="78.547729"
+       ry="0.063862987" />
+  </g>
+</svg>

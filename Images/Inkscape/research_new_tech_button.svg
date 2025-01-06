@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="102mm"
+   height="26.499998mm"
+   viewBox="0 0 102 26.499998"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="research_new_tech_button.svg"
+   inkscape:export-filename="..\Objects\Intermediate\research_new_tech_button_1.png"
+   inkscape:export-xdpi="747.05884"
+   inkscape:export-ydpi="747.05884"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="1.6819304"
+     inkscape:cx="-20.214867"
+     inkscape:cy="103.45256"
+     inkscape:window-width="2560"
+     inkscape:window-height="1494"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g5">
+    <inkscape:grid
+       id="grid1"
+       units="mm"
+       originx="-54"
+       originy="-59.250001"
+       spacingx="0.99999998"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="226.77167"
+       y="245.66928"
+       width="340.1575"
+       height="37.79528"
+       id="rect3" />
+    <rect
+       x="226.77167"
+       y="245.66928"
+       width="340.1575"
+       height="56.692913"
+       id="rect2" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-54,-59.25)">
+    <rect
+       style="fill:#666666;stroke-width:0.275115"
+       id="rect1-0"
+       width="102"
+       height="26.499998"
+       x="54"
+       y="59.25"
+       ry="0.66549069" />
+    <rect
+       style="fill:#cccccc;stroke-width:0.264583"
+       id="rect1"
+       width="100"
+       height="25"
+       x="55"
+       y="60"
+       ry="0.62782145" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text1"
+       style="font-size:49.9042px;font-family:'Press Start 2P';-inkscape-font-specification:'Press Start 2P, Normal';white-space:pre;shape-inside:url(#rect2);display:inline;fill:#cccccc" />
+    <g
+       id="g5"
+       transform="translate(-0.99999761,-1.0000021)">
+      <text
+         xml:space="preserve"
+         transform="matrix(0.26458333,0,0,0.26458333,14.467158,1.6798004)"
+         id="text2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:25.3333px;font-family:'Microsoft Tai Le';-inkscape-font-specification:'Microsoft Tai Le, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect3);display:inline;fill:#55d400"><tspan
+           x="226.77148"
+           y="268.14053"
+           id="tspan3">Research New Tech</tspan></text>
+      <rect
+         style="fill:#4d4d4d;stroke-width:0.264583"
+         id="rect4"
+         width="64"
+         height="1.9999999"
+         x="73"
+         y="77"
+         ry="0.24545455" />
+    </g>
+  </g>
+</svg>

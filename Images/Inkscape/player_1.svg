@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="924.91388"
+   height="337.72516"
+   viewBox="0 0 244.7168 89.356454"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="player_1.svg"
+   inkscape:export-filename="..\Objects\Menu\Player Select\player_1_0.png"
+   inkscape:export-xdpi="284.25482"
+   inkscape:export-ydpi="284.25482"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.53896605"
+     inkscape:cx="-162.34789"
+     inkscape:cy="128.02291"
+     inkscape:window-width="2560"
+     inkscape:window-height="1506"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid2"
+       units="mm"
+       originx="-131.6416"
+       originy="-98.196784"
+       spacingx="1"
+       spacingy="1.0000001"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="804.237"
+       y="491.33862"
+       width="424.10944"
+       height="94.488197"
+       id="rect2" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-131.6416,-98.196777)">
+    <rect
+       style="fill:#1a1a1a;stroke-width:0.278768"
+       id="rect1"
+       width="244.7168"
+       height="89.356445"
+       x="131.6416"
+       y="98.196777" />
+    <rect
+       style="fill:#f2f2f2;stroke-width:0.248289"
+       id="rect1-4"
+       width="231.53247"
+       height="74.921051"
+       x="138.23376"
+       y="105.41447" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.53371467,0,0,0.53465871,-280.10648,-136.49916)"
+       id="text2"
+       style="font-size:49.9042px;font-family:'Press Start 2P';-inkscape-font-specification:'Press Start 2P, Normal';white-space:pre;shape-inside:url(#rect2);display:inline;fill:#1a1a1a"><tspan
+         x="804.23633"
+         y="547.48012"
+         id="tspan2">PLAYER 1</tspan></text>
+  </g>
+</svg>
