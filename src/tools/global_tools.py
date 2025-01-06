@@ -1,5 +1,7 @@
 # Flipping the visibility of each sprite in the desired group
 
+# Function creates an instance of the defined class.
+# Used to create instances of each item --> allows
 def create_instance(class_type, *args):
     return class_type(*args)
 

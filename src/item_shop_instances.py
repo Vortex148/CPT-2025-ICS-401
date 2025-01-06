@@ -2,7 +2,7 @@ import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *
 from src.Tools.global_tools import toggle_group_visibility
-from src.Tools.json_handler import read_json_2
+from src.Tools.json_handler import read_json
 import json
 from src.Tools.global_tools import create_instance
 
@@ -77,7 +77,7 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
         reading_file = "upgrades"
 
     print("Reading JSON")
-    results = read_json_2(reading_file, searches)
+    results = read_json(reading_file, searches)
 
     # Copying the results of the search to variables for use in instantiation
     attr1 = results[0]

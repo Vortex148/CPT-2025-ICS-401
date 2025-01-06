@@ -50,14 +50,20 @@ class Clickability(pygame.sprite.Sprite):
 
                # If there is text to be displayed when hovering, it is blit to the hover rect.
                if self.hover_text:
-                   text = self.font.render(self.hover_text, True, WHITE)
-                   text_rect = text.get_rect()
-                   text_rect.x = 0
-                   text_rect.y = 0
-                   if self.hover_surface:
-                       self.hover_surface.blit(text, text_rect)
-                   else:
-                       screen.blit(text, text_rect)
+                   lines = self.hover_text.split("\n")
+                   line_height = self.font.get_linesize()
+                   y_offset = hover_rect.y + 10
+
+                   for line in lines:
+                       text = self.font.render(line, True, WHITE)
+                       text_rect = text.get_rect(topleft=(hover_rect.x, y_offset))
+                       text_rect.x = 0
+                       text_rect.y = 0
+                       if self.hover_surface:
+                           self.hover_surface.blit(text, text_rect)
+                       else:
+                           screen.blit(text, text_rect)
+                       y_offset += line_height
 
 # Blueprint for basic buttons
 class basic_button(pygame.sprite.Sprite):

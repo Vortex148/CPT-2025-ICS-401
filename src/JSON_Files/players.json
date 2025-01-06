@@ -1,5 +1,5 @@
 {
-    "Movement_Speed": 16,
+    "Movement_Speed": null,
     "Sprite": "images/Game_Shop/Ships/red_spider_ship.png",
     "Player_1": {
         "Controls": [
