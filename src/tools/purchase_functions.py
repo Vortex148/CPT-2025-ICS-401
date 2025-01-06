@@ -150,7 +150,7 @@ def equip(obj, close, item_type, item_info, image_path,
             movement_increase = item_info.get("Movement Speed Increase", 0)
             new_movement_speed = Movement_Speed + movement_increase
             update_json("players", {"Movement_Speed" : new_movement_speed})
-            updated_movement_speed = read_json("players", "Movement_Speed")
+            updated_movement_speed = read_json("players", ["Movement_Speed"])
             print(f"New Movement Speed: {updated_movement_speed}")
             recreate_players()
 
