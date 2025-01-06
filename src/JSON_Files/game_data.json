@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "common": 1000,
+    "rare": 100,
+    "legendary": 98
+  }
+
+}

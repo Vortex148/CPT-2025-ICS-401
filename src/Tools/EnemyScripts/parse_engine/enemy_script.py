@@ -45,9 +45,9 @@ class enemy_script:
     def check_collision(self, rect):
         for i in range(len(self.current_operation.command.path_followers)):
             if self.current_operation.command.path_followers[i].follower.check_collision(rect):
-                print("COLLISION")
                 del self.current_operation.command.path_followers[i]
                 break
+
 
     def update(self):
         self.read_next_line()

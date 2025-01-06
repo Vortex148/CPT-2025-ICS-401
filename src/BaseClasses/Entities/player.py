@@ -2,10 +2,10 @@ import numpy
 import pygame
 import json
 
-from src.Tools.control_handler import check_dynamic_user_input
-from src.BaseClasses.projectile import Projectile
-from src.Tools.unit_handler import swth_sprite
-from src.Tools.time_handler import Timer
+from src.Tools.Misc_Tools.control_handler import check_dynamic_user_input
+from src.BaseClasses.Entities.projectile import Projectile
+from src.Tools.Misc_Tools.unit_handler import swth_sprite
+from src.Tools.Misc_Tools.time_handler import Timer
 
 # import pprint
 

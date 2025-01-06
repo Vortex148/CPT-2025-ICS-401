@@ -1,19 +1,20 @@
 import pygame
+from moviepy.video.io.VideoFileClip import VideoFileClip
+
+import src.common_variables
+from src.common_variables import *
 
 pygame.init()
+
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
+# screen = pygame.display.set_mode(screen_dimensions, pygame.FULLSCREEN, 32)
 
-from src.game_state import initialize_game
-import random
-from src.BaseClasses.player import *
-from src.BaseClasses.enemy import classicAlien
-from src.Tools.time_handler import Timer
-from src.BaseClasses.menu import *
+from src.game_state import *
+from src.BaseClasses.Entities.player import *
+from src.Tools.Misc_Tools.time_handler import Timer
 from src.Tools.EnemyScripts.parse_engine.tools import parse_engine
-import game_state
-
-# Set the width and height of the screen [width, height]
+from src.Tools.Misc_Tools.unit_handler import *
 
 pygame.display.set_caption("Space Defenders")
 
@@ -38,11 +39,12 @@ done = False
 # Loop until the user clicks the close button.
 
 
-
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-initialize_game()
+
+load_game_init()
+load_intermediate()
 
 while not done:
 
@@ -59,8 +61,7 @@ while not done:
             for sprite in player_sprite_group:
                 sprite.update_position(event)
 
-
-
+    pygame.display.set_caption(f"Space Defenders -- {1/Timer.get_last_frame_time_s()}")
 
     screen.fill((0,0,0))
 
@@ -77,9 +78,8 @@ while not done:
             for y in x.projectile_group:
                 hit = i.get_rect().colliderect(y.rect)
                 if script.current_operation.type == "WAIT":
-                    script.check_collision(y.rect)
-                if hit:
-                    i.kill()
+                    script.check_collision(y)
+
 
 
 

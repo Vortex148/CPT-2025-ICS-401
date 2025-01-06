@@ -1,112 +1,98 @@
-from stat import FILE_ATTRIBUTE_ARCHIVE
+from src.Tools.Misc_Tools.unit_handler import *
+from src.Tools.Misc_Tools.time_handler import *
 
-import pygame
+class basic_button(swth_object):
+    screen = pygame.display.get_surface()
 
-from src.Tools.unit_handler import *
-from src.common_variables import *
+    def __init__(self, image, position = (0,0), width_height = (10,10), rotation=0,  execute_click=None, execute_hover=None, progress_bar_dimensions=None, click_delay = 0):
+        self.screen = pygame.display.get_surface()
+        self.position = position
+        self.visible = True
+        self.actionable = True
+        self.image = image
+        self.execute_click = execute_click
+        self.execute_hover = execute_hover
+        self.condition_met = False
+        self.progress_bar_dimensions = progress_bar_dimensions
+        self.bar_progress = 0.0
+        self.delay_timer = None
+        super().__init__(self.image, self.position, width_height, rotation,2)
+        if click_delay > 0:
+            self.delay_timer = timed_delay(click_delay)
 
-class Clickability(swth_sprite):
-    # The "execute" parameter allows the import of functions from other classes and
-    # runs them when the mouse click is in rectangle bounding the image.
-
-    def __init__(self, sprite_image, x, y, execute_click=None, hover_text=None, hover_surface=None):
-       super().__init__(sprite_image)
-       self.image = sprite_image
-       self.rect = self.image.get_rect()
-       self.rect.center = (x, y)
-
-       self.execute_click = execute_click
-       self.visible = True
-       self.hovering = False
-       self.hover_text = hover_text
-       self.hover_surface = hover_surface
-
-       super().update_position([x, y])
-
-       self.font = pygame.font.SysFont("Courier New", 16, True, False)
-
-
-    # Checking if the sprite was clicked
-    def check_click(self, events):
-       # Looping through each event in pygame and triggering the desired function when the mouse button is released.
-       for event in events:
-           if event.type == pygame.MOUSEBUTTONUP and self.rect.collidepoint(event.pos):
-               # Allowing self.execute to be none by only running the function when it has a value.
-               if self.execute_click:
-                   self.execute_click()
-
-
-    def return_bool_val(self, events):
-       print(self.rect)
-       # Looping through each event in pygame and triggering the desired function when the mouse button is released.
-       for event in events:
-           if event.type == pygame.MOUSEBUTTONUP and self.rect.collidepoint(event.pos):
-                # Allowing self.execute to be none by only running the function when it has a value.
+    def check_click(self):
+        if self.visible and self.actionable:
+            if super().get_rect().collidepoint(pygame.mouse.get_pos()):
+                super().set_frame_index(1)
+                self.execute_hover() if self.execute_hover else None
+                if pygame.mouse.get_pressed()[0] and self.delay_timer.did_delay_elapse() if self.delay_timer is not None else pygame.mouse.get_pressed()[0]:
+                    self.execute_click() if self.execute_click else None
                     return True
-       return False
+            else:
+                super().set_frame_index(0)
+                return False
+
+    def check_click_conditional(self):
+        if self.visible and self.actionable and self.condition_met:
+            if super().get_rect().collidepoint(pygame.mouse.get_pos()):
+                super().set_frame_index(1)
+                self.execute_hover() if self.execute_hover else None
+                if pygame.mouse.get_pressed()[0]:
+                    self.execute_click() if self.execute_click else None
+                    return True
+            else:
+                super().set_frame_index(0)
+                return False
 
     def check_hover(self):
-        mouse_position = pygame.mouse.get_pos()
-        self.hovering = super().rect.collidepoint(mouse_position)
-    # Drawing the sprite if it is set to visible
+        # print(super().get_rect())
+        if self.visible and self.actionable:
+            if super().get_rect().collidepoint(pygame.mouse.get_pos()):
+                super().set_frame_index(1)
+                self.execute_hover() if self.execute_hover else None
+                return True
+            else:
+                super().set_frame_index(0)
+                return False
+
+    def set_visible(self, visible):
+        self.visible = visible
+
+    def set_actionable(self, actionable):
+        self.actionable = actionable
+
+    def disable(self):
+        self.visible = False
+        self.actionable = False
+
+    def enable(self):
+        self.visible = True
+        self.actionable = True
+
+    def clicked(self):
+        return super().get_rect().collidepoint(pygame.mouse.get_pos() and pygame.mouse.get_pressed()[0])
+
+    def update_progress_bar(self, increase):
+        tick = 0.05
+        if increase and self.bar_progress <= 1.0 - tick:
+            self.bar_progress += tick
+        elif not increase and self.bar_progress >= 0.0 + tick:
+            self.bar_progress -= tick
+            self.condition_met = False
+        elif self.bar_progress == 1.0:
+            self.condition_met = True
+        self.bar_progress = round(self.bar_progress, 2)
+
+
+
     def draw(self):
-        super().draw()
-           # screen.blit(self.image, self.rect.topleft)
+        self.delay_timer.update() if self.delay_timer else None
+        if self.visible:
+            super().draw()
+
+            if self.progress_bar_dimensions:
+                progress_bar_tl = generate_relative_value_2d(numpy.add(self.progress_bar_dimensions[0:2], self.position))
+                progress_bar_wh = generate_relative_value_2d([self.progress_bar_dimensions[2] * self.bar_progress, self.progress_bar_dimensions[3]])
+                pygame.draw.rect(basic_button.screen, (40,200,40), [progress_bar_tl, progress_bar_wh])
 
 
-           # if self.hovering:
-           #     hover_rect = self.rect.copy()
-           #     hover_rect.x += 30
-           #     hover_rect.width = generate_relative_value_2d(10)
-           #     hover_rect.height = generate_relative_value_2d(10)
-           #
-           #     pygame.draw.rect(screen, GRAY, hover_rect)
-           #
-           #     if self.hover_text:
-           #         text = self.font.render(self.hover_text, True, WHITE)
-           #         text_rect = text.get_rect()
-           #         super().
-           #         if self.hover_surface:
-           #             self.hover_surface.blit(text, text_rect)
-           #         else:
-           #             screen.blit(text, text_rect)
-
-class basic_button():
-   def __init__(self, x, y, text, screen, execute_click = None, width=160, height=80, color=YELLOW):
-       self.screen = screen
-       self.x = x
-       self.y = y
-       self.text = text
-       self.color = None
-       self.visible = True
-       self.width = generate_relative_value(width, screen.get_size()[0])
-       self.height = generate_relative_value(height, screen.get_size()[0])
-       self.execute_click = execute_click
-       self.font = pygame.font.SysFont('Courier New', 15, True, False)
-       self.text_box = self.font.render(self.text, True, BLACK)
-       self.button = pygame.Surface((self.width, self.height))
-       self.button.fill(color)
-
-       # Positioning the text in the center of the button
-       self.text_rect = self.text_box.get_rect()
-       self.text_width = self.text_rect.width
-       self.text_height = self.text_rect.height
-       self.text_x = (self.text_width - self.width)/2  # (self length - total)/2
-       self.text_y = (self.text_height - self.height)/2  # (self height - total)/2
-       self.button.blit(self.text_box, (self.text_x, self.text_y))
-       self.button_sprite = Clickability(self.button, x, y, execute_click)
-
-   def update(self, events):
-       if self.visible:
-            self.button_sprite.check_click(events)
-
-   def clicked(self, events):
-       return self.button_sprite.check_click(events)
-
-   def bool_val(self, events):
-
-       return self.button_sprite.return_bool_val(events)
-
-   def draw(self):
-       if self.visible:
-            self.button_sprite.draw()

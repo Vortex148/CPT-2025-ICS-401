@@ -2,8 +2,8 @@ import numpy
 import math
 
 
-from src.Tools.time_handler import Timer
-from src.Tools.dev_tools import vector_drawer
+from src.Tools.Misc_Tools.time_handler import Timer
+from src.Tools.Misc_Tools.dev_tools import vector_drawer
 
 
 class trajectory_handler:

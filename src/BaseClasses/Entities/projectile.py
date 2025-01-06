@@ -1,12 +1,12 @@
 import pygame
 import json
 import numpy
-from src.Tools.time_handler import *
+from src.Tools.Misc_Tools.time_handler import *
 
 # Opening the json weapons file.
 weapons_file = open("src/JSON_Files/weapons.json")
 all_weapons = json.load(weapons_file)
-from src.Tools.unit_handler import swth_sprite
+from src.Tools.Misc_Tools.unit_handler import swth_sprite
 
 class Projectile(swth_sprite):
     FADE_OUT_SPEED = 10
@@ -21,6 +21,8 @@ class Projectile(swth_sprite):
         print(self.position)
         self.rect.center = self.position
         self.velocity = numpy.multiply(all_weapons[weapon]["Velocity"].copy(), [1,-1])
+        self.damage = all_weapons[weapon]["Damage"]
+        print(self.damage)
         self.opacity = 255
 
 

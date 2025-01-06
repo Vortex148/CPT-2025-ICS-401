@@ -1,8 +1,5 @@
-from pygame.font import match_font
-
-from src.Tools.EnemyScripts.parse_engine import path_follower
 from src.Tools.EnemyScripts.parse_engine.tools.conversion_tools import tools
-from src.Tools.time_handler import Timer
+from src.Tools.Misc_Tools.time_handler import Timer
 from src.Tools.EnemyScripts.parse_engine.path_follower import PathFollower
 
 class Token:

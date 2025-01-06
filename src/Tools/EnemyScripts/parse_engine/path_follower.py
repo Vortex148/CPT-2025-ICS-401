@@ -1,7 +1,8 @@
 import pygame.draw
 
 from src.Tools.EnemyScripts.parse_engine.tools.conversion_tools import tools
-from src.BaseClasses import enemy
+from src.BaseClasses.Entities import enemy
+
 
 class PathFollower:
     def __init__(self, enemy_data, index):

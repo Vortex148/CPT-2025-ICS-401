@@ -47,3 +47,25 @@ class Timer:
             Timer.current_time = time.time()
             Timer.delta = Timer.current_time - Timer.last_time  # Calculate delta
             Timer.last_time = Timer.current_time  # Update last_time for the next frame
+
+
+class timed_delay:
+    def __init__(self, delay):
+        self.delay = delay
+        self.current_val = 0
+        self.delay_elapsed = True
+
+    def update(self):
+        if not self.delay_elapsed:
+            if self.current_val == 0:
+                    self.current_val = Timer.get_last_frame_time_s()
+            elif self.current_val < self.delay:
+                    self.current_val = self.current_val + Timer.get_last_frame_time_s()
+            else:
+                self.delay_elapsed = True
+                self.current_val = 0
+
+    def did_delay_elapse(self):
+        did_delay_elapse = self.delay_elapsed
+        self.delay_elapsed = False
+        return did_delay_elapse
