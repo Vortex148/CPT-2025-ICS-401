@@ -120,11 +120,11 @@ class swth_object(pygame.sprite.Sprite):
        self.frame_index = 0
        self.opacity = opacity
 
-       image = pygame.image.load(image_path).convert_alpha()
-       image = pygame.transform.smoothscale(image, generate_relative_value_2d(self.size))
-       image = pygame.transform.rotate(image, rotation)
+       self.image = pygame.image.load(image_path).convert_alpha()
+       self.image = pygame.transform.smoothscale(self.image, generate_relative_value_2d(self.size))
+       self.image = pygame.transform.rotate(self.image, rotation)
 
-       self.rect = image.get_rect()
+       self.rect = self.image.get_rect()
 
        # for i in range(frame_count):
        #     try:
@@ -147,17 +147,10 @@ class swth_object(pygame.sprite.Sprite):
    def generate_relative_coords(self):
        position = numpy.divide(self.position, (100,100))
        position = numpy.multiply(position, pygame.display.get_surface().get_size())
-       self.rect.topleft = position
-       # print(self.rect.center)
+       self.rect.center = position
        return position
 
-
-
-
-
-
    def update_position(self, position):
-
 
        self.generate_relative_coords()
        self.position = position
@@ -167,13 +160,9 @@ class swth_object(pygame.sprite.Sprite):
        self.rect.center = position
        update()
 
-
-
-
    def update_position_abs(self, position):
        self.position = generate_screen_to_relative(position)
        print(self.position)
-
 
    def get_position(self):
        return self.position
@@ -202,7 +191,7 @@ class swth_object(pygame.sprite.Sprite):
        # screen.blit(self.image,(1180,100))
        if enable_hitbox:
            pygame.draw.rect(screen, pygame.Color('green'), self.rect)
-       screen.blit(self.frames[self.frame_index], self.generate_relative_coords())
+       screen.blit(self.image, self.generate_relative_coords())
 
 
    def set_frame_index(self, frame_index):

@@ -7,7 +7,6 @@ from src.base_classes.swth import *
 class BASIC_BUTTON(swth_object):
    screen = pygame.display.get_surface()
 
-
    def __init__(self, image, position = (0,0), width_height = (10,10), rotation=0,  execute_click=None, execute_hover=None, progress_bar_dimensions=None, click_delay = 0):
        self.screen = pygame.display.get_surface()
        self.position = position
@@ -27,14 +26,14 @@ class BASIC_BUTTON(swth_object):
    def check_click(self):
        if self.visible and self.actionable:
            if super().get_rect().collidepoint(pygame.mouse.get_pos()):
-               super().set_frame_index(1)
+               # super().set_frame_index(1)
                self.execute_hover() if self.execute_hover else None
                if pygame.mouse.get_pressed()[0]:
                    self.execute_click() if self.execute_click else None
                    return True
-           else:
-               super().set_frame_index(0)
-               return False
+           # else:
+           #     super().set_frame_index(0)
+           #     return False
 
    def check_hover(self):
        # print(super().get_rect())

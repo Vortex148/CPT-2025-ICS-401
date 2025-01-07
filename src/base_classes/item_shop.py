@@ -2,12 +2,14 @@
 from src.Tools.global_tools import toggle_group_visibility
 from src.base_classes.button_classes import Clickability, basic_button
 from src.Tools.purchase_functions import *
+from src.base_classes.revised_buttons import BASIC_BUTTON
+from src.base_classes.swth import swth_sprite, swth_object
 
 # The game engine must be initialized to access font styles and other pygame properties
 pygame.init()
 
 # Class for the item shop structure
-class open_and_background:
+class open_and_background():
    # Parameters written for each of the main item groups of the shop. In the main game loop, the instances
    # of each of these groups are accessible as arguments for this class. It is not possible to do so here
    # because the instances rely on the class, and the class the instances. For this reason, it is outsourced
@@ -15,44 +17,39 @@ class open_and_background:
    def __init__(self, screen, ships_group, weapons_group, upgrades_group, buttons_group):
        self.item_shop_visible = False
        self.screen = screen
+
        self.ships_group = ships_group
        self.weapons_group = weapons_group
        self.upgrades_group = upgrades_group
        self.buttons_group = buttons_group
-       open_button = pygame.image.load("images/buttons_and_menus/shopping_cart.png")
-       open_button = pygame.transform.scale(open_button, (menu_button_width, menu_button_height))
 
-       # See lambda function for description
-       self.open_button_sprite = Clickability(
-           open_button,
-           700,
-           100,
-           lambda: self.open_shop()
+       open_button_path = "images/buttons_and_menus/shopping_cart.png"
+       self.open_button_sprite = BASIC_BUTTON(
+           open_button_path,
+           (80, 10),
+           (10, 10),
+           execute_click=lambda: self.open_shop()
        )
 
-       shop_background = pygame.image.load("images/buttons_and_menus/shop_background.png")
-       shop_background = pygame.transform.scale(shop_background, (600, 600))
+       shop_background_path = "images/buttons_and_menus/shop_background.png"
 
        # Todo: background sprite should not be clickable. Works but could be far simpler as a basic sprite
-       self.background_sprite = Clickability(
-           shop_background,
-           400,
-           screen_height/2,
-           None
+       self.background_sprite = swth_object(
+           shop_background_path,
+           (10, 10),
+           (80, 80),
        )
 
        # Defaulting the shop to be invisible so it is not drawn unless opened.
        self.background_sprite.visible = False
 
-       close_button_image = pygame.image.load("images/buttons_and_menus/Close.png")
-       close_button_image = pygame.transform.scale(close_button_image, (close_button_width, close_button_height))
-
+       close_button_path = "images/buttons_and_menus/Close.png"
        # See lambda function for description
-       self.close_button_sprite = Clickability(
-           close_button_image,
-           550,
-           70,
-           lambda: self.close_shop()
+       self.close_button_sprite = BASIC_BUTTON(
+           close_button_path,
+           (73, 20),
+           (5, 7),
+           execute_click=lambda: self.close_shop()
        )
 
    # Makes all game shop objects visible (triggers drawing in main game loop)
@@ -74,19 +71,19 @@ class open_and_background:
    # Checking if the buttons were clicked each frame.
    def update(self, events):
        if self.open_button_sprite.visible:
-           self.open_button_sprite.check_click(events)
+           self.open_button_sprite.check_click()
 
        if self.background_sprite.visible:
-           self.close_button_sprite.check_click(events)
+           self.close_button_sprite.check_click()
            self.item_shop_visible = True
 
    # Drawing the close button if the background is visible.The open button is always drawn.
    def draw(self):
-       self.open_button_sprite.draw(self.screen)
+       self.open_button_sprite.draw()
 
        if self.background_sprite.visible:
-           self.background_sprite.draw(self.screen)
-           self.close_button_sprite.draw(self.screen)
+           self.background_sprite.draw()
+           self.close_button_sprite.draw()
 
 class shop_items(pygame.sprite.Sprite):
    item_number = 0
@@ -124,12 +121,7 @@ class shop_items(pygame.sprite.Sprite):
        self.purchase_rect_width = purchase_rect.width
        self.purchase_rect_height = purchase_rect.height
 
-       self.item_image = pygame.image.load(path)
-       self.item_image = pygame.transform.scale(self.item_image, (item_width, item_height))
-
-       # Position of first object
-       self.pos_x = 330
-       self.pos_y = 180
+       self.item_image_path = path
 
        self.visible = False
 
@@ -140,43 +132,42 @@ class shop_items(pygame.sprite.Sprite):
            shop_items.item_number = 1
 
        if self.item_number == 1:
-           self.pos_x = 330
-           self.pos_y = 180
+           self.pos_x = 24
+           self.pos_y = 22
        elif self.item_number == 2:
-           self.pos_x = 510
-           self.pos_y = 180
+           self.pos_x = 49
+           self.pos_y = 22
        elif self.item_number == 3:
-           self.pos_x = 330
-           self.pos_y = 420
+           self.pos_x = 24
+           self.pos_y = 56
        elif self.item_number == 4:
-           self.pos_x = 510
-           self.pos_y = 420
+           self.pos_x = 49
+           self.pos_y = 56
 
        # Details of the object stored in hover_text so it is displayed when the item is hovered over.
-       hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
-                    "\n".join(f"{key.title()}: {value}" for key, value in item_info.items())
+
+       # hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
+       #              "\n".join(f"{key.title()}: {value}" for key, value in item_info.items())
 
        #
        if self.item_type == "upgrades":
-           self.item_sprite = Clickability(
-               self.item_image,
-               self.pos_x,
-               self.pos_y,
-               lambda: self.equip(),
-               # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
-               hover_text,
-               self.purchase_background_surface  # surface to blit text onto
+           self.item_sprite = BASIC_BUTTON(
+               self.item_image_path,
+               (self.pos_x, self.pos_y,),
+               (22, 22),
+               execute_click = lambda: self.equip(),
+               execute_hover = None # self.purchase_background_surface.draw()
+               # Calls basic item_click function if item has not been purchased.
+               # Will call equipping code if a purchased item is selected again.
            )
 
        elif self.item_type == "ships" or "weapons":
-           self.item_sprite = Clickability(
-               self.item_image,
-               self.pos_x,
-               self.pos_y,
-               lambda: self.item_click() if not self.item_purchased
-               else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
-               hover_text,
-               self.purchase_background_surface # surface to blit text onto
+           self.item_sprite = BASIC_BUTTON(
+               self.item_image_path,
+               (self.pos_x, self.pos_y),
+               (22, 22),
+               execute_click=lambda: self.item_click() if not self.item_purchased else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
+               execute_hover= None # self.purchase_background_surface.draw()
            )
 
        self.selected_item = self.item_sprite
@@ -241,14 +232,14 @@ class shop_items(pygame.sprite.Sprite):
    # Checking for clicks each frame
    def update(self, events):
        if self.visible:
-           self.item_sprite.check_click(events)
+           self.item_sprite.check_click()
            self.item_sprite.check_hover()
            self.draw_equipped()
            self.draw_purchased()
 
    def draw(self):
        if self.visible:
-           self.item_sprite.draw(self.screen)
+           self.item_sprite.draw()
 
 # Defining child classes of shop items for each category.
 # Category specific attributes like damage and velocity are added
