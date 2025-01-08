@@ -1,12 +1,17 @@
 # from src.Tools.global_tools import draw_default_group
+from src.base_classes.swth import swth_object
+from src.Tools.global_tools import get_path
 from src.Tools.global_tools import toggle_group_visibility
-from src.base_classes.button_classes import Clickability, basic_button
+from src.base_classes.button_classes import basic_button
 from src.Tools.purchase_functions import *
 from src.base_classes.revised_buttons import BASIC_BUTTON
-from src.base_classes.swth import swth_sprite, swth_object
+from src.base_classes.swth import swth_object
 
 # The game engine must be initialized to access font styles and other pygame properties
 pygame.init()
+
+black_background_path = get_path("Black_Background", images_directory, "png")
+black_background = swth_object(black_background_path, size=(35, 35), position=(50, 50))
 
 # Class for the item shop structure
 class open_and_background():
@@ -56,8 +61,8 @@ class open_and_background():
    def open_shop(self):
       self.background_sprite.visible = True
       self.close_button_sprite.visible = True
-      toggle_group_visibility(self.buttons_group, True)
       toggle_group_visibility(self.ships_group, True)
+      toggle_group_visibility(self.buttons_group, True, True)
 
    # Makes all game shop objects invisible
    def close_shop(self):
@@ -66,7 +71,7 @@ class open_and_background():
        toggle_group_visibility(self.ships_group, False)
        toggle_group_visibility(self.upgrades_group, False)
        toggle_group_visibility(self.weapons_group, False)
-       toggle_group_visibility(self.buttons_group, False)
+       toggle_group_visibility(self.buttons_group, False, True)
 
    # Checking if the buttons were clicked each frame.
    def update(self, events):
@@ -94,14 +99,17 @@ class shop_items(pygame.sprite.Sprite):
    purchase_button_no = None
    equip_confirm = None
    equip_deny = None
+   equip_yes_path = get_path("Yes Button", buttons_directory, "png")
+   equip_no_path = get_path("No Button", buttons_directory, "png")
 
-   def __init__(self, screen, name, path, price, item_info):
+   def __init__(self, screen, name, path, price, item_info, hover_image=None):
        super().__init__()
        shop_items.item_number += 1 # Incrementing the item number for positioning
 
        # Default values for purchased and equipped state.
        self.item_purchased = False
        self.equipped = False
+       self.hover_image = hover_image
 
        # Defining instance variables from parameters
        self.item_type = type(self).__name__ # Returns the name of the child class to distinguish purchase functions in the purchase functions file.
@@ -111,8 +119,9 @@ class shop_items(pygame.sprite.Sprite):
        self.name = name
        self.price = price
        self.item_info = item_info
+       print(self.name)
 
-       # Defining the purchase menu for each item
+       # TODO: take out
        self.purchase_background_surface = pygame.Surface((200, 200))
        self.purchase_background_surface.fill(BLUE)
        purchase_rect = self.purchase_background_surface.get_rect()
@@ -128,6 +137,10 @@ class shop_items(pygame.sprite.Sprite):
        # Assigning each item a number and positioning it based on that.
        # The count is reset after 4 because position is tied to the count
        # by multiplication
+
+       self.pos_x = 24
+       self.pos_y = 22
+
        if shop_items.item_number > 4:
            shop_items.item_number = 1
 
@@ -144,39 +157,36 @@ class shop_items(pygame.sprite.Sprite):
            self.pos_x = 49
            self.pos_y = 56
 
-       # Details of the object stored in hover_text so it is displayed when the item is hovered over.
-
-       # hover_text = f"Name: {self.name}\nPrice: ${self.price}\n"+\
-       #              "\n".join(f"{key.title()}: {value}" for key, value in item_info.items())
-
-       #
        if self.item_type == "upgrades":
            self.item_sprite = BASIC_BUTTON(
                self.item_image_path,
                (self.pos_x, self.pos_y,),
                (22, 22),
                execute_click = lambda: self.equip(),
-               execute_hover = None # self.purchase_background_surface.draw()
-               # Calls basic item_click function if item has not been purchased.
-               # Will call equipping code if a purchased item is selected again.
-           )
+               execute_hover = lambda: self.draw_hover_image()
 
+           )
+       # Calls basic item_click function if item has not been purchased.
+       # Will call equipping code if a purchased item is selected again.
        elif self.item_type == "ships" or "weapons":
            self.item_sprite = BASIC_BUTTON(
                self.item_image_path,
                (self.pos_x, self.pos_y),
                (22, 22),
-               execute_click=lambda: self.item_click() if not self.item_purchased else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
-               execute_hover= None # self.purchase_background_surface.draw()
+               execute_click = lambda: self.item_click() if not self.item_purchased else self.equip(), # Calls basic item_click function if item has not been purchased. Will call equipping code if a purchased item is selected again.
+               execute_hover = lambda: self.draw_hover_image()
            )
 
        self.selected_item = self.item_sprite
 
+   def draw_hover_image(self):
+       global black_background
+       black_background.draw()
+       self.hover_image.draw()
+
    # In progress
    def equip(self):
        shop_items.current_item = self
-       x = (self.purchase_rect_x + self.purchase_rect_width / 2)
-       y = self.purchase_rect_y
 
        if game.player2 != None:
            players_list = [game.player1, game.player2]
@@ -184,15 +194,15 @@ class shop_items(pygame.sprite.Sprite):
            players_list = [game.player1]
 
        shop_items.equipping_background_visibility = True
+
        # add new text for purchase background
-       shop_items.equip_confirm = basic_button(x, y, "Yes", lambda: equip(self,
+       shop_items.equip_confirm = BASIC_BUTTON(shop_items.equip_yes_path, (50, 50), (10, 10), execute_click = lambda: equip(self,
                 lambda: close_yes_no(shop_items, "equipping_background_visibility"), self.item_type, self.item_info,
                                      self.path, self.name, players_list),
-                self.screen, 60, 30, RED)
+                                               )
 
-       shop_items.equip_deny = basic_button(x, y + 50, "No", lambda: close_yes_no(shop_items,
-                            "equipping_background_visibility"),
-                            self.screen, 60, 30, RED)
+       shop_items.equip_deny = BASIC_BUTTON(shop_items.equip_no_path, (50, 65), (10, 10), execute_click=lambda: close_yes_no(shop_items,
+                            "equipping_background_visibility"))
 
    # Defines what happens when an item is clicked
    def item_click(self):
@@ -209,13 +219,17 @@ class shop_items(pygame.sprite.Sprite):
        elif game.player2 == None:
            players_list = [game.player1]
 
+       # TODo: note to self for tomorrow: buttons working but need to get them to update (likely needs class reference)
+       # TOdo; shop items.purchase button yes etc..
        # Calling the "yes" function when the confirm button is clicked
-       shop_items.purchase_button_yes = basic_button(x, y, "Yes", lambda: purchase(self.price,
+       shop_items.purchase_button_yes = BASIC_BUTTON(shop_items.equip_yes_path, (50, 50),
+                    (10, 10), execute_click=lambda: purchase(self.price,
                                 self.name, players_list, self,
-                                self.purchase_background_surface, shop_items),
-                                self.screen, 60, 30)
+                                self.purchase_background_surface, shop_items)
+                                )
 
-       shop_items.purchase_button_no = basic_button(x, y + 50, "No", lambda: no(shop_items), self.screen, 60, 30)
+       shop_items.purchase_button_no = BASIC_BUTTON(shop_items.equip_no_path, (50, 65),
+                    (10, 10), execute_click=lambda: no(shop_items))
 
        # Telling the program it can draw the purchase screen
        shop_items.purchase_background_visibility = True
@@ -223,11 +237,11 @@ class shop_items(pygame.sprite.Sprite):
    # Following two methods in progress- for equipping/double purchase prevention code
    def draw_purchased(self):
        if self.item_purchased and not self.equipped:
-           equipping_or_purchase(self.item_image, self.screen, "purchase", [self.pos_x, self.pos_y])
+           equipping_or_purchase(self.item_sprite, self.screen, "purchase", [self.pos_x, self.pos_y])
 
    def draw_equipped(self):
        if self.equipped:
-           equipping_or_purchase(self.item_image, self.screen, "equipped", [self.pos_x, self.pos_y])
+           equipping_or_purchase(self.item_sprite, self.screen, "equipped", [self.pos_x, self.pos_y])
 
    # Checking for clicks each frame
    def update(self, events):
@@ -245,22 +259,22 @@ class shop_items(pygame.sprite.Sprite):
 # Category specific attributes like damage and velocity are added
 # In the class constructor.
 class weapons(shop_items):
-   def __init__(self, screen, name, path, price, item_info):
-       super().__init__(screen, name, path, price, item_info)
+   def __init__(self, screen, name, path, price, item_info, hover_image):
+       super().__init__(screen, name, path, price, item_info, hover_image)
        self.damage = item_info.get("Damage")
        self.velocity = item_info.get("Velocity")
 
 # Blueprint for upgrades
 class ships(shop_items):
-    def __init__(self, screen, name, path, price, item_info):
-       super().__init__(screen, name, path, price, item_info)
+    def __init__(self, screen, name, path, price, item_info, hover_image):
+       super().__init__(screen, name, path, price, item_info, hover_image)
        self.health = item_info.get("Health")
        self.velocity = item_info.get("Velocity")
 
 # Blueprint for upgrades
 class upgrades(shop_items):
-    def __init__(self, screen, name, path, price, item_info):
-       super().__init__(screen, name, path, price, item_info)
+    def __init__(self, screen, name, path, price, item_info, hover_image):
+       super().__init__(screen, name, path, price, item_info, hover_image)
        # Defaulting to 0 if no parameter is given. This avoids needing to
        # differentiate between the types of upgrades. All upgrades update all
        # attributes but only update the selected one in a meaningful way (i.e.

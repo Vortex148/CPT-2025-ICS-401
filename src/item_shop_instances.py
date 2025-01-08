@@ -1,8 +1,9 @@
 import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *
-from src.Tools.global_tools import toggle_group_visibility
+from src.Tools.global_tools import toggle_group_visibility, get_path
 from src.Tools.json_handler import read_json
+from src.common_variables import *
 import json
 from src.Tools.global_tools import create_instance
 
@@ -41,6 +42,11 @@ weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blast
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
 upgrades_list = ["Increase Health", "Increase Damage", "Movement Speed Increase"]
 
+def generate_hover_image(name):
+    path = get_path(name, hover_images_directory, "png")
+    hover_image = swth_object(path, position=(50, 50), size=(35, 35))
+    return hover_image
+
 # Looped creation of items in the shop
 for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     length_2 = len(weapons_list) + len(ships_list)
@@ -76,7 +82,6 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
         item_info = [f"{name}"]
         reading_file = "upgrades"
 
-    print("Reading JSON")
     results = read_json(reading_file, searches)
 
     # Copying the results of the search to variables for use in instantiation
@@ -87,7 +92,6 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
         attr4 = results[3]
 
     attributes = [attr1, attr2, attr3, attr4]
-    print(f"Attributes: {attributes}")
     NAME = f"{name}"
 
     x = len(item_info)
@@ -97,29 +101,27 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     for y in range(x):
         ITEM_INFO[item_info[y]] = attributes[y+2]
 
-    print(f"Item Info: {ITEM_INFO}")
-
     # Creating instances of each item and adding them to the respective group
-    instance = create_instance(class_type, screen, NAME, attr1, attr2, ITEM_INFO)
+    instance = create_instance(class_type, screen, NAME, attr1, attr2, ITEM_INFO, generate_hover_image(NAME))
     LIST[local_index] = instance
     instance = LIST[local_index]
     GROUP.add(instance)
 
 # Defining some buttons
-weapons_category_button = basic_button(300, 540, "Weapons",
-                                               lambda: toggle_weapons(), screen, 60, 20)
+weapons_button_path = get_path("Weapons Button", buttons_directory,  "png")
+ships_button_path = get_path("Ships Button", buttons_directory,  "png")
+upgrades_button_path = get_path("Upgrades Button", buttons_directory,  "png")
 
-ships_category_button = basic_button(400, 540, "Ships",
-                                             lambda: toggle_ships(), screen, 60, 20)
-
-upgrades_category_button = basic_button(500, 540, "Upgrades",
-                                                lambda: toggle_upgrades(), screen, 60, 20)
+weapons_category_button = BASIC_BUTTON(weapons_button_path, (32, 77), (5, 5), execute_click=lambda: toggle_weapons())
+ships_category_button = BASIC_BUTTON(ships_button_path, (50, 77), (5, 5), execute_click=lambda: toggle_ships())
+upgrades_category_button = BASIC_BUTTON(upgrades_button_path, (66, 77), (5, 5), execute_click=lambda: toggle_upgrades())
 
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
 
 
 # Toggling the ships when the module is initialized to draw the ships by default when the shop is opened.
 toggle_ships()
+
 
 
 

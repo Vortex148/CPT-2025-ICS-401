@@ -1,16 +1,15 @@
 import json
 from src.common_variables import *
+from src.Tools.global_tools import get_path
 
-group = ['players', 'ships', 'weapons']
+ITEM_SHOP_GROUP = ['players', 'ships', 'weapons']
 
 # Joining the json file name to its directory
 # (directories defined in "common_variables.py")
-def get_json_path(file_name):
-    return os.path.join(json_directory, f"{file_name}.json")
 
 # Debugging function that checks the value of desired key (nested or not)
 def read_json(file, searches):
-    file_path = get_json_path(file)
+    file_path = get_path(file, json_directory, "json")
 
     # Defining a list and appending the results of the search to it
     results = []
@@ -37,7 +36,7 @@ def read_json(file, searches):
 
 # Basic loading of json data
 def load_json(file):
-    file_path = get_json_path(file)
+    file_path = get_path(file, json_directory, "json")
 
     with open(file_path, 'r') as FILE:
         return json.load(FILE)
@@ -45,23 +44,23 @@ def load_json(file):
 # Copy all the json data at the beginning of the program. It is rewritten
 # At the end of the program (likely after changes have been made through the item shop)
 # so that when the game is re-opened, the players are given default equipment.
-def copy_default_json(group=group):
+def copy_default_json(group=ITEM_SHOP_GROUP):
     global DEFAULT_data
     DEFAULT_data = []
     for file in group:
         DEFAULT_data.append(load_json(file))
 
 # Rewriting json data as described above at the end of the program
-def rewrite_default_json(group=group):
+def rewrite_default_json(group=ITEM_SHOP_GROUP):
     for i, file in enumerate(group):
-        file_path = get_json_path(file)
+        file_path = get_path(file, json_directory, "json")
         rewritting_data = DEFAULT_data[i]
         with open(file_path, 'w') as FILE:
             json.dump(rewritting_data, FILE, indent=4)
 
 # Updating json data (nested or not)
 def update_json(file, updates):
-    file_path = get_json_path(file)
+    file_path = get_path(file, json_directory, "json")
 
     # Opening the file and copying the data
     with open(file_path, "r") as reading_file:

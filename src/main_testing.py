@@ -85,7 +85,7 @@ while not done:
 
     for button in buttons_group:
         if button.visible:
-            button.update(events)
+            button.check_click() # button sprite for parent access
 
     # Setting the background to black
     screen.fill(BLACK)
@@ -118,10 +118,11 @@ while not done:
                 equipped_sprite = None
 
                 for sprite in list(group):
-                    sprite.item_sprite.check_hover()
-                    sprite.update(events)
                     if sprite.visible:
                         sprite.draw()
+
+                    sprite.item_sprite.check_hover()
+                    sprite.update(events)
 
                     if rest_unequipped:
                         sprite.equipped = False
