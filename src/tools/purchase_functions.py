@@ -1,32 +1,34 @@
 from src.base_classes.player import player
 from src.Tools.json_handler import update_json, read_json
-from src.common_variables import *
+from src.base_classes.swth import swth_object
 from src.base_classes.game_state import game
-import pygame
+from src.image_paths import white_background
+
 
 # Closing function for yes-no choice screens (e.g. purchase & equip)
 def close_yes_no(class_name, visibility):
     setattr(class_name, visibility, False)
 
-def equipping_or_purchase(selected_item, screen, image_type, position):
+# Drawing "equipped" or "purchased" flags over their item.
+def equipping_or_purchase(selected_item, image_type):
     # Determining which flag to draw
-    if image_type == "purchase":
+    if image_type == "purchased":
         image_path = "images/Game_Shop/Purchased.png"
     elif image_type == "equipped":
         image_path = "images/Game_Shop/Equipped.png"
 
-    # Getting the coordinates of the selected item
-    # and positioning the flag relative to it
-    item_rect = selected_item.get_rect()
-    width = item_rect.width
-    height = item_rect.height
-    x_pos = position[0]
-    y_pos = position[1]
+    size = selected_item.get_size()
+    position = selected_item.get_position()
 
-    image = pygame.image.load(image_path)
-    image = pygame.transform.scale(image, (width, height))
+    position_x = position[0]
+    position_y = position[1] + 6.5
+    background_position = (position_x, position_y)
+    width = size[1]
+    white_background_image = swth_object(white_background, background_position, size=(width, 10))
+    white_background_image.draw()
 
-    screen.blit(image, (x_pos, y_pos))
+    image = swth_object(image_path, position, size)
+    image.draw()
 
 # Copying the old values from the player class and recreating
 # them with updated attributes for the most recent purchase.
@@ -71,11 +73,12 @@ def recreate_players(new_health=None):
 def no(class_name):
     close_yes_no(class_name, "purchase_background_visibility")
 
-def purchase(price, name, players_list, instance_name, class_name):
+# Handling item purchases
+def purchase(price, name, players_list, instance_name, instance, class_name):
     # Ensuring the players have been initialized before allowing them to purchase an item.
     if game.player_button_clicked_state:
-        # Ensuring the players have enough money to buy the item
-        # and subtracting the price from their game balance.
+
+        # Checking funds
         if all(p.coin_balance >= price for p in players_list):
             for p in players_list:
                 p.coin_balance -= price
@@ -84,17 +87,17 @@ def purchase(price, name, players_list, instance_name, class_name):
 
             instance_name.item_purchased = True
 
-        # Todo: replace with not enough money image
-        # else:
-        #     message = "Not enough money to purchase this item"
-        #     font = pygame.font.SysFont('Courier New', 15, True, False)
-        #     text = font.render(message, True, WHITE)
-        #     purchase_surface.blit(text, (30, 30))
+        # Triggers drawing of insufficient funds screen
+        else:
+            print("running attribute update")
+            setattr(instance, "player_funds_insufficient", True)
+            setattr(class_name, "purchase_background_visibility", False)
 
         # Closing the purchase screen after the transaction is complete.
         close_yes_no(class_name, "purchase_background_visibility")
 
-# Equipping function actually equips the item and prevents double purchasing
+# Equipping function actually equips the item by updating
+# respective json file. Prevents double purchasing
 def equip(obj, close, item_type, item_info, image_path,
           name, players_list):
     setattr(obj, "equipped", True)

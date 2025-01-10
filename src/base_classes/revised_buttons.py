@@ -36,7 +36,6 @@ class BASIC_BUTTON(swth_object):
            #     return False
 
    def check_hover(self):
-       # print(super().get_rect())
        if self.visible and self.actionable:
            if super().get_rect().collidepoint(pygame.mouse.get_pos()):
                # super().set_frame_index(1)
@@ -71,6 +70,11 @@ class BASIC_BUTTON(swth_object):
        self.visible = True
        self.actionable = True
 
+   def get_size(self):
+       return super().get_size()
+
+   def get_position(self):
+       return super().get_position()
 
    def clicked(self):
        return super().get_rect().collidepoint(pygame.mouse.get_pos() and pygame.mouse.get_pressed()[0])

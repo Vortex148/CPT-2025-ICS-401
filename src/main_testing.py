@@ -1,5 +1,4 @@
 '''
-
 -----------------------------------------------------------
 
 Name:  Space Defenders
@@ -7,16 +6,15 @@ Name:  Space Defenders
 Purpose: For our CPT we created a Galaga-type game. This was
 an incredible learning experience both inside and out of programming.
 Intensive use of classes and animation techniques no doubt improved our
-ability as programmers. However, there was equal learning in working as a team
-We both agree we
+ability as programmers. However, there was equal learning in working as a team.
 
 Authors:   Charlie Blackburn, John Szewczyk
 
 Created From:  10/28/2024 to 01/17/2025
 
 -----------------------------------------------------------
-
 '''
+
 import pygame
 from src.base_classes.item_shop import *
 from src.base_classes.menu import *
@@ -27,25 +25,17 @@ from src.base_classes.game_state import game
 from src.base_classes.item_shop import shop_items
 from src.Tools.global_tools import draw_choice_screen
 from src.Tools.json_handler import copy_default_json, rewrite_default_json
+from src.common_variables import screen
 
 # Initializing the game engine.
 pygame.init()
-
-# Screen dimensions and colors
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-WHITE = (255, 255, 255)
-
-# Creating the screen and setting a caption
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Main_Testing")
 
 # Playing the intro video.
 '''intro_video = VideoFileClip("Videos/intro_animation.mp4").resize(height = screen_height, width = screen_width)
 intro_video.preview()
 intro_video.close()'''
 
-# Creating  player mode choice buttons, the menu and game shop
+# Creating player mode choice buttons, the menu and game shop
 game.create_buttons()
 menu = Menu()
 game_shop = open_and_background(ships_group,
@@ -56,20 +46,20 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-# read json command
-
 copy_default_json()
 
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
     events = pygame.event.get()
-    for event in events:  # User did something
-        # Window closing code
+
+    for event in events:
+
+        # Window closing code. JSON data rewritten
         if event.type == pygame.QUIT:
             rewrite_default_json()
             done = True
-            # json rewrite function
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 done = True
@@ -79,14 +69,16 @@ while not done:
             for sprite in game.player_sprite_group:
                 sprite.update_position(event)
 
-    # Setting the background to black
+    # Setting the background to black -- all drawing code beneath
     screen.fill(BLACK)
 
     # Drawing the players and game shop button
     game.player_sprite_group.draw(screen)
 
-    # Drawing the game shop, next level buttons and main menu whenever a level is not running
+    # Drawing the game shop, next level buttons and
+    # main menu whenever a level is not running
     if not game.level_is_running:
+        # UPDATE BLOCK: ensures fresh values
         game.update()
         menu.update()
         game_shop.update(events)
@@ -113,17 +105,18 @@ while not done:
 
                 for sprite in list(group):
                     sprite.draw()
-                        # group.remove(sprite)
-                        # group.add(sprite)
-
                     sprite.update(events)
 
-                    if rest_unequipped:
-                        sprite.equipped = False
+                    # Ensuring only one sprite of each category can be equipped
                     if sprite.equipped:
                         rest_unequipped = True
                         equipped_sprite = sprite
 
+                    if rest_unequipped:
+                        sprite.equipped = False
+
+                # Moving the equipped sprite to the end of this list so that all
+                # the other sprites are updated before the loop ends.
                 if equipped_sprite:
                     group.remove(equipped_sprite)
                     group.add(equipped_sprite)

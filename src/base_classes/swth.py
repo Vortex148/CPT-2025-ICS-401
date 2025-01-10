@@ -107,6 +107,7 @@ class swth_sprite(pygame.sprite.Sprite):
    def update(self):
        self.rect.center = self.generate_relative_coords()
 
+# Blueprint for screen relative objects
 class swth_object(pygame.sprite.Sprite):
    def __init__(self, image_path, position = [0,0], size = [100,100], rotation = 0.0, frame_count = 1, opacity =  255):
        super().__init__()
@@ -134,18 +135,13 @@ class swth_object(pygame.sprite.Sprite):
        #     except:
        #         raise(ValueError("Invalid frame count"))
 
-
-
-
-
-
-
-
+   # Generating screen relative coordinates from regular pixel position values
    def generate_relative_coords(self):
        position = numpy.divide(self.position, (100,100))
        position = numpy.multiply(position, pygame.display.get_surface().get_size())
        self.rect.topleft = position
        return position
+
 
    def update_position(self, position):
 
@@ -164,22 +160,17 @@ class swth_object(pygame.sprite.Sprite):
    def get_position(self):
        return self.position
 
-
-   # def get_relative_position(self):
-   #     return self.generate_relative_coords()
-
+   def get_size(self):
+       return self.size
 
    def get_image(self):
        return self.image
 
-
    def get_rect(self):
        return self.rect
 
-
    def get_frame_index(self):
        return self.frame_index
-
 
    def draw(self, position=[0,0]):
        if position != [0,0]:
@@ -189,14 +180,11 @@ class swth_object(pygame.sprite.Sprite):
            pygame.draw.rect(screen, pygame.Color('green'), self.rect)
        screen.blit(self.image, self.generate_relative_coords())
 
-
    def set_frame_index(self, frame_index):
        self.frame_index = frame_index
 
-
    def set_opacity(self, opacity):
        self.opacity = opacity
-
 
    def fade(self, fade_in):
 
@@ -205,9 +193,6 @@ class swth_object(pygame.sprite.Sprite):
            self.opacity += 255 / 10
        elif self.opacity != 0 and not fade_in:
            self.opacity -= 255 / 10
-
-
-
 
        for i in self.frames:
            i.set_alpha(self.opacity)

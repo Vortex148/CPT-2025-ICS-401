@@ -3,20 +3,13 @@ from src.base_classes.item_shop import *
 from src.base_classes.menu import *
 from src.Tools.global_tools import toggle_group_visibility, get_path
 from src.Tools.json_handler import read_json
-from src.common_variables import *
-import json
 from src.image_paths import *
 from src.Tools.global_tools import create_instance
+from src.common_variables import screen
 
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-# Function for changing the visibility of the entire group
-
-# Using the visibility function to display only the category selected
+# Using the visibility function to display
+# only the category selected (next three funcitons)
 def toggle_weapons():
     toggle_group_visibility(weapons_group, True)
     toggle_group_visibility(ships_group, False)
@@ -38,14 +31,15 @@ ships_group = pygame.sprite.Group()
 upgrades_group = pygame.sprite.Group()
 buttons_group = pygame.sprite.Group()
 
-
+# Names for items in shop
 weapons_list = ["Gatlin Gun", "Purple Blaster", "Rocket Launcher", "Yellow Blaster"]
 ships_list = ["Black Ship", "Orange Ship", "White Ship", "Red Spider Ship"]
 upgrades_list = ["Increase Health", "Increase Damage", "Movement Speed Increase"]
 
+# Creates hover image
 def generate_hover_image(name):
     path = get_path(name, hover_images_directory, "png")
-    hover_image = swth_object(path, position=(50, 50), size=(35, 35))
+    hover_image = swth_object(path, position=(35, 35), size=(35, 35))
     return hover_image
 
 # Looped creation of items in the shop
@@ -56,7 +50,7 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     # Defining item specific attributes based on the index (and thus the list currently being iterated)
     if index < len(weapons_list):
         name = weapons_list[index]
-        # Defining searches to extract JSON attributes (done in the following two elifs as well)
+        # Defining searches to extract JSON attributes (done in the following two "elifs" as well)
         searches = [f"{name}.Weapon Sprite", f"{name}.Price", f"{name}.Damage", f"{name}.Velocity"]
         GROUP = weapons_group
         LIST = weapons_list
@@ -85,10 +79,13 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
 
     results = read_json(reading_file, searches)
 
-    # Copying the results of the search to variables for use in instantiation
+    # Copying the results of the search to variables for use in instantiation.
     attr1 = results[0]
     attr2 = results[1]
     attr3 = results[2]
+
+    # Upgrades only require three searches. Ensures an error is not thrown
+    # When trying to search for the fourth item in the list.
     if len(LIST) >= 4:
         attr4 = results[3]
 
@@ -98,12 +95,12 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     x = len(item_info)
     ITEM_INFO = {}
 
-    # Defining "item info" as one variable to fit the format of classes' arguments
+    # Generating item info to fit format of constructor.
     for y in range(x):
         ITEM_INFO[item_info[y]] = attributes[y+2]
 
     # Creating instances of each item and adding them to the respective group
-    instance = create_instance(class_type, screen, NAME, attr1, attr2, ITEM_INFO, generate_hover_image(NAME))
+    instance = create_instance(class_type, NAME, attr1, attr2, ITEM_INFO, generate_hover_image(NAME))
     LIST[local_index] = instance
     instance = LIST[local_index]
     GROUP.add(instance)
@@ -115,8 +112,7 @@ upgrades_category_button = BASIC_BUTTON(upgrades_button_path, (66, 77), (5, 5), 
 
 buttons_group.add(weapons_category_button, ships_category_button, upgrades_category_button)
 
-
-# Toggling the ships when the module is initialized to draw the ships by default when the shop is opened.
+# Drawing the ships by default
 toggle_ships()
 
 

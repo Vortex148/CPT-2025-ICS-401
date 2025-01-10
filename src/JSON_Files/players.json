@@ -1,6 +1,6 @@
 {
     "Movement_Speed": null,
-    "Sprite": "images/Game_Shop/Ships/orange_ship.png",
+    "Sprite": "images/Game_Shop/Ships/black_ship.png",
     "Player_1": {
         "Controls": [
             "w",

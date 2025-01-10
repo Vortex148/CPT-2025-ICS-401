@@ -1,12 +1,9 @@
 import pygame
-from src.base_classes.button_classes import basic_button
 from src.base_classes.revised_buttons import BASIC_BUTTON
 from src.common_variables import *
 from src.base_classes.player import player
 from src.Tools.global_tools import get_path
-
-size = (screen_width, screen_height)
-screen = pygame.display.set_mode(size)
+from src.common_variables import screen
 
 # Defining a game class to store all global game values and organize the code.
 class Game:
@@ -34,7 +31,7 @@ class Game:
             self.two_player_button.visible = False
             self.player_button_clicked_state = True
 
-    # Creating the players. Executed by the player-mode choice buttons when they are clicked
+    # Call to create players
     def initialize_sprites(self, value):
         self.player_sprite_group.empty()
         if value == 1:
@@ -50,8 +47,7 @@ class Game:
         self.close_player_buttons()
         self.player_button_clicked_state = True
 
-    # Creating the player mode choice and begin/next level buttons
-    # They all inherit from the basic button class, giving them the same structure.
+    # Creating player mode choice buttons
     def create_buttons(self):
         one_player_button_path = get_path("One Player Button", buttons_and_menus_directory, "png")
         two_player_button_path = get_path("Two Players Button", buttons_and_menus_directory, "png")
@@ -68,12 +64,5 @@ class Game:
 
         if self.two_player_button.visible:
             self.two_player_button.check_click()
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-WHITE = (255, 255, 255)
-
-# Creating the screen and setting a caption
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 game = Game(screen)

@@ -2,8 +2,6 @@ import pygame
 
 from src.base_classes.revised_buttons import BASIC_BUTTON
 from src.base_classes.swth import swth_object
-from src.common_variables import *
-from src.base_classes.button_classes import Clickability, basic_button
 
 pygame.init()
 

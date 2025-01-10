@@ -4,22 +4,23 @@
 
 from src.common_variables import *
 
+# Getting the path to any file. Quickens refactoring
 def get_path(file_name, directory, extension):
     file = f"{file_name}."+f"{extension}"
     return os.path.join(directory, file)
 
-def get_json_path(file_name):
-    return os.path.join(json_directory, f"{file_name}.json")
-
-def get_image_path(file_name):
-    return os.path.join(images_directory, f"{file_name}.png")
-
+# Creates an instance of the given class
 def create_instance(class_type, *args):
     return class_type(*args)
 
+# Changes the visibility attribute of each item in a group
 def toggle_group_visibility(group, state, upgrades_group=None):
     for sprite in group:
         sprite.visible = state
+
+        # Ensuring buttons can't be clicked if they are invisible.
+        # Because the upgrade sprites are defined differently than
+        # ships or weapons, they must also be referenced as such.
         if upgrades_group:
             sprite.set_actionable(state)
         else:
