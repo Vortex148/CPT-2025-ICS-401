@@ -5,6 +5,7 @@ from src.Tools.global_tools import toggle_group_visibility, get_path
 from src.Tools.json_handler import read_json
 from src.common_variables import *
 import json
+from src.image_paths import *
 from src.Tools.global_tools import create_instance
 
 
@@ -107,11 +108,7 @@ for index, _ in enumerate(weapons_list + ships_list + upgrades_list):
     instance = LIST[local_index]
     GROUP.add(instance)
 
-# Defining some buttons
-weapons_button_path = get_path("Weapons Button", buttons_directory,  "png")
-ships_button_path = get_path("Ships Button", buttons_directory,  "png")
-upgrades_button_path = get_path("Upgrades Button", buttons_directory,  "png")
-
+# Defining buttons for each category in the shop
 weapons_category_button = BASIC_BUTTON(weapons_button_path, (32, 77), (5, 5), execute_click=lambda: toggle_weapons())
 ships_category_button = BASIC_BUTTON(ships_button_path, (50, 77), (5, 5), execute_click=lambda: toggle_ships())
 upgrades_category_button = BASIC_BUTTON(upgrades_button_path, (66, 77), (5, 5), execute_click=lambda: toggle_upgrades())

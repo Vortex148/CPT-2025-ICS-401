@@ -1,7 +1,9 @@
 import pygame
 from src.base_classes.button_classes import basic_button
+from src.base_classes.revised_buttons import BASIC_BUTTON
 from src.common_variables import *
 from src.base_classes.player import player
+from src.Tools.global_tools import get_path
 
 size = (screen_width, screen_height)
 screen = pygame.display.set_mode(size)
@@ -51,32 +53,21 @@ class Game:
     # Creating the player mode choice and begin/next level buttons
     # They all inherit from the basic button class, giving them the same structure.
     def create_buttons(self):
-        self.one_player_button = basic_button(screen_width / 2 - 150, screen_height - 90,
-                                               "One Player", lambda: self.initialize_sprites(1), screen)
+        one_player_button_path = get_path("One Player Button", buttons_and_menus_directory, "png")
+        two_player_button_path = get_path("Two Players Button", buttons_and_menus_directory, "png")
+        self.one_player_button = BASIC_BUTTON(one_player_button_path, (30, 85),
+    (20, 13), execute_click=lambda: self.initialize_sprites(1))
 
-        self.two_player_button = basic_button(screen_width / 2 + 150, screen_height - 90,
-                                               "Two Players", lambda: self.initialize_sprites(2), screen)
-
-        self.start_game_button = basic_button(screen_width/2, screen_height/2,
-                            "Start Next Level", lambda: self.start_level(),
-                                              self.screen)
-
-    # When the first line of the enemy script is read, the state variable must be changed in level is running
-    def start_level(self, level_number):
-        if self.level_number == 1:
-            pass
-        elif self.level_number == 2:
-            pass
-        elif self.level_number == 3:
-            pass
+        self.two_player_button = BASIC_BUTTON(two_player_button_path, (55, 85),
+            (20, 13), execute_click=lambda: self.initialize_sprites(2))
 
     # Checking for button clicks
-    def update(self, events):
+    def update(self):
         if self.one_player_button.visible:
-            self.one_player_button.update(events)
+            self.one_player_button.check_click()
 
         if self.two_player_button.visible:
-            self.two_player_button.update(events)
+            self.two_player_button.check_click()
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600

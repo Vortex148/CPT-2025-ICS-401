@@ -7,11 +7,8 @@ from pygame.display import update
 
 # % -> Screen Dimensions
 def generate_relative_value_2d(value_2d):
-   print(f"running size relative: {value_2d}")
-   print(pygame.display.get_surface().get_size())
    value = numpy.divide(value_2d, (100, 100))
    value = numpy.multiply(value, pygame.display.get_surface().get_size())
-   print(value)
    return value
 
 
@@ -147,7 +144,7 @@ class swth_object(pygame.sprite.Sprite):
    def generate_relative_coords(self):
        position = numpy.divide(self.position, (100,100))
        position = numpy.multiply(position, pygame.display.get_surface().get_size())
-       self.rect.center = position
+       self.rect.topleft = position
        return position
 
    def update_position(self, position):
@@ -188,7 +185,6 @@ class swth_object(pygame.sprite.Sprite):
        if position != [0,0]:
            self.update_position(position)
        screen = pygame.display.get_surface()
-       # screen.blit(self.image,(1180,100))
        if enable_hitbox:
            pygame.draw.rect(screen, pygame.Color('green'), self.rect)
        screen.blit(self.image, self.generate_relative_coords())

@@ -1,16 +1,8 @@
-from src.base_classes.game_state import game
 from src.base_classes.player import player
 from src.Tools.json_handler import update_json, read_json
 from src.common_variables import *
 from src.base_classes.game_state import game
 import pygame
-
-# Drawing function for generic yes/no buttons.
-def draw_choice_buttons(class_name, button_yes, button_no):
-    yes_button = getattr(class_name, button_yes)
-    no_button = getattr(class_name, button_no)
-    yes_button.draw()
-    no_button.draw()
 
 # Closing function for yes-no choice screens (e.g. purchase & equip)
 def close_yes_no(class_name, visibility):
@@ -79,7 +71,7 @@ def recreate_players(new_health=None):
 def no(class_name):
     close_yes_no(class_name, "purchase_background_visibility")
 
-def purchase(price, name, players_list, instance_name, purchase_surface, class_name):
+def purchase(price, name, players_list, instance_name, class_name):
     # Ensuring the players have been initialized before allowing them to purchase an item.
     if game.player_button_clicked_state:
         # Ensuring the players have enough money to buy the item
@@ -87,15 +79,17 @@ def purchase(price, name, players_list, instance_name, purchase_surface, class_n
         if all(p.coin_balance >= price for p in players_list):
             for p in players_list:
                 p.coin_balance -= price
-                print(f"{name.title()} was bought from the item shop. New Player Balance: {p.coin_balance}")
+
+            print(f"{name.title()} was bought from the item shop. New Player Balance: {p.coin_balance}\n")
 
             instance_name.item_purchased = True
 
-        else:
-            message = "Not enough money to purchase this item"
-            font = pygame.font.SysFont('Courier New', 15, True, False)
-            text = font.render(message, True, WHITE)
-            purchase_surface.blit(text, (30, 30))
+        # Todo: replace with not enough money image
+        # else:
+        #     message = "Not enough money to purchase this item"
+        #     font = pygame.font.SysFont('Courier New', 15, True, False)
+        #     text = font.render(message, True, WHITE)
+        #     purchase_surface.blit(text, (30, 30))
 
         # Closing the purchase screen after the transaction is complete.
         close_yes_no(class_name, "purchase_background_visibility")

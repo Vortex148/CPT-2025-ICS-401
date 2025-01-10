@@ -4,10 +4,13 @@ import os
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 json_directory = os.path.join(PROJECT_ROOT, "src", "JSON_Files")
 images_directory = os.path.join(PROJECT_ROOT, "images")
-hover_images_directory = os.path.join(PROJECT_ROOT, "images", "Game_Shop", "Hover Images")
+game_shop_directory = os.path.join(images_directory, "Game_Shop")
+hover_images_directory = os.path.join(game_shop_directory, "Hover Images")
+buttons_and_menus_directory = os.path.join(images_directory, "buttons_and_menus")
 videos_directory = os.path.join(PROJECT_ROOT, "Videos")
 sounds_directory = os.path.join(PROJECT_ROOT, "Sounds")
-buttons_directory = os.path.join(images_directory, "Game_Shop", "Buttons")
+buttons_directory = os.path.join(game_shop_directory, "Buttons")
+
 
 screen_width = 800
 screen_height = 600

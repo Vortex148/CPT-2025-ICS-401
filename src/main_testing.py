@@ -47,8 +47,8 @@ intro_video.close()'''
 
 # Creating  player mode choice buttons, the menu and game shop
 game.create_buttons()
-menu = Menu(screen)
-game_shop = open_and_background(screen, ships_group,
+menu = Menu()
+game_shop = open_and_background(ships_group,
             weapons_group, upgrades_group, buttons_group)
 
 done = False
@@ -79,14 +79,6 @@ while not done:
             for sprite in game.player_sprite_group:
                 sprite.update_position(event)
 
-
-    # UPDATE BLOCK FOR MENU AND ITEM SHOP
-    game.update(events)
-
-    for button in buttons_group:
-        if button.visible:
-            button.check_click() # button sprite for parent access
-
     # Setting the background to black
     screen.fill(BLACK)
 
@@ -95,7 +87,8 @@ while not done:
 
     # Drawing the game shop, next level buttons and main menu whenever a level is not running
     if not game.level_is_running:
-        menu.update(events)
+        game.update()
+        menu.update()
         game_shop.update(events)
 
         # Drawing the menu and game shop
@@ -109,8 +102,9 @@ while not done:
 
         # Drawing the item shop if the state tracker for it is true.
         if game_shop.item_shop_visible:
-            for button_sprite in buttons_group:
-                button_sprite.draw()
+            for button in buttons_group:
+                button.draw()
+                button.check_click()
 
             # Looped drawing of the game items
             for group in [ships_group, weapons_group, upgrades_group]:
@@ -118,10 +112,10 @@ while not done:
                 equipped_sprite = None
 
                 for sprite in list(group):
-                    if sprite.visible:
-                        sprite.draw()
+                    sprite.draw()
+                        # group.remove(sprite)
+                        # group.add(sprite)
 
-                    sprite.item_sprite.check_hover()
                     sprite.update(events)
 
                     if rest_unequipped:
@@ -134,22 +128,18 @@ while not done:
                     group.remove(equipped_sprite)
                     group.add(equipped_sprite)
 
-
-        # If the yes/no background is showing, the "yes", "no" buttons are drawn.
-        # This handles both the purchase and equipping menus.
+        # Drawing the purchase and equipping screens
         if shop_items.purchase_background_visibility:
-            draw_choice_screen(shop_items, "purchase_background_visibility", shop_items.current_item.purchase_button_yes,
-                               shop_items.current_item.purchase_button_no, shop_items.current_item.purchase_background_surface,
-                               events, screen,lambda: draw_choice_buttons(shop_items, "purchase_button_yes", "purchase_button_no"))
-        if shop_items.equipping_background_visibility:
-            draw_choice_screen(shop_items, "equipping_background_visibility", shop_items.current_item.equip_confirm,
-                               shop_items.current_item.equip_deny, shop_items.current_item.purchase_background_surface,
-                               events, screen, lambda: draw_choice_buttons(shop_items, "equip_confirm", "equip_deny"))
+            draw_choice_screen(shop_items.current_item.purchase_button_yes,
+                   shop_items.current_item.purchase_button_no,
+                   shop_items.current_item.purchase_background_surface,
+            )
 
-        # Once the players have been initialized, the start level button is drawn.
-        # It is only drawn when the item shop is inivisible so that it is not accidentally clicked.
-        if game.player_button_clicked_state and not game_shop.item_shop_visible:
-            game.start_game_button.draw()
+        if shop_items.equipping_background_visibility:
+            draw_choice_screen(shop_items.current_item.equip_confirm,
+                    shop_items.current_item.equip_deny,
+                    shop_items.current_item.equipping_background_surface
+                               )
 
     # Updating the position of each player.
     for player in game.player_sprite_group:

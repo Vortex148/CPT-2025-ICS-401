@@ -25,19 +25,21 @@ def toggle_group_visibility(group, state, upgrades_group=None):
         else:
             sprite.item_sprite.set_actionable(state)
 
+# Drawing function for generic yes/no buttons.
+def draw_choice_buttons(button_yes, button_no):
+    button_yes.draw()
+    button_no.draw()
 
 # Drawing a menu with yes and no choices.
-def draw_choice_screen(class_name, attribute_name, button_yes,
-        button_no, background_surface, screen, execute_drawing):
+def draw_choice_screen(button_yes,
+        button_no, background_surface):
 
-    # Making the group visible (activates drawing within that class)
-    setattr(class_name, attribute_name, True)
-    screen.blit(background_surface, (100, 100))
+    background_surface.draw()
 
     # Checking for clicks on the yes and no buttons
-    button_yes.update()
-    button_no.update()
+    button_yes.check_click()
+    button_no.check_click()
 
     # Function parameter executed, usually for drawing the group
     # of objects associated with the particular yes/no screen.
-    execute_drawing()
+    draw_choice_buttons(button_yes, button_no)

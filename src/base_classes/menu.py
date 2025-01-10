@@ -1,4 +1,7 @@
 import pygame
+
+from src.base_classes.revised_buttons import BASIC_BUTTON
+from src.base_classes.swth import swth_object
 from src.common_variables import *
 from src.base_classes.button_classes import Clickability, basic_button
 
@@ -10,64 +13,37 @@ def visibility(target):
 
 # Defining a class for "clickability" to assign click detection to all instances of it
 class Menu:
-   def __init__(self, screen):
-       self.screen = screen
-
-
-       # Loading and sizing the image for the menu button
-       menu_image = pygame.image.load("images/buttons_and_menus/Menu.png")
-       menu_image = pygame.transform.scale(menu_image, (menu_button_width, menu_button_height))
-
-
-       # Making the menu button clickable
-       self.menu_sprite = Clickability(
-           menu_image,
-           screen_width - (0.0225 * screen_width),
-           screen_height/7.2,
-           lambda: visibility(self.rules_sprite)
+   def __init__(self):
+       # Menu Button
+       menu_image_path = "images/buttons_and_menus/Menu.png"
+       self.menu_sprite = BASIC_BUTTON(
+           menu_image_path,
+           (80, 25),
+           (10, 10),
+           execute_click=lambda: visibility(self.rules_sprite)
        )
 
-       # Loading the rules menu and sizing it.
-       rules_image = pygame.image.load("images/buttons_and_menus/Rules.png")
-       rules_image = pygame.transform.scale(rules_image, (rules_width, rules_height))
-       self.rules_sprite = Clickability(
-           rules_image,
-           screen_width/2,
-           screen_height/2,
-           None
+       # Rules Button
+       rules_image_path = "images/buttons_and_menus/Rules.png"
+       self.rules_sprite = swth_object(
+           rules_image_path,
+           (21, 15),
+           (58, 70)
        )
 
        # Starting with the rules menu invisible.
        self.rules_sprite.visible = False
 
-       # Loading, sizing and giving clickability to the close button
-       close_button_image = pygame.image.load("images/buttons_and_menus/Close.png")
-       close_button_image = pygame.transform.scale(close_button_image, (close_button_width, close_button_height))
+   # Checking for button clicks
+   def update(self):
+       self.menu_sprite.check_click()
 
-
-       self.close_button_sprite = Clickability(
-           close_button_image,
-           screen_width / 2 + (rules_width / 2) - (close_button_width / 2),
-           (screen_height - rules_height) / 2 + (close_button_height / 2),
-           lambda: visibility(self.rules_sprite))
-
-
-   # Checking if either of the buttons have been clicked in each frame.
-   def update(self, events):
-       self.menu_sprite.check_click(events)
-
-       if self.rules_sprite.visible:
-           self.close_button_sprite.check_click(events)
-
-   #
-   # The menu button is always drawn. If the rules are visible they are drawn as well
-   # as the close button. The close button is checked for clicks if the rules are visible.
+   # The open button is always drawn. The rules and close are only drawn if the button is clicked.
    def draw(self):
-       self.menu_sprite.draw(self.screen)
+       self.menu_sprite.draw()
 
        if self.rules_sprite.visible:
-           self.rules_sprite.draw(self.screen)
-           self.close_button_sprite.draw(self.screen)
+           self.rules_sprite.draw()
 
 
 
