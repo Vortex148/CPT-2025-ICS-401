@@ -2,14 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="145.875mm"
-   height="163.5mm"
-   viewBox="0 0 145.875 163.5"
+   width="700"
+   height="700"
+   viewBox="0 0 185.20833 185.20833"
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
    sodipodi:docname="ship_2.svg"
-   inkscape:export-filename="..\Objects\Menu\Ships\ship_2_0.png"
+   inkscape:export-filename="..\Sprites\Players\ship_2_0.png"
    inkscape:export-xdpi="174.12169"
    inkscape:export-ydpi="174.12169"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -29,8 +29,8 @@
      inkscape:zoom="0.7622131"
      inkscape:cx="298.47296"
      inkscape:cy="87.901927"
-     inkscape:window-width="2560"
-     inkscape:window-height="1494"
+     inkscape:window-width="2304"
+     inkscape:window-height="1190"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
@@ -40,7 +40,7 @@
        id="grid1"
        units="mm"
        originx="-32.0625"
-       originy="-66.749999"
+       originy="-66.75"
        spacingx="0.99999998"
        spacingy="1"
        empcolor="#0099e5"
@@ -62,12 +62,12 @@
      transform="translate(-32.062499,-66.749999)">
     <path
        style="fill:#1a1a1a;stroke-width:0.282475"
-       d="M 107.7014,66.749999 32.062499,230.25 107.7014,209.15323 177.9375,230.25 107.7014,66.749999"
+       d="M 127.36807,77.604165 51.729165,241.10417 127.36807,220.0074 l 70.2361,21.09677 -70.2361,-163.500005"
        id="path1-5"
        sodipodi:nodetypes="ccccc" />
     <path
        style="fill:#ff0000;stroke-width:0.264583"
-       d="M 107.5,71.000005 37.500001,226 107.5,206 l 65,20 -65,-154.999995"
+       d="m 127.16667,81.854168 -70.000004,154.999992 70.000004,-20 65,20 -65,-154.999992"
        id="path1"
        sodipodi:nodetypes="ccccc" />
   </g>

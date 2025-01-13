@@ -1,9 +1,9 @@
 import numpy
 import math
 
-
 from src.Tools.Misc_Tools.time_handler import Timer
 from src.Tools.Misc_Tools.dev_tools import vector_drawer
+
 
 
 class trajectory_handler:
@@ -11,7 +11,6 @@ class trajectory_handler:
 
     def __init__(self, max_speed, accel, position, rect, runner):
         self.max_speed = max_speed
-
         self.accel = accel
         self.position = position
         self.trajectory_index = 0
@@ -55,7 +54,6 @@ class trajectory_handler:
                 and math.isclose(distance_to_node[1], 0, abs_tol=self.tolerance)
             ):
                 self.trajectory_index += 1
-                print(f"Reached Node {self.trajectory_index}")
                 self.path_iteration = 0
                 if self.trajectory_index == len(trajectory):
                     self.trajectory_index = 0
@@ -91,7 +89,7 @@ class trajectory_handler:
             # To prevent from decelerating to fast and missing node, causes slight overshoot on occasion
             acceleration = -acceleration * 0.90
         else:
-            acceleration = acceleration#
+            acceleration = acceleration
 
 
         acceleration *= Timer.delta  # Scale by time delta (frame time)
@@ -101,12 +99,16 @@ class trajectory_handler:
         acceleration_y = math.sin(heading) * acceleration
         x_speed = self.last_speed[0] + acceleration_x
         y_speed = self.last_speed[1] + acceleration_y
+
         speed_magnitude = math.sqrt(x_speed**2 + y_speed**2)
+
 
         if speed_magnitude * 1 / Timer.delta > self.max_speed:  # Limit speed to max
             scale = self.max_speed * Timer.delta / speed_magnitude
             x_speed *= scale
             y_speed *= scale
+
+
 
         self.last_speed = [x_speed, y_speed]
 
@@ -116,17 +118,17 @@ class trajectory_handler:
         y_speed = y_speed * 1 / Timer.delta
 
         # Comment out to disable overlay
-        self.dev_tools.draw(
-            [x_speed, -y_speed],
-            math.sqrt(x_speed**2 + y_speed**2),
-            acceleration,
-            [acceleration_x, acceleration_y],
-            dist_to_node,
-            end_position,
-            self.runner,
-            self.trajectory_index,
-            len(self.current_trajectory)
-        )
+        # self.dev_tools.draw(
+        #     [x_speed, -y_speed],
+        #     math.sqrt(x_speed**2 + y_speed**2),
+        #     acceleration,
+        #     [acceleration_x, acceleration_y],
+        #     dist_to_node,
+        #     end_position,
+        #     self.runner,
+        #     self.trajectory_index,
+        #     len(self.current_trajectory)
+        # )
         self.path_iteration += 1
 
         return delta_position

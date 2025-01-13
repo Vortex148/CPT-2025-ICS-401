@@ -1,8 +1,1 @@
-{
-  "resources": {
-    "common": 1000,
-    "rare": 100,
-    "legendary": 98
-  }
-
-}
+{"resources": {"common": 121, "rare": 24, "legendary": 25}, "unlocked_items": {"ships": ["Default", "Mk2", "Mk3"], "weapons": ["Default", "Mk2"]}}

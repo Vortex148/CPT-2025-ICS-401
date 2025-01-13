@@ -1,6 +1,7 @@
+import time
 
 from pygame.time import Clock
-import time
+
 
 
 class Timer:
@@ -64,6 +65,8 @@ class timed_delay:
             else:
                 self.delay_elapsed = True
                 self.current_val = 0
+
+
 
     def did_delay_elapse(self):
         did_delay_elapse = self.delay_elapsed

@@ -92,6 +92,9 @@ class Duration_Argument(Token):
         self.current_state = None
         self.start_time = Timer.get_time_s()
 
+    def update(self):
+        if self.name == "time":
+            self.current_state = self.condition_desired if Timer.get_time() - self.start_time > int(self.condition_desired) else Timer.get_time() - self.start_time
 
     def condition_met(self):
         match super().get_name():
@@ -105,12 +108,6 @@ class Duration_Argument(Token):
                 pass
             case 'time':
                 pass
-
-    def update(self):
-        if self.name == "time":
-            self.current_state = self.condition_desired if Timer.get_time() - self.start_time > int(self.condition_desired) else Timer.get_time() - self.start_time
-
-
 
     def call(self):
         self.current_state = "call"

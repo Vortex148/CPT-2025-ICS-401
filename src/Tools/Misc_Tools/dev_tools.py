@@ -1,8 +1,9 @@
 import math
 import pygame
 import numpy
-from numpy.ma.core import array
+
 from src.Tools.Misc_Tools.unit_handler import generate_relative_value_2d
+
 
 
 class vector_drawer:
@@ -16,7 +17,7 @@ class vector_drawer:
     def draw(self, xyspeed, overall_speed, accel, accel_xy, distance_to_target, desired_pose, runner, index, max_index):
         # Velocity label
         velocity_label = self.font.render(
-            f"X-Y Speed : {array(numpy.around(xyspeed, 3))} Speed: {round(overall_speed, 3)}",
+            f"X-Y Speed : {list(numpy.around(xyspeed, 3))} Speed: {round(overall_speed, 3)}",
             True,
             (255, 255, 255),
         )
@@ -30,7 +31,7 @@ class vector_drawer:
 
         # Acceleration label
         accel_label = self.font.render(
-            f"Acceleration : {array(numpy.around(accel, 5))} ", True, (255, 255, 255)
+            f"Acceleration : {list(numpy.around(accel, 5))} ", True, (255, 255, 255)
         )
         accel_label_rect = numpy.add(self.shape.center, [-accel_label.get_width() / 2, 90])
         # ID label

@@ -1,28 +1,23 @@
-import pygame
 import json
 import numpy
-from src.Tools.Misc_Tools.time_handler import *
 
-# Opening the json weapons file.
-weapons_file = open("src/JSON_Files/weapons.json")
-all_weapons = json.load(weapons_file)
-from src.Tools.Misc_Tools.unit_handler import swth_sprite
+from src.Tools.Misc_Tools.time_handler import *
+from src.Tools.Misc_Tools.unit_handler import generate_relative_value_2d, swth_sprite
+
+
+
+weapon_data = json.load(open("src/JSON_Files/weapons.json"))
 
 class Projectile(swth_sprite):
     FADE_OUT_SPEED = 10
 
-    def __init__(self, sprite, weapon, starting_position):
-        super().__init__(sprite) # Allowing access to the
-        self.image = sprite
-        self.image = pygame.transform.scale(self.image, (20, 20))
+    def __init__(self, sprite, weapon, starting_position, size = [1.5,2], rotation = 0, velocity_offset = [1,-1]):
+        super().__init__(sprite, size=size, rotation=rotation)
         self.rect = self.image.get_rect()
         self.position = starting_position.copy()
-        self.generate_relative_coords()
-        print(self.position)
-        self.rect.center = self.position
-        self.velocity = numpy.multiply(all_weapons[weapon]["Velocity"].copy(), [1,-1])
-        self.damage = all_weapons[weapon]["Damage"]
-        print(self.damage)
+        super().update_position(self.position)
+        self.velocity = numpy.multiply(weapon_data[weapon]["Velocity"].copy(), velocity_offset)
+        self.damage = weapon_data[weapon]["Damage"]
         self.opacity = 255
 
 
@@ -33,10 +28,13 @@ class Projectile(swth_sprite):
         # If the top of the projectile is at the edge of the screen, begin fadeout.
         if self.rect.top < 0:
             self.fade_out()
-
+        elif super().get_position()[1] > 100 - super().get_size()[1] / 2:
+            self.fade_out()
         else:
             # Animating the projectile to move by its velocity from its starting position each frame.
-            super().update_position((numpy.array(self.velocity) * Timer.get_last_frame_time_s())+ numpy.array(self.position))
+            super().update_position((numpy.array(self.velocity) * Timer.get_last_frame_time_s())+ numpy.array(super().get_position()))
+
+
 
 
     # Decreasing the opacity of the sprite gradually when it hits the top of the screen
