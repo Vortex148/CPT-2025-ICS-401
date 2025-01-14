@@ -1,0 +1,51 @@
+{
+  "Easy":[
+      {
+        "path":"src/Tools/EnemyScripts/scripts/easy/easy_0.emscrpt",
+        "rewards": [10,0,0]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/easy/easy_1.emscrpt",
+        "rewards": [6,0,0]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/easy/easy_2.emscrpt",
+        "rewards": [4,0,0]
+      }
+    ],
+
+
+  "Medium": [
+      {
+        "path":"src/Tools/EnemyScripts/scripts/medium/medium_0.emscrpt",
+        "rewards": [4,5,0]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/medium/medium_1.emscrpt",
+        "rewards": [2,3,0]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/medium/medium_2.emscrpt",
+        "rewards": [1,3,0]
+      },
+    {
+      "path": "src/Tools/EnemyScripts/scripts/medium/medium_3.emscrpt",
+      "rewards": [1,2,0]
+    }
+],
+
+  "Hard": [
+      {
+        "path":"src/Tools/EnemyScripts/scripts/hard/hard_0.emscrpt",
+        "rewards": [2,4,5]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/hard/hard_1.emscrpt",
+        "rewards": [1,1,3]
+      },
+      {
+        "path":"src/Tools/EnemyScripts/scripts/hard/hard_2.emscrpt",
+        "rewards": [1,0,2]
+      }
+    ]
+}

@@ -21,6 +21,7 @@ game_data = json.load(open("src/JSON_Files/game_data.json"))
 
 player_count = 0
 
+# Class for the equipment menu
 class equipment_menu:
     def __init__(self, position, player: player):
         self.player = player
@@ -38,6 +39,7 @@ class equipment_menu:
         self.ships = game_data["unlocked_items"]["ships"].copy()
         self.weapons = game_data["unlocked_items"]["weapons"].copy()
 
+        # Generates ship buttons based off unlocked ships
         for i in range(len(game_data["unlocked_items"]["ships"])):
             path = ship_data[game_data["unlocked_items"]["ships"][i]]["Sprite_P"+ str(player.player_number)]
             offset = numpy.add(self.position, [2, 18])
@@ -46,6 +48,7 @@ class equipment_menu:
             ship.disable()
             self.ship_buttons.append(ship)
 
+        # Generates weapons buttons based off unlocked weapons
         for i in range(len(game_data["unlocked_items"]["weapons"])):
             path = weapon_data[game_data["unlocked_items"]["weapons"][i]]["Sprite"]
             offset = numpy.add(self.position, [2, 18])
@@ -57,7 +60,6 @@ class equipment_menu:
 
 
     def draw(self):
-
         self.current_ship.draw()
         self.equipment_menu.draw()
         self.weapons_button.draw()
@@ -78,8 +80,11 @@ class equipment_menu:
 
 
     def draw_ship_select(self):
+        # Disables weapon buttons
         for i in self.weapon_buttons:
             i.disable()
+
+        # Draws ship buttons
         self.equipment_menu.set_opacity(255)
         self.weapons_button.set_position(numpy.add(self.position, [0,52]))
         self.ships_button.set_position(numpy.add(self.position, [14,52]))
@@ -87,8 +92,11 @@ class equipment_menu:
             i.enable()
 
     def draw_weapon_select(self):
+        # Disables ship buttons
         for i in self.ship_buttons:
             i.disable()
+
+        # Draws weapon buttons
         self.equipment_menu.set_opacity(255)
         self.weapons_button.set_position(numpy.add(self.position, [0,52]))
         self.ships_button.set_position(numpy.add(self.position, [14,52]))

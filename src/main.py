@@ -1,5 +1,5 @@
 import pygame
-from moviepy.video.io.VideoFileClip import VideoFileClip
+import moviepy
 
 pygame.init()
 
@@ -15,7 +15,7 @@ from src.Tools.Misc_Tools.unit_handler import *
 
 
 # Playing the intro animation and closing it once done.
-# intro_video = VideoFileClip("Videos/intro_animation.mp4")
+# intro_video =   VideoFileClip("Videos/intro_animation.mp4")
 # intro_video.preview()
 # intro_video.close()
 
